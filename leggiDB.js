@@ -1,9 +1,12 @@
 var express = require("express");
 var app = express();
 var connection = require('./database');
+var {readFile} = require('fs');
 
 app.get('/', function(req, res){
-    let sql = "SELECT * FROM utente";
+    let sql = readFile('query.sql', function(err, result){
+        if(err) throw err;
+    });
     connection.query(sql, function(err, results){
         if(err) throw err;
         res.send(results);

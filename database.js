@@ -1,3 +1,4 @@
+//Modulo per la connessione al server mysql
 var mysql = require("mysql");
 
 var connection = mysql.createConnection({
