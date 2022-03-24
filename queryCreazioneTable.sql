@@ -63,113 +63,182 @@ CREATE TABLE `progettodb`.`amministratore` (
 #Iscrizione
 #Preferiti
 
-#Creo il database
-DROP SCHEMA IF  exists CONFVIRTUAL ;
-CREATE SCHEMA  CONFVIRTUAL;
+#Sponsor
+CREATE TABLE `confvirtual`.`sponsor` (
+  `nome` VARCHAR(50) NOT NULL,
+  `logo` VARCHAR(30) NULL,
+  PRIMARY KEY (`nome`));
+  
+ #Conferenza
+ CREATE TABLE `confvirtual`.`conferenza` (
+  `acronimo` VARCHAR(10) NOT NULL,
+  `anno` YEAR(4) NOT NULL,
+  `logo` VARCHAR(30) NULL,
+  `svolgimento` ENUM('attiva', 'completata') NOT NULL,
+  `datainizio` DATE NOT NULL,
+  `datafine` DATE NOT NULL,
+  `totale_sponsorizzazioni` INT NOT NULL,
+  `nome` VARCHAR(50) NOT NULL,
+  `creatore` VARCHAR(45) NOT NULL,
+  INDEX `anno_idx` (`anno` ASC) VISIBLE,
+  PRIMARY KEY (`acronimo`, `anno`));
+  
+ #Sponsorizzazione
+ CREATE TABLE `confvirtual`.`sponsorizzazione` (
+  `importo` FLOAT(8,2) NOT NULL,
+  `annoConf` YEAR(4) NOT NULL,
+  `acronimoConf` VARCHAR(10) NOT NULL,
+  `nome_sponsor` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`annoConf`, `acronimoConf`, `nome_sponsor`),
+  INDEX `nome_idx` (`nome_sponsor` ASC) VISIBLE,
+  INDEX `acronimo_idx` (`acronimoConf` ASC) VISIBLE,
+  CONSTRAINT `nome`
+    FOREIGN KEY (`nome_sponsor`)
+    REFERENCES `confvirtual`.`sponsor` (`nome`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `anno`
+    FOREIGN KEY (`annoConf`)
+    REFERENCES `confvirtual`.`conferenza` (`anno`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `acronimo`
+    FOREIGN KEY (`acronimoConf`)
+    REFERENCES `confvirtual`.`conferenza` (`acronimo`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+    
+ #Programma Giornaliero
+ CREATE TABLE `confvirtual`.`programma_giornaliero` (
+  `id_programma` INT NOT NULL AUTO_INCREMENT,
+  `data` DATE NOT NULL,
+  `anno` YEAR(4) NOT NULL,
+  `acronimo` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`id_programma`),
+  INDEX `anno_idx` (`anno` ASC) INVISIBLE,
+  INDEX `acronimo_idx` (`acronimo` ASC) INVISIBLE,
+  CONSTRAINT `anno1`
+    FOREIGN KEY (`anno`)
+    REFERENCES `confvirtual`.`conferenza` (`anno`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `acronimo1`
+    FOREIGN KEY (`acronimo`)
+    REFERENCES `confvirtual`.`conferenza` (`acronimo`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+    
+ #Sessione
+ CREATE TABLE `confvirtual`.`sessione` (
+  `id_sessione` INT NOT NULL AUTO_INCREMENT,
+  `ora_f` TIME NOT NULL,
+  `ora_i` TIME NOT NULL,
+  `titolo` VARCHAR(100) NOT NULL,
+  `link` VARCHAR(50) NOT NULL,
+  `num_presentazioni` INT NOT NULL,
+  `programma` INT NOT NULL,
+  PRIMARY KEY (`id_sessione`),
+  INDEX `progrmma1_idx` (`programma` ASC) VISIBLE,
+  CONSTRAINT `progrmma1`
+    FOREIGN KEY (`programma`)
+    REFERENCES `confvirtual`.`programma_giornaliero` (`id_programma`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
 
-#Creo le tabelle
-USE CONFVIRTUAL;
-CREATE TABLE SPONSOR (
-nome VARCHAR(50) PRIMARY KEY,
-logo varchar(30)
-) ENGINE = "InnoDB";
+#Presentazione
+CREATE TABLE `confvirtual`.`presentazione` (
+  `id_presentazione` INT NOT NULL AUTO_INCREMENT,
+  `ora_f` TIME NOT NULL,
+  `ora_i` TIME NOT NULL,
+  `ordine` INT NOT NULL,
+  `sessione` INT NOT NULL,
+  PRIMARY KEY (`id_presentazione`),
+  INDEX `sessione1_idx` (`sessione` ASC) VISIBLE,
+  CONSTRAINT `sessione1`
+    FOREIGN KEY (`sessione`)
+    REFERENCES `confvirtual`.`sessione` (`id_sessione`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
 
-USE CONFVIRTUAL;
-CREATE TABLE SPONSORIZZAZIONE(
-importo float(8,2),
-foreign key(anno) references CONFERENZA(anno),
-FOREIGN KEY (acronimo) REFERENCES CONFERENZA(acronimo),
-FOREIGN KEY (nome_sponsor) REFERENCES SPONSOR(nome),
-PRIMARY KEY (acronimo, anno, nome_sponsor)
-) ENGINE = "InnoDB";
+#Articolo
+CREATE TABLE `confvirtual`.`articolo` (
+  `id_articolo` INT NOT NULL,
+  `pdf` VARCHAR(70) NOT NULL,
+  `stato` ENUM('coperto', 'non coperto') NOT NULL,
+  `n_pagine` INT NULL,
+  `usernamePresenter` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id_articolo`),
+  CONSTRAINT `presenter1`
+    FOREIGN KEY (`usernamePresenter`)
+    REFERENCES `confvirtual`.`presenter` (`usernamePresenter`),
+  CONSTRAINT `articolo1`
+    FOREIGN KEY (`id_articolo`)
+    REFERENCES `confvirtual`.`presentazione` (`id_presentazione`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+    
+ #Chiave
+ CREATE TABLE `confvirtual`.`chiave` (
+  `parola` VARCHAR(15) NOT NULL,
+  `articolo` INT NOT NULL,
+  PRIMARY KEY (`parola`, `articolo`),
+  INDEX `articolo2_idx` (`articolo` ASC) VISIBLE,
+  CONSTRAINT `articolo2`
+    FOREIGN KEY (`articolo`)
+    REFERENCES `confvirtual`.`articolo` (`id_articolo`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+    
+ #Autore
+ CREATE TABLE `confvirtual`.`autore` (
+  `id_autore` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(45) NOT NULL,
+  `cognome` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id_autore`));
 
-USE CONFIVIRTUAL;
-CREATE TABLE CONFERENZA (
-acronimo varchar(10),
-anno year(4),
-logo VARCHAR(30),
-svolgimento enum("attiva","completata") default "attiva",
-datainizio date not null,
-datafine date  check (datafine > datainizio) not null,
-totale_sponsorizzazioni int default (1) check(totale_sponsorizzazioni<6 and totale_sponsorizzazioni>0),
-nome varchar(50),
-FOREIGN KEY (creatore) REFERENCES AMMINISTRATORE(username),
-PRIMARY KEY (acronimo, anno)
-) ENGINE = "InnoDB";
-
-USE CONFVIRTUAL;
-CREATE TABLE PROGRAMMA_GIORNALIERO (
-id_programma int auto_increment PRIMARY KEY,
-#? data date,
-foreign key(anno) references CONFERENZA(anno),
-FOREIGN KEY (acronimo) REFERENCES CONFERENZA(acronimo)
-) ENGINE = "InnoDB";
-
-USE CONFVIRTUAL;
-CREATE TABLE SESSIONE (
-id_sessione INT AUTO_INCREMENT PRIMARY KEY,
-ora_f time check (ora_f >ora_i ) not null,
-ora_i time not null,
-titolo varchar(100),
-link varchar (50),
-num_presentazioni int,
-FOREIGN KEY (programma) REFERENCES PROGRAMMA_GIORNALIERO(id_programma)
-) ENGINE = "InnoDB";
-
-USE CONFVIRTUAL;
-CREATE TABLE PRESENTAZIONE (
-id_presentazione int auto_increment PRIMARY KEY,
-ora_f time check (ora_f >ora_i ) not null,
-ora_i time not null,
-ordine int not null check (ordine<4),
-foreign key(sessione) references SESSIONE(id_sessione)
-) ENGINE = "InnoDB";
-
-USE CONFVIRTUAL;
-CREATE TABLE ARTICOLO (
-pdf varchar(70),
-stato enum ('coperto','non coperto') not null,
-n_pagine int check(n_pagine>0),
-foreign key(articolo) references PRESENTAZIONE(id_presentazione),
-foreign key(presenter) references PRESENTER(username),
-PRIMARY KEY (articolo)
-) ENGINE = "InnoDB";
-
-USE CONFVIRTUAL;
-CREATE TABLE CHIAVE (
-parola varchar(30),
-foreign key(articolo) references ARTICOLO(articolo),
-PRIMARY KEY (parola, articolo)
-) ENGINE = "InnoDB";
-
-USE CONFVIRTUAL;
-CREATE TABLE SCRITTO(
-foreign key(articolo) references ARTICOLO(articolo),
-foreign key(autore) references AUTORE(id_autore),
-PRIMARY KEY (autore,articolo)
-) ENGINE = "InnoDB";
-
-USE CONFVIRTUAL;
-CREATE TABLE AUTORE (
-nome varchar(30),
-cognome varchar(30),
-id_autore int auto_increment primary key
-) ENGINE = "InnoDB";
-
-USE CONFVIRTUAL;
-CREATE TABLE TUTORIAL (
-titolo varchar (50) not null,
-abstract varchar (500),
-foreign key(tutorial) references PRESENTAZIONE(id_presentazione),
-PRIMARY KEY (tutorial)
-) ENGINE = "InnoDB";
-
-
-USE CONFVIRTUAL;
-CREATE TABLE RISORSA_AGGIUNTIVA (
-id_risorsa int auto_increment primary key,
-link varchar (50) not null,
-descrizione varchar (100),
-foreign key(speaker) references SPEAKER(speaker),
-foreign key(tutorial) references TUTORIAL(tutorial)
-) ENGINE = "InnoDB";
+#Scritto
+CREATE TABLE `confvirtual`.`scritto` (
+  `autore` INT NOT NULL,
+  `articolo` INT NOT NULL,
+  PRIMARY KEY (`autore`, `articolo`),
+  INDEX `articolo3_idx` (`articolo` ASC) VISIBLE,
+  CONSTRAINT `articolo3`
+    FOREIGN KEY (`articolo`)
+    REFERENCES `confvirtual`.`articolo` (`id_articolo`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `autore1`
+    FOREIGN KEY (`autore`)
+    REFERENCES `confvirtual`.`autore` (`id_autore`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+    
+ #Tutorial
+ CREATE TABLE `confvirtual`.`tutorial` (
+  `id_tutorial` INT NOT NULL AUTO_INCREMENT,
+  `titolo` VARCHAR(70) NOT NULL,
+  `abstract` VARCHAR(500) NOT NULL,
+  PRIMARY KEY (`id_tutorial`),
+  CONSTRAINT `tutorial1`
+    FOREIGN KEY (`id_tutorial`)
+    REFERENCES `confvirtual`.`presentazione` (`id_presentazione`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+    
+ #Risorsa aggiuntiva
+ CREATE TABLE `confvirtual`.`risorsa_aggiuntiva` (
+  `id_risorsa` INT NOT NULL AUTO_INCREMENT,
+  `link` VARCHAR(50) NOT NULL,
+  `descrizione` VARCHAR(100) NULL,
+  `usernameSpeaker` VARCHAR(45) NOT NULL,
+  `tutorial` INT NOT NULL,
+  PRIMARY KEY (`id_risorsa`),
+  CONSTRAINT `speaker1`
+    FOREIGN KEY (`usernameSpeaker`)
+    REFERENCES `confvirtual`.`speaker` (`usernameSpeaker`),
+  INDEX `tutorial2_idx` (`tutorial` ASC) VISIBLE,
+  CONSTRAINT `tutorial2`
+    FOREIGN KEY (`tutorial`)
+    REFERENCES `confvirtual`.`tutorial` (`id_tutorial`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
