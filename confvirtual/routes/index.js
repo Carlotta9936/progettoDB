@@ -10,11 +10,18 @@ router.get('/', function(req, res, next) {
 });
 
 //SIGN IN
-router.get('/signin', (req, res) =>{
+router.get('/signin', (req, res) =>{            
   res.render('signin')
 })
 
 router.post('/signin', utenti.signin);          //Registra un nuovo utente
+
+//LOGIN
+router.get('/login', (req, res) => {
+  res.render('login')
+})
+
+router.post('/login', utenti.login);
 
 /// USERS ROUTERS /// 
 router.get('/utenti/', utenti.users_page);      //Vedere tutti la pagina con tutti gli utenti

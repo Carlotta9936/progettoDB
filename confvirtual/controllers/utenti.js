@@ -43,12 +43,16 @@ exports.signin = (req, res) => {
 exports.login = (req, res) => {
     console.log("Bla bla");
     const { name, password } = req.body;
-    db.query(`SELECT * FROM utente WHERE username = '${name}' AND password = '${password}`, (err, results) => {
+    console.log(password);
+    db.query(`SELECT * FROM utente WHERE username = '${name}' AND password = '${password}' `, (err, results) => {
         if(err) {console.log(err); }
-        if(results.length>1){
-            res.send('OK');
+        console.log(results.length);
+        if(results.length>0){
+            console.log("AH ok")
+            res.render('homepage');
         } else {
-            res.render('/');
+            console.log(results);
+            res.render('login');
         }
     });
 }

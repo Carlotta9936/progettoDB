@@ -1,0 +1,9 @@
+extends layout 
+
+block content
+    form(action='/login' method='POST')
+        .form-group
+            input.input-fiel(type='text' placeholder='Username' name='name')
+        .form-group
+            input.input-field(type='password' placeholder='Password' name='password')
+        button.btn.btn-primary(type='submit') Login

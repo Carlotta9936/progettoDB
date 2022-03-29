@@ -39,11 +39,12 @@ const db = mysql.createConnection({
   database: process.env.DATABASE
 })
 
+//Connessione al database
 db.connect((err, result) => {
   if(err) {
       console.log(err)
   } else {
-      console.log("MySQL conneceted...")
+      console.log("MySQL conneceted!")
   }
 })
 
