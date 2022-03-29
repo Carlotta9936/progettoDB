@@ -1,0 +1,44 @@
+doctype html
+head
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  link(rel='stylesheet' href='/style.css')
+// your content here...
+nav
+  h4 Confvirtual
+  ul
+    li
+      a(href='/') Home
+    li
+      a(href='/login') Log in
+    li
+      a(href='/signin') Sign in
+.container.mt-4
+  .card
+    .card-body
+      form(action='/signin' method='POST')
+        .form-group
+          label(for='username') Username
+          input#username.form-control(type='text' name='username')
+        .form-group
+          label(for='password') Password
+          input#password.form-control(type='password' name='password')
+        .form-group
+          label(for='passwordConfirm') Password
+          input#passwordConfirm.form-control(type='password' name='passwordConfirm')
+        br
+        .form-group
+          label(for='nome') Nome
+          input#nome.form-control(type='text' name='nome')
+        .form-group
+          label(for='cognome') Cognome
+          input#cognome.form-control(type='text' name='cognome')
+        .form-group
+          label(for='luogoNascita') Luogo di nascita
+          input#luogoNascita.form-control(type='text' name='luogoNascita')
+        .form-group
+          label(for='dataNascita') Data di nascita
+          input#dataNascita.form-control(type='date' name='dataNascita')
+        button.btn.btn-primary(type='submit') Sign in
+// JavaScript Bundle with Popper
+script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js' integrity='sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p' crossorigin='anonymous')
