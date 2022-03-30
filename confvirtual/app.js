@@ -28,9 +28,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+
 //Indirizzamento
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/conferenza',require('./routes/conferenza'));
+app.use('/sponsor',require('./routes/sponsor'));
+app.use('/sponsorizzazione',require('./routes/sponsorizzazione'));
+//app.use('/programma_giornaliero',require('./routes/programma_giornaliero'));
+
+
 
 const db = mysql.createConnection({
   host: process.env.DATABASE_HOST,
@@ -47,6 +54,39 @@ db.connect((err, result) => {
       console.log("MySQL conneceted!")
   }
 })
+
+
+app.get('/sponsor',function(req,res){
+  let sql='SELECT * FROM sponsor';
+  db.query(sql,function(err,results){
+      if(err) throw err;
+      res.send(results);
+  })
+});
+
+app.get('/conferenza',function(req,res){
+  let sql='SELECT * FROM conferenza';
+  db.query(sql,function(err,results){
+      if(err) throw err;
+      res.send(results);
+  })
+});
+
+app.get('/sponsorizzazione',function(req,res){
+  let sql='SELECT * FROM sponsorizzazione';
+  db.query(sql,function(err,results){
+      if(err) throw err;
+      res.send(results);
+  })
+});
+
+app.get('/programma_giornaliero',function(req,res){
+  let sql='SELECT * FROM programma_giornaliero';
+  db.query(sql,function(err,results){
+      if(err) throw err;
+      res.send(results);
+  })
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

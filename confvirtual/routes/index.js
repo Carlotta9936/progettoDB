@@ -4,10 +4,6 @@ const router = express.Router();
 // Require controller modules
 const utenti = require('../controllers/utenti');
 
-router.get('/conferenza',function(req,res){
-  res.render('index', { title: 'Express' });
-});
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
