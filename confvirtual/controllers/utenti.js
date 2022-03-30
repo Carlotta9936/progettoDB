@@ -41,27 +41,28 @@ exports.signin = (req, res) => {
 
 
 exports.login = (req, res) => {
-    console.log("Bla bla");
     const { name, password } = req.body;
-    console.log(password);
     db.query(`SELECT * FROM utente WHERE username = '${name}' AND password = '${password}' `, (err, results) => {
         if(err) {console.log(err); }
         console.log(results.length);
         if(results.length>0){
-            console.log("AH ok")
             res.render('homepage');
         } else {
-            console.log(results);
             res.render('login');
         }
     });
+}
+
+exports.update_administrator = (req, res) => {
+    
+
 }
 
 //Ricerca tutte le pagine utente
 exports.users_page = function(req, res){
     let sql = `SELECT *
                 FROM utente`;
-    connection.query(sql, function(err, results){
+    db.query(sql, function(err, results){
         if(err) throw err;
         res.send(results);
     });
@@ -75,7 +76,7 @@ exports.user_page = function(req, res){
                 FROM utente
                 WHERE username = "${req.params.id}"`;
 
-    connection.query(sql, function(err, results){
+    db.query(sql, function(err, results){
         if(err) throw err;
         res.send(results);
     });
