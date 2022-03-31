@@ -1,0 +1,24 @@
+doctype html
+head
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  title Presentazione
+// your content here...
+form(action='/presentazione/nuovaPresentazione' method='POST')
+  .form-group
+    label(for='sessioneConferenza') Sessione:
+    select#sessioneConferenza.form-control(type='select' placeholder='Select sessione' name='sessioneConferenza' required='true')
+      for sessioneConferenza in sessioni
+        option(
+          value= sessioneConferenza.id_sessione
+        ) #{sessioneConferenza.titolo} #{sessioneConferenza.anno} #{sessioneConferenza.acronimo}
+  .form-group
+    label(for='oraI') Ora inizio
+    input#oraI.form-control(type='time' name='oraI')
+  .form-group
+    label(for='oraF') Ora fine
+    input#oraF.form-control(type='time' name='oraF')
+  .form-group
+    label(for='ordine') Ordine
+    input#ordine.form-control(type='num' name='ordine')
+  button.btn.btn-primary(type='submit') Crea

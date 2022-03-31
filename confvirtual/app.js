@@ -35,6 +35,9 @@ app.use('/users', usersRouter);
 app.use('/conferenza',require('./routes/conferenza'));
 app.use('/sponsor',require('./routes/sponsor'));
 app.use('/sponsorizzazione',require('./routes/sponsorizzazione'));
+app.use('/sessione',require('./routes/sessione'));
+app.use('/presentazione',require('./routes/presentazione'));
+app.use('/autore',require('./routes/autore'));
 //app.use('/programma_giornaliero',require('./routes/programma_giornaliero'));
 
 
@@ -87,6 +90,34 @@ app.get('/programma_giornaliero',function(req,res){
       res.send(results);
   })
 });
+
+app.get('/sessione',function(req,res){
+  let sql='SELECT * FROM sessione';
+  db.query(sql,function(err,results){
+      if(err) throw err;
+      res.send(results);
+  })
+});
+
+app.get('/presentazione',function(req,res){
+  let sql='SELECT * FROM presentazione';
+  db.query(sql,function(err,results){
+      if(err) throw err;
+      res.send(results);
+  })
+});
+
+app.get('/autore',function(req,res){
+  let sql='SELECT * FROM autore';
+  db.query(sql,function(err,results){
+      if(err) throw err;
+      res.send(results);
+  })
+});
+
+
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
