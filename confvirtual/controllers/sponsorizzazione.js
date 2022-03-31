@@ -1,13 +1,7 @@
 const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
+const db = require('../connectionDB');
 
-const db = mysql.createConnection({
-    host: process.env.DATABASE_HOST,
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE,
-    multipleStatements: true
-});
 
 exports.formSponsorizzazione = (req, res)=>{
     db.query('SELECT * FROM sponsor; SELECT acronimo,anno FROM conferenza', function(err,results,fields){

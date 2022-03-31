@@ -4,6 +4,7 @@ const router = express.Router();
 // Require controller modules
 const utenti = require('../controllers/utenti');
 const profilo = require('../controllers/profiloUtente');
+const conferenza = require ('../controllers/conferenza');
 
 
 /* GET home page. */
@@ -33,5 +34,9 @@ router.get('/utenti/:id', utenti.user_page);    //Vedere la pagina di un utente
 router.post('/nuovoAdmin', utenti.update_administrator);
 
 router.get('/profilo/:username', profilo.informazioniPersonali /*, profilo.conferenze, profilo.presentazioniPreferite*/);
+
+
+/// CONFERENZA /// 
+router.get('/conferenza/:acronimo/:anno', conferenza.programma);  //vedere la pagina di specifica di una conferenza
 
 module.exports = router;
