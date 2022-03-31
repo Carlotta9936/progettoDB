@@ -8,7 +8,6 @@ const dotenv = require('dotenv');
 
 dotenv.config({ path: './.env' });
 
-
 var app = express();
 
 // view engine setup

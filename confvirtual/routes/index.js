@@ -25,11 +25,13 @@ router.get('/login', (req, res) => {
   res.render('login')
 })
 
-router.post('/login', utenti.login);
+router.post('/login', utenti.login, utenti.profile);
 
 /// USERS ROUTERS /// 
 router.get('/utenti/', utenti.users_page);      //Vedere tutti la pagina con tutti gli utenti
 router.get('/utenti/:id', utenti.user_page);    //Vedere la pagina di un utente
+
+router.post('/nuovoAdmin', utenti.update_administrator);
 
 
 module.exports = router;
