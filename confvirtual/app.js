@@ -3,11 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const mysql = require('mysql');
-const dotenv = require('dotenv');
-
-dotenv.config({ path: './.env' });
-
+const db = require('./connectionDB');
 
 var app = express();
 
@@ -40,14 +36,6 @@ app.use('/presentazione',require('./routes/presentazione'));
 app.use('/autore',require('./routes/autore'));
 //app.use('/programma_giornaliero',require('./routes/programma_giornaliero'));
 
-
-
-const db = mysql.createConnection({
-  host: process.env.DATABASE_HOST,
-  user: process.env.DATABASE_USER,
-  password: process.env.DATABASE_PASSWORD,
-  database: process.env.DATABASE
-})
 
 //Connessione al database
 db.connect((err, result) => {
