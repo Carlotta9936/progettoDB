@@ -20,13 +20,9 @@ exports.signin = (req, res) => {
     db.query(`SELECT username FROM utente WHERE username = "${username}"`, async (err, results) => {
         if(err) {console.log(err)};
         if(results.length > 0){     //Controllo dell'username non sia già usato
-            return res.render('signin', {
-                message: "That user is already use"
-            })
+            return res.render('signin', {  message: "That user is already use" })
         } else if(password !== passwordConfirm){    //Controllo che le password coincidano
-            return res.render('signin', {
-                message: "Password do not match"
-            })
+            return res.render('signin', { message: "Password do not match" })
         }
 
         //let hashedPassword = await bcrypt.hash(password, 8);
@@ -59,10 +55,10 @@ exports.login = (req, res, next) => {
         if(err) {console.log(err); }
         if(results[0].length>0){
             //user e password combaciano
-            console.log("Ruolo:" + results[1]);
+            console.log(results[1][0]);
             const payload = {
                 username: name,
-                diritti: results[1]
+                diritti: results[1][0].ruolo
             };
 
             token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
@@ -79,6 +75,8 @@ exports.profile = (req, res) => {
     decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     res.render('profile', {user: decoded.username, ruolo: decoded.diritti});
 }
+
+
 
 //Ricerca tutte le pagine utente
 exports.users_page = function(req, res){
@@ -115,4 +113,4 @@ exports.update_administrator = (req, res) => {
 
     token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
     res.render('profile', {user: decoded.username, ruolo: decoded.diritti});
-}
+} 
