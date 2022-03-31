@@ -1,0 +1,26 @@
+doctype html
+head
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  title Sponsorizzazione
+// your content here...
+form(action='/sponsorizzazione/nuovaSponsorizzazione' method='POST')
+  .form-group
+    label(for='conferenza') Conferenza:
+    select#conferenza.form-control(type='select' placeholder='Select conferenza' name='conferenza' required='true')
+      for conferenza in conferences
+        option(
+          value= conferenza.acronimo +'@'+ conferenza.anno
+        ) #{conferenza.acronimo} #{conferenza.anno}
+  .form-group
+    label(for='importo') Importo
+    input#importo.form-control(type='num' name='importo')
+  .form-group
+    label(for='sponsor') Sponsor:
+    select#sponsor.form-control(type='select' placeholder='Select sponsor' name='sponsor' required='true')
+      for sponsor in sponsors 
+        option(
+          value= sponsor.nome 
+        ) #{sponsor.nome}
+   
+  button.btn.btn-primary(type='submit') Crea
