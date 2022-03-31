@@ -4,6 +4,7 @@ const router = express.Router();
 // Require controller modules
 const utenti = require('../controllers/utenti');
 const profilo = require('../controllers/profiloUtente');
+const conferenza = require ('../controllers/conferenza');
 
 
 /* GET home page. */

@@ -5,6 +5,6 @@ const conferenzaController = require('../controllers/conferenza');
 
 router.get('/nuovaConferenza', conferenzaController.formConferenza);
 
-router.post('/nuovaConferenza',conferenzaController.creaConferenza);
+router.post('/nuovaConferenza', conferenzaController.creaConferenza);
 
 module.exports = router;

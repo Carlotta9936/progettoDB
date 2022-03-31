@@ -1,12 +1,7 @@
 const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
+const db = require('../connectionDB');
 
-const db = mysql.createConnection({
-    host: process.env.DATABASE_HOST,
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE
-});
 
 exports.formPresentazione = (req, res)=>{
     db.query('SELECT titolo, id_sessione, anno, acronimo FROM sessione, programma_giornaliero WHERE programma=id_programma', function(err,result,fields){

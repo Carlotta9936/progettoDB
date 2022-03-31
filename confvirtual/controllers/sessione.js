@@ -1,12 +1,6 @@
 const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
-
-const db = mysql.createConnection({
-    host: process.env.DATABASE_HOST,
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE
-});
+const db = require('../connectionDB');
 
 exports.formSessione = (req, res)=>{
     db.query('SELECT * FROM programma_giornaliero', function(err,result,fields){
