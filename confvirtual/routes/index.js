@@ -3,6 +3,8 @@ const router = express.Router();
 
 // Require controller modules
 const utenti = require('../controllers/utenti');
+const profilo = require('../controllers/profiloUtente');
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -27,7 +29,9 @@ router.post('/login', utenti.login, utenti.profile);
 router.get('/utenti/', utenti.users_page);      //Vedere tutti la pagina con tutti gli utenti
 router.get('/utenti/:id', utenti.user_page);    //Vedere la pagina di un utente
 
+/// UPGRADE ///
 router.post('/nuovoAdmin', utenti.update_administrator);
 
+router.get('/profilo/:username', profilo.informazioniPersonali /*, profilo.conferenze, profilo.presentazioniPreferite*/);
 
 module.exports = router;

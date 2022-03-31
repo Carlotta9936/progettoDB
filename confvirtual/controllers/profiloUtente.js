@@ -3,7 +3,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('../connectionDB');
 
-
 var token;
 
 exports.informazioniPersonali = (req, res, next) => {
@@ -11,7 +10,9 @@ exports.informazioniPersonali = (req, res, next) => {
         if(err) { throw err; }
         console.log(result);
     })
-    next();
+    
+
+    res.render('profile', {user: req.params.username, ruolo: "stronzo"});
 }
 
 exports.conferenze = (req, res, next) => {

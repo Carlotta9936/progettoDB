@@ -31,7 +31,7 @@ app.use('/users', usersRouter);
 app.use('/conferenza',require('./routes/conferenza'));
 app.use('/sponsor',require('./routes/sponsor'));
 app.use('/sponsorizzazione',require('./routes/sponsorizzazione'));
-app.use('/profilo', require('./routes/profilo'));
+//app.use('/profilo', require('./routes/profilo'));
 //app.use('/programma_giornaliero',require('./routes/programma_giornaliero'));
 
 
