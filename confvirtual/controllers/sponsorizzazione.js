@@ -13,7 +13,7 @@ exports.formSponsorizzazione = (req, res)=>{
     db.query('SELECT * FROM sponsor; SELECT acronimo,anno FROM conferenza', function(err,results,fields){
         if(err) throw err;
         else 
-        res.render('newsponsorizzazione', {sponsors: results[0], conferences: results[1]});
+        res.render('newsponsorizzazione', {sponsors: results[0], conferenze: results[1]});
     });
 }
 

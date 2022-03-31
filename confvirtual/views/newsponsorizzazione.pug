@@ -8,7 +8,7 @@ form(action='/sponsorizzazione/nuovaSponsorizzazione' method='POST')
   .form-group
     label(for='conferenza') Conferenza:
     select#conferenza.form-control(type='select' placeholder='Select conferenza' name='conferenza' required='true')
-      for conferenza in conferences
+      for conferenza in conferenze
         option(
           value= conferenza.acronimo +'@'+ conferenza.anno
         ) #{conferenza.acronimo} #{conferenza.anno}
