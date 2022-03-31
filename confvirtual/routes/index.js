@@ -32,6 +32,5 @@ router.get('/utenti/:id', utenti.user_page);    //Vedere la pagina di un utente
 /// UPGRADE ///
 router.post('/nuovoAdmin', utenti.update_administrator);
 
-router.get('/profilo/:username', profilo.informazioniPersonali /*, profilo.conferenze, profilo.presentazioniPreferite*/);
-
+router.get('/profilo/:username', profilo.informazioniPersonali, profilo.conferenze, profilo.presentazioniPreferite, profilo.renderizzaProfilo);
 module.exports = router;
