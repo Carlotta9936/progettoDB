@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
 const db = require('../connectionDB');
-
+const jwt = require('jsonwebtoken');
 
 exports.formConferenza = (req, res)=>{
     res.render('newconferenza');
@@ -36,8 +36,8 @@ exports.programma = (req,res)=>{
         where conferenza.anno="${req.params.anno}"  and conferenza.acronimo="${req.params.acronimo}" )`;
     db.query(sql, function(err, results){
         if(err) throw err;
-        console.log("ciao"+results[0]);
 
+        //Aggiungi un if che se results è vuota renderizzi ad un'altra pagina d'errore con scritto "conferenza non trovata"
         res.render('conferenza',{
             nomeConferenza: results[0].nome,
             logo: results[0].logo,
@@ -50,4 +50,16 @@ exports.programma = (req,res)=>{
         });
     });
 
+}
+
+exports.segui = (req, res) => {
+    var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
+    console.log(decoded.username);
+    db.query(`INSERT INTO iscrizione (iscrizione_anno, iscrizione_acronimo, iscrizione_username) VALUES ('${req.params.anno}', '${req.params.acronimo}', '${decoded.username}')`), (err, results) => {
+        if(err) {throw err}
+        else {
+        console.log("Si cazzo");
+        res.render('newautore');
+        }
+    }
 }
