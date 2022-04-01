@@ -36,9 +36,15 @@ exports.programma = (req,res)=>{
         where conferenza.anno="${req.params.anno}"  and conferenza.acronimo="${req.params.acronimo}" )`;
     db.query(sql, function(err, results){
         if(err) throw err;
-        console.log("ciao"+results);
-
-        res.render('conferenza',{conferenze: results});
+        console.log("ciao");
+        if (results){
+            console.log("totta");
+            res.render('conferenzaVuota',{nome: req.params.acronimo, anno:req.params.anno}
+            );
+        }
+        else{
+            res.render('conferenza',{conferenze: results});
+        }
     });
 
 }
@@ -47,7 +53,7 @@ exports.disponibile=(req,res)=>{
     let sql = `select conferenza.nome as nome, conferenza.acronimo as acronimo, conferenza.anno as anno, conferenza.datainizio as datainizio, conferenza.datafine as datafine
                 from conferenza
                 where conferenza.svolgimento='attiva'`;
-    db.query(sql, function(err, results){
+    db.query(sql, function(err, results,next){
         if(err) throw err;
         console.log({results});
 
