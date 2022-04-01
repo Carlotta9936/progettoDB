@@ -34,4 +34,10 @@ router.get('/utenti/:id', utenti.user_page);    //Vedere la pagina di un utente
 router.post('/nuovoAdmin', utenti.update_administrator);
 
 router.get('/profilo/:username', profilo.informazioniPersonali, profilo.conferenze, profilo.presentazioniPreferite, profilo.renderizzaProfilo);
+
+router.get('/conferenza/:acronimo/:anno', conferenza.programma);
+router.get('/conferenza', conferenza.disponibile);
+
+
+
 module.exports = router;
