@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
 const db = require('../connectionDB');
-
+const jwt = require('jsonwebtoken');
 
 exports.formConferenza = (req, res)=>{
     res.render('newconferenza');
@@ -54,4 +54,16 @@ exports.disponibile=(req,res)=>{
         res.render('conferenzeAttive',{conferenze: results });
     });
 
+}
+
+exports.segui = (req, res) => {
+    var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
+    console.log(decoded.username);
+    db.query(`INSERT INTO iscrizione (iscrizione_anno, iscrizione_acronimo, iscrizione_username) VALUES ('${req.params.anno}', '${req.params.acronimo}', '${decoded.username}')`), (err, results) => {
+        if(err) {throw err}
+        else {
+        console.log("Si cazzo");
+        res.render('newautore');
+        }
+    }
 }

@@ -2,6 +2,7 @@ const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('../connectionDB');
+var cookieParser = require('cookie-parser');
 
 var token;
 
@@ -55,6 +56,7 @@ exports.login = (req, res, next) => {
             };
 
             token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
+            res.cookie('token', token);
             next();
                         
         } else {
