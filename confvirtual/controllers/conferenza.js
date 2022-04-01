@@ -47,8 +47,20 @@ exports.programma = (req,res)=>{
                     if(err) throw err;
                     console.log("ciao");
                     if (results.length>0){
-                        res.render('conferenza',{conferenze: results});
+                        let sqlsponsor=`select sponsor.nome
+                        from conferenza, sponsor, sponsorizzazione
+                        where conferenza.svolgimento='attiva' and conferenza.anno= "${req.params.anno}"
+                        and conferenza.acronimo= "${req.params.acronimo}"
+                        and conferenza.anno=sponsorizzazione.annoConf 
+                        and conferenza.acronimo=sponsorizzazione.acronimoConf
+                        and sponsorizzazione.nome_sponsor=sponsor.nome`;
+                        db.query(sqlsponsor, function(err, result){
+                            if(err) throw err;
+                            console.log(result);
+                            res.render('conferenza',{conferenze: results, sponsors: result});
 
+                        });
+                            
                     }
                     else{
                         console.log("totta");

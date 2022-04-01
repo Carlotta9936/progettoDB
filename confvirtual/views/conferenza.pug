@@ -1,3 +1,4 @@
+h4= "informazioni"
 h2= conferenze[0].nome
 h5= conferenze[0].logo 
 h5= conferenze[0].acronimo
@@ -5,12 +6,17 @@ h5= conferenze[0].anno
 h5= conferenze[0].datainizio
 h5= conferenze[0].datafine
 h5= conferenze[0].creatore
-h4= "informazioni"
+h4= "sessioni"
+
 each conferenza in conferenze
     h5= 'Nome sessione '+conferenza.titolosessione
-    h5= 'Acronimo: '+conferenza.acronimo
-    h5= 'Anno: '+conferenza.anno
     h5= 'Ora inizio: '+conferenza.orai
     h5= 'Ora fine: '+conferenza.oraf
-    h5= 'Nome presentazione: '+conferenza.titolo+'h5 a(href=conferenza) #{conferenza.link}'
+    h5= 'Nome presentazione: '+conferenza.titolo+'h5 a(href=conferenza) #{conferenza.link} da finire'
+
+h4= "sponsor"
+
+each sponsor in sponsors
+    h5= sponsor.nome
+
 
