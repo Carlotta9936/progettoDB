@@ -1,5 +1,13 @@
-extends layout
+h1= "Benvenuto a Confvirtual"
 
-block content
-  h1= title
-  p Welcome to #{title}
+h3= "Utenti iscitti al nostro sito"
+h3= numUtenti
+h3= "Conferenze sul nostro sito"
+h3= numConferenze 
+
+form(action='/login' method='GET')
+  button.btn.btn-primary(type='submit') Login
+
+form(action='/signin' method='GET')
+  button.btn.btn-primary(type='submit') Signin
+

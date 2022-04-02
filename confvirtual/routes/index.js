@@ -2,15 +2,14 @@ const express = require('express');
 const router = express.Router();
 
 // Require controller modules
+const index = require ('../controllers/index');
 const utenti = require('../controllers/utenti');
 const profilo = require('../controllers/profiloUtente');
 const conferenza = require ('../controllers/conferenza');
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+router.get('/', index.informazioni);
 
 //SIGN IN
 router.get('/signin', (req, res) =>{            
@@ -38,6 +37,6 @@ router.get('/profilo/:username', profilo.informazioniPersonali, profilo.conferen
 router.get('/conferenza/:acronimo/:anno', conferenza.programma);
 router.get('/conferenza', conferenza.disponibile);
 
-
+router.post('/conferenza/:acronimo/:anno', conferenza.segui);
 
 module.exports = router;
