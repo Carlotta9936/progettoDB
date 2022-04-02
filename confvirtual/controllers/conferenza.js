@@ -22,6 +22,7 @@ exports.creaConferenza = (req,res,next)=>{
     })
 }
 
+<<<<<<< HEAD
 exports.creaProgramma= (req,res)=>{
     console.log(req.body);
     
@@ -29,6 +30,8 @@ exports.creaProgramma= (req,res)=>{
 }
 
 
+=======
+>>>>>>> 7cd200fbe180e1dff94968bd6562d99a853529b8
 exports.programma = (req,res)=>{
     let sqlverifica=`select *
     from conferenza
