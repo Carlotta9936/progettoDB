@@ -7,7 +7,7 @@ exports.formConferenza = (req, res)=>{
     res.render('newconferenza');
 }
 
-exports.creaConferenza = (req,res)=>{
+exports.creaConferenza = (req,res,next)=>{
     console.log(req.body);
     const {acronimo, anno, logo, dataInizio, dataFine, nome, creatore} = req.body;
 
@@ -16,6 +16,8 @@ exports.creaConferenza = (req,res)=>{
             console.log(err);
         }else{
             console.log('ok');
+            next();
+            
         }
     })
 }
