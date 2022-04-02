@@ -20,7 +20,6 @@ exports.creaConferenza = (req,res)=>{
     })
 }
 
-
 exports.programma = (req,res)=>{
     let sqlverifica=`select *
     from conferenza

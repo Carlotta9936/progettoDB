@@ -38,7 +38,7 @@ exports.presentazioniPreferite = (req, res, next) => {
 }
 
 exports.renderizzaProfilo = (req, res) => {
-    console.log(res.locals.informazioniPersonali.luogo_nascita);
+    console.log(res.locals);
     res.render('profile', {
         username: res.locals.informazioniPersonali.username, 
         nome: res.locals.informazioniPersonali.nome, 

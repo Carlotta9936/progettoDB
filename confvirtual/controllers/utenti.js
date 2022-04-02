@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('../connectionDB');
 var cookieParser = require('cookie-parser');
+const { restart } = require('nodemon');
 
 var token;
 
@@ -67,8 +68,10 @@ exports.login = (req, res, next) => {
 }
 
 exports.profile = (req, res) => {
-    decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    res.render('profile', {user: decoded.username, ruolo: decoded.diritti});
+
+    res.render('homepage');
+    /*decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    res.render('profile', {user: decoded.username, ruolo: decoded.diritti});*/
 }
 
 
