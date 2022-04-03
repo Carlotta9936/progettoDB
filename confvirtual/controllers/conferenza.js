@@ -81,23 +81,16 @@ exports.programma = (req,res)=>{
             console.log(results);
             res.render('conferenzaInesistente',{nome: req.params.acronimo, anno:req.params.anno});
         }else{
-            let sql = `(select conferenza.nome as nome, conferenza.acronimo as acronimo, conferenza.anno as anno, conferenza.creatore as creatore, conferenza.datainizio as datainizio, conferenza.datafine as datafine, conferenza.logo as logo, programma_giornaliero.data as data, sessione.link as link, sessione.ora_i as orai, sessione.titolo as titolosessione, sessione.ora_f as oraf, articolo.titolo as titolo
+            let sql = `select conferenza.nome as nome, conferenza.acronimo as acronimo, conferenza.anno as anno, conferenza.creatore as creatore, conferenza.datainizio as datainizio, conferenza.datafine as datafine, conferenza.logo as logo, programma_giornaliero.data as data, sessione.link as link, sessione.ora_i as orai, sessione.titolo as titolosessione, sessione.ora_f as oraf, programma_giornaliero.data as data, sessione.id_sessione as sessione
                 from conferenza inner join programma_giornaliero on (conferenza.anno=programma_giornaliero.anno and conferenza.acronimo=programma_giornaliero.acronimo)
                 inner join sessione on( programma_giornaliero.id_programma=sessione.programma)
-                inner join presentazione on(sessione.id_sessione= presentazione.sessione)
-                inner join articolo on (presentazione.id_presentazione=articolo.id_articolo)
-                where conferenza.anno= "${req.params.anno}" and conferenza.acronimo="${req.params.acronimo}" ) union
-                (select conferenza.nome as nome, conferenza.acronimo as acronimo, conferenza.anno as anno, conferenza.creatore as creatore, conferenza.datainizio as datainizio, conferenza.datafine as datafine, conferenza.logo as logo, programma_giornaliero.data as data, sessione.link as link, sessione.ora_i as orai, sessione.titolo as titolosessione, sessione.ora_f as oraf, tutorial.titolo as titolo
-                from conferenza inner join programma_giornaliero on (conferenza.anno=programma_giornaliero.anno and conferenza.acronimo=programma_giornaliero.acronimo)
-                inner join sessione on( programma_giornaliero.id_programma=sessione.programma)
-                inner join presentazione on(sessione.id_sessione= presentazione.sessione)
-                inner join tutorial on (presentazione.id_presentazione=tutorial.id_tutorial)
-                where conferenza.anno="${req.params.anno}"  and conferenza.acronimo="${req.params.acronimo}" )`;
+                where conferenza.anno= "${req.params.anno}" and conferenza.acronimo="${req.params.acronimo}"`;
                 db.query(sql, function(err, results){
                     if(err) throw err;
-                    console.log("ciao");
+                    console.log("ciao"+results);
                     //verifica che la conferenza abbia un programma da viasualizzare
                     if (results.length>0){
+                        //query per visulizzare gli sponsor
                         let sqlsponsor=`select sponsor.nome
                         from conferenza, sponsor, sponsorizzazione
                         where conferenza.svolgimento='attiva' and conferenza.anno= "${req.params.anno}"

@@ -23,17 +23,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 //Importo per i moduli per indirizzamento
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var conferenzaRouter = require('./routes/conferenza')
+var conferenzaRouter = require('./routes/conferenza');
+var sessioneRouter = require('./routes/sessione');
+
 
 //Indirizzamento
 app.use('/', indexRouter);
 app.use('/utenti', usersRouter);
 app.use('/conferenza',conferenzaRouter);
 // ⇩ secondo me non servono
-app.use('/sponsor',require('./routes/sponsor'));
+/*app.use('/sponsor',require('./routes/sponsor'));
 app.use('/sponsorizzazione',require('./routes/sponsorizzazione'));
 app.use('/presentazione',require('./routes/presentazione'));
-app.use('/autore',require('./routes/autore'));
+app.use('/autore',require('./routes/autore'));*/
 
 
 //Connessione al database
