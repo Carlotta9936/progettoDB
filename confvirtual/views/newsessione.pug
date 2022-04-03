@@ -2,29 +2,27 @@ doctype html
 head
   meta(charset='utf-8')
   meta(name='viewport' content='width=device-width, initial-scale=1')
-  title Sessione
-// your content here...
-form(action='/sessione/nuovaSessione' method='POST')
-  .form-group
-    label(for='programma') Programma giornaliero:
-    select#programma.form-control(type='select' placeholder='Select conferenza' name='programma' required='true')
-      for programma in programmi
-        option(
-          value= programma.id_programma
-        ) #{programma.data} #{programma.acronimo} #{programma.anno}
-  .form-group
-    label(for='oraI') Ora inizio
-    input#oraI.form-control(type='time' name='oraI')
-  .form-group
-    label(for='oraF') Ora fine
-    input#oraF.form-control(type='time' name='oraF')
-  .form-group
-    label(for='titolo') Titolo
-    input#titolo.form-control(type='text' name='titolo')
-  .form-group
-    label(for='link') Link
-    input#link.form-control(type='text' name='link')
-  .form-group
-    label(for='num') Numero delle presentazioni
-    input#num.form-control(type='num' name='num')
-  button.btn.btn-primary(type='submit') Crea
+  title= Sessioni
+h2= programmi[0].anno+' '+ programmi[0].acronimo
+each sessione in programmi
+
+  h3= sessione.data
+  h4= 'crea le tue sessioni'
+  form(action='/conferenza/nuovaConferenza2-2/'+ sessione.acronimo+'/'+sessione.anno+'/'+sessione.id_programma method='POST')
+    .form-group
+      label(for='oraI') Ora inizio
+      input#oraI.form-control(type='time' name='oraI')
+    .form-group
+      label(for='oraF') Ora fine
+      input#oraF.form-control(type='time' name='oraF')
+    .form-group
+      label(for='titolo') Titolo
+      input#titolo.form-control(type='text' name='titolo')
+    .form-group
+      label(for='link') Link
+      input#link.form-control(type='text' name='link')
+    .form-group
+      label(for='num') Numero delle presentazioni
+      input#num.form-control(type='num' name='num')
+    button.btn.btn-primary(type='submit') Crea
+button.btn.btn-primary(type='') Prosegui

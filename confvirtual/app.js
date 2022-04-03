@@ -28,7 +28,7 @@ var usersRouter = require('./routes/users');
 //Indirizzamento
 app.use('/', indexRouter);
 app.use('/utenti', usersRouter);
-//app.use('/conferenza',require('./routes/conferenza'));
+app.use('/conferenza',require('./routes/conferenza'));
 app.use('/sponsor',require('./routes/sponsor'));
 app.use('/sponsorizzazione',require('./routes/sponsorizzazione'));
 //app.use('/sessione',require('./routes/sessione'));
