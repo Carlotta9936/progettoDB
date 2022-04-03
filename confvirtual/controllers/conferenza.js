@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 exports.formConferenza = (req, res)=>{
     res.render('newconferenza');
 }
-
+//creo una nuova conferenza
 exports.creaConferenza = (req,res,next)=>{
     console.log(req.body);
     const {acronimo, anno, logo, dataInizio, dataFine, nome, creatore} = req.body;
@@ -16,8 +16,10 @@ exports.creaConferenza = (req,res,next)=>{
             console.log(err);
         }else{
             console.log('ok');
+            console.log(anno);
+            //res.locals(conferenza.anno);
+            //reindirizzamento a creare sessioni
             next();
-            
         }
     })
 }
@@ -31,8 +33,30 @@ exports.creaProgramma= (req,res)=>{
     
 }
 
+//creazione automatica della tabella programma_giornaliero in base ai giorni della conferenza
+exports.creaProgramma= (req,res)=>{
+    let firstDate = new Date(req.body.dataInizio),
+    secondDate = new Date(req.body.dataFine),
+    timeDifference = Math.abs(secondDate.getTime() - firstDate.getTime());
+    let differentDays = Math.ceil(timeDifference / (1000 * 3600 * 24) + 1);
+    //console.log(differentDays);
+    for(let i=0;i<differentDays;i++){
+
+        let data= new Date(firstDate.getTime()+((1000 * 3600 * 24)*i)).toISOString().slice(0,19).replace('T', ' ');
+        console.log(data);
+
+        db.query(`INSERT INTO programma_giornaliero(acronimo, anno, data) VALUES ('${req.body.acronimo}','${req.body.anno}', '${data}');`,(err, results)=>{
+            if(err) {throw err}
+            else {
+            console.log("ok");
+            }
+        });
+    }
+    res.redirect('/conferenza/nuovaConferenza2-2/'+req.body.acronimo+'/'+req.body.anno);
+}
 
 exports.programma = (req,res)=>{
+    //query di verifica esista la conferenza richiesta
     let sqlverifica=`select *
     from conferenza
     where conferenza.svolgimento='attiva' and conferenza.anno= "${req.params.anno}" and conferenza.acronimo="${req.params.acronimo}"`;
@@ -57,6 +81,7 @@ exports.programma = (req,res)=>{
                 db.query(sql, function(err, results){
                     if(err) throw err;
                     console.log("ciao");
+                    //verifica che la conferenza abbia un programma da viasualizzare
                     if (results.length>0){
                         let sqlsponsor=`select sponsor.nome
                         from conferenza, sponsor, sponsorizzazione
@@ -82,6 +107,7 @@ exports.programma = (req,res)=>{
     });
 }
 
+//visualizzazione conferenze disponibili
 exports.disponibile=(req,res)=>{
     let sql = `select conferenza.nome as nome, conferenza.acronimo as acronimo, conferenza.anno as anno, conferenza.datainizio as datainizio, conferenza.datafine as datafine
                 from conferenza
