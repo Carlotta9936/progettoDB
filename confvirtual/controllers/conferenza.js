@@ -24,13 +24,27 @@ exports.creaConferenza = (req,res,next)=>{
     })
 }
 
-exports.creaProgramma= (req,res)=>{
-    let firstDate = new Date(req.body.dataInizio),
-    secondDate = new Date(req.body.dataFine),
-    timeDifference = Math.abs(secondDate.getTime() - firstDate.getTime());
-    let differentDays = Math.ceil(timeDifference / (1000 * 3600 * 24) + 1);
-    console.log(differentDays);
-    
+exports.formSessione = (req, res)=>{
+    //console.log(conferenza.anno);
+    db.query(`SELECT * FROM programma_giornaliero WHERE programma_giornaliero.anno="${req.params.anno}" and programma_giornaliero.acronimo="${req.params.acronimo}"`, function(err,result,fields){
+        if(err) throw err;
+        else 
+        console.log({result});
+        res.render('newsessione', {programmi: result});
+    });
+}
+
+exports.creaSessione = (req,res)=>{
+    console.log(req.body);
+    const {oraI, oraF, titolo, link, num} = req.body;
+
+    db.query(`INSERT INTO sessione(ora_f, ora_i, titolo, link, num_presentazioni, programma) VALUES ('${oraF}','${oraI}','${titolo}','${link}','${num}','${req.params.programma}');`,(err, results)=>{
+        if(err){
+            console.log(err);
+        }else{
+            console.log('ciao ok');
+        }
+    })
 }
 
 //creazione automatica della tabella programma_giornaliero in base ai giorni della conferenza
@@ -55,6 +69,7 @@ exports.creaProgramma= (req,res)=>{
     res.redirect('/conferenza/nuovaConferenza2-2/'+req.body.acronimo+'/'+req.body.anno);
 }
 
+//visualizzazione specifica di una conferenza
 exports.programma = (req,res)=>{
     //query di verifica esista la conferenza richiesta
     let sqlverifica=`select *
@@ -123,6 +138,7 @@ exports.disponibile=(req,res)=>{
 
 exports.segui = (req, res) => {
     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
+    console.log(decoded.username);
     db.query(`INSERT INTO iscrizione (iscrizione_anno, iscrizione_acronimo, iscrizione_username) VALUES ('${req.params.anno}', '${req.params.acronimo}', '${decoded.username}');`, (err, results) => {
         if(err) {throw err}
         else {
