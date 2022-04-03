@@ -6,6 +6,7 @@ const router = express.Router();
 // Require controller modules
 const index = require ('../controllers/index');
 const utenti = require('../controllers/utenti');
+const homepage = require('../controllers/homepage');
 const conferenza = require ('../controllers/conferenza');
 
 //INDEX
@@ -27,12 +28,8 @@ router.get('/signin', (req, res) =>{
 
 router.post('/signin', utenti.signin);          //Registra un nuovo utente
 
-
 //HOMEPAGE
-router.get('/homepage', (req, res) => {
-  res.render('homepage')
-})
-
+router.get('/homepage', homepage.preferiti);
 
 router.get('/conferenza/:acronimo/:anno', conferenza.programma);
 router.get('/conferenza', conferenza.disponibile);

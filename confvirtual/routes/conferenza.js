@@ -5,8 +5,8 @@ const router = express.Router();
 
 const conferenzaController = require('../controllers/conferenza');
 
-router.get('/nuovaConferenza', conferenzaController.formConferenza);
+router.get('/nuovaConferenza1-2', conferenzaController.formConferenza);
 
-router.post('/nuovaConferenza', conferenzaController.creaConferenza);
+router.post('/nuovaConferenza1-2', conferenzaController.creaConferenza, conferenzaController.creaProgramma);
 
 module.exports = router;

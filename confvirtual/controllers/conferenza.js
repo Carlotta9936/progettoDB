@@ -22,16 +22,16 @@ exports.creaConferenza = (req,res,next)=>{
     })
 }
 
-<<<<<<< HEAD
 exports.creaProgramma= (req,res)=>{
-    console.log(req.body);
-    
+    let firstDate = new Date(req.body.dataInizio),
+    secondDate = new Date(req.body.dataFine),
+    timeDifference = Math.abs(secondDate.getTime() - firstDate.getTime());
+    let differentDays = Math.ceil(timeDifference / (1000 * 3600 * 24) + 1);
+    console.log(differentDays);
     
 }
 
 
-=======
->>>>>>> 7cd200fbe180e1dff94968bd6562d99a853529b8
 exports.programma = (req,res)=>{
     let sqlverifica=`select *
     from conferenza
@@ -97,7 +97,6 @@ exports.disponibile=(req,res)=>{
 
 exports.segui = (req, res) => {
     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
-    console.log(decoded.username);
     db.query(`INSERT INTO iscrizione (iscrizione_anno, iscrizione_acronimo, iscrizione_username) VALUES ('${req.params.anno}', '${req.params.acronimo}', '${decoded.username}');`, (err, results) => {
         if(err) {throw err}
         else {

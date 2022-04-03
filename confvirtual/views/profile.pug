@@ -1,22 +1,25 @@
-h1= user
-h1= ruolo
-form(action='/nuovoAdmin' method='POST')
-    button.btn.btn-primary(type='submit') Diventa un ADMIN!
+extends layout 
 
-h2= username
-h3= "Informazioni personali"
-h5= nome 
-h5= cognome 
-h5= luogoNascita 
-h5= dataNascita
+block content
+    h1= user
+    h1= ruolo
+    form(action='/nuovoAdmin' method='POST')
+        button.btn.btn-primary(type='submit') Diventa un ADMIN!
 
-h3= "Conferenze"
-h5= nomeConferenza
-h5= acronimoConferenza
-h5= annoConferenza
-h5= dataInizio
-h5= dataFine
+    h2= username
+    h3= "Informazioni personali"
+    h5= nome 
+    h5= cognome 
+    h5= luogoNascita 
+    h5= dataNascita
 
-h3= "Presentazioni preferite"
-h5= presentazioniNome
-h5= presentazioniData
+    h3= "Conferenze"
+    h5= nomeConferenza
+    h5= acronimoConferenza
+    h5= annoConferenza
+    h5= dataInizio
+    h5= dataFine
+
+    h3= "Presentazioni preferite"
+    h5= presentazioniNome
+    h5= presentazioniData

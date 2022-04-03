@@ -1,1 +1,9 @@
-h1= "CIA!"
+extends layout 
+
+block content
+    h1= "Presentazioni a cui sei iscritto"
+    each conferenza in conferenze
+        - var url= '/conferenza/'+ conferenza.acronimo + '/'+ conferenza.anno;
+        h5
+            a(href= url) #{conferenza.acronimo} #{conferenza.anno} #{conferenza.nome} #{conferenza.datainizio} #{conferenza.datafine}
+    

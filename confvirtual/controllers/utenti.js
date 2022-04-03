@@ -69,7 +69,7 @@ exports.login = (req, res, next) => {
 
 exports.profile = (req, res) => {
 
-    res.render('homepage');
+    res.redirect('/homepage');
     /*decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     res.render('profile', {user: decoded.username, ruolo: decoded.diritti});*/
 }
