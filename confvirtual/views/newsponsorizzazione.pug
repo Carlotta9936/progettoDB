@@ -4,23 +4,19 @@ head
   meta(name='viewport' content='width=device-width, initial-scale=1')
   title Sponsorizzazione
 // your content here...
-form(action='/sponsorizzazione/nuovaSponsorizzazione' method='POST')
-  .form-group
-    label(for='conferenza') Conferenza:
-    select#conferenza.form-control(type='select' placeholder='Select conferenza' name='conferenza' required='true')
-      for conferenza in conferenze
-        option(
-          value= conferenza.acronimo +'@'+ conferenza.anno
-        ) #{conferenza.acronimo} #{conferenza.anno}
+h3= 'Sponsorizzazione'
+h3= acronimo 
+h3= anno
+form(action='/conferenza/nuovaConferenza3-3/'+acronimo+'/'+anno method='POST')
   .form-group
     label(for='importo') Importo
     input#importo.form-control(type='num' name='importo')
   .form-group
     label(for='sponsor') Sponsor:
-    select#sponsor.form-control(type='select' placeholder='Select sponsor' name='sponsor' required='true')
-      for sponsor in sponsors 
+    select#sponsors.form-control(type='select' placeholder='Select sponsor' name='sponsor' required='true')
+      for sponsors in sponsor
         option(
-          value= sponsor.nome 
-        ) #{sponsor.nome}
+          value= sponsors.nome
+        ) #{sponsors.nome}
    
   button.btn.btn-primary(type='submit') Crea

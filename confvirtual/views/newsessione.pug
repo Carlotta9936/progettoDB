@@ -8,7 +8,7 @@ each sessione in programmi
 
   h3= sessione.data
   h4= 'crea le tue sessioni'
-  form(action='/conferenza/nuovaConferenza2-2/'+ sessione.acronimo+'/'+sessione.anno+'/'+sessione.id_programma method='POST')
+  form(action='/conferenza/nuovaConferenza2-3/'+ sessione.acronimo+'/'+sessione.anno+'/'+sessione.id_programma method='POST')
     .form-group
       label(for='oraI') Ora inizio
       input#oraI.form-control(type='time' name='oraI')
@@ -25,4 +25,6 @@ each sessione in programmi
       label(for='num') Numero delle presentazioni
       input#num.form-control(type='num' name='num')
     button.btn.btn-primary(type='submit') Crea
-button.btn.btn-primary(type='') Prosegui
+
+form(action='/conferenza/nuovaConferenza3-3/'+ programmi[0].acronimo +'/'+programmi[0].anno method='GET')
+  button.btn.btn-primary(type='submit') Prosegui
