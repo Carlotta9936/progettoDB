@@ -24,13 +24,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var conferenzaRouter = require('./routes/conferenza');
-var sessioneRouter = require('./routes/sessione');
+var presentazioneRouter= require('./routes/presentazione');
 
 
 //Indirizzamento
 app.use('/', indexRouter);
 app.use('/utenti', usersRouter);
 app.use('/conferenza',conferenzaRouter);
+app.use('/presentazione',presentazioneRouter);
 // ⇩ secondo me non servono
 /*app.use('/sponsor',require('./routes/sponsor'));
 app.use('/sponsorizzazione',require('./routes/sponsorizzazione'));

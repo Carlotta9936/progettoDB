@@ -3,15 +3,17 @@ head
   meta(charset='utf-8')
   meta(name='viewport' content='width=device-width, initial-scale=1')
   title Presentazione
+h1= 'Presentazioni'
 // your content here...
-form(action='/presentazione/nuovaPresentazione' method='POST')
+form(action='/presentazione/nuovaPresentazione/' method='POST')
   .form-group
-    label(for='sessioneConferenza') Sessione:
-    select#sessioneConferenza.form-control(type='select' placeholder='Select sessione' name='sessioneConferenza' required='true')
-      for sessioneConferenza in sessioni
+    label(for='sessioni') Sessione a cui si vuole aggiungere una prsentazione:
+    select#sessioneConferenza.form-control(type='select' placeholder='Select sessioni' name='sessioneConferenza' required='true')
+      for sessione in sessioni
         option(
-          value= sessioneConferenza.id_sessione
-        ) #{sessioneConferenza.titolo} #{sessioneConferenza.anno} #{sessioneConferenza.acronimo}
+          value= sessione.id
+        ) #{sessione.sessione} #{sessione.data} #{sessione.conferenza}
+  h5= 'se non trovi la sessione a cui vorresti aggiungere una presentazione è perché la sessione è già piena'
   .form-group
     label(for='oraI') Ora inizio
     input#oraI.form-control(type='time' name='oraI')
@@ -21,4 +23,18 @@ form(action='/presentazione/nuovaPresentazione' method='POST')
   .form-group
     label(for='ordine') Ordine
     input#ordine.form-control(type='num' name='ordine')
-  button.btn.btn-primary(type='submit') Crea
+  .form-group
+    label(for='tipo') Tipologia della presentazione:
+      select#tipo.form-control(type='select' placeholder='Select tipologia' name='tipo' required='true')
+          option(
+            value= '/presentazione/tutorial'
+          ) tutorial
+          option(
+            value= '/presentazione/articolo'
+          ) articolo
+          tipo= tipo
+    
+  button.btn.btn-primary(type='submit') Crea 
+
+
+
