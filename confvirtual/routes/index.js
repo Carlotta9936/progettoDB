@@ -8,6 +8,8 @@ const index = require ('../controllers/index');
 const utenti = require('../controllers/utenti');
 const homepage = require('../controllers/homepage');
 const conferenza = require ('../controllers/conferenza');
+const sessione= require('../controllers/sessione');
+const presentazione= require('../controllers/presentazione');
 
 //INDEX
 router.get('/', index.informazioni);
@@ -35,5 +37,7 @@ router.get('/conferenza/:acronimo/:anno', conferenza.programma);
 router.get('/conferenza', conferenza.disponibile);
 
 router.post('/conferenza/:acronimo/:anno', conferenza.segui);
+
+router.get('/sessione/:id_sessione/:titolo', sessione.specificaSessione);
 
 module.exports = router;

@@ -12,10 +12,13 @@ h5= conferenze[0].creatore
 h4= "sessioni"
 
 each conferenza in conferenze
-    h5= 'Nome sessione '+conferenza.titolosessione
-    h5= 'Ora inizio: '+conferenza.orai
-    h5= 'Ora fine: '+conferenza.oraf
-    h5= 'Nome presentazione: '+conferenza.titolo+'h5 a(href=conferenza) #{conferenza.link} da finire'
+    - var url= '/sessione/' + conferenza.sessione + '/'+ conferenza.titolosessione;
+            a(href= url)
+                h5= 'Nome sessione: '+conferenza.titolosessione
+                h5= 'Data: '+conferenza.data
+                h5= 'Ora inizio: '+conferenza.orai
+                h5= 'Ora fine: '+conferenza.oraf
+     
 
 h4= "sponsor"
 
