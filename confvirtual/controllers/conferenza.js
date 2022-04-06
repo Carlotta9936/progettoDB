@@ -11,7 +11,7 @@ exports.formConferenza = (req, res)=>{
 exports.creaConferenza = (req,res,next)=>{
     console.log(req.body);
     const {acronimo, anno, logo, dataInizio, dataFine, nome, creatore} = req.body;
-    db.query(`call insertconferenza('${acronimo}','${anno}', '${logo}', '${dataInizio}','${dataFine}','${nome}','${creatore}')`,(err,results)=>{
+    db.query(`call insertconferenza('${acronimo}','${anno}', '${logo}', '${dataInizio}','${dataFine}','${nome}','${creatore}');`,(err,results)=>{
         if(err) {throw err}
             else {
                 console.log("ok");
@@ -36,7 +36,7 @@ exports.creaProgramma= (req,res)=>{
         console.log(data);
         //fatto
         //db.query(`INSERT INTO programma_giornaliero(acronimo, anno, data) VALUES ('${req.body.acronimo}','${req.body.anno}', '${data}');`,(err, results)=>{
-        db.query(`call insertconferenza('${req.body.acronimo}','${req.body.anno}', '${data}')`,(err, results)=>{  
+        db.query(`call insertprogramma('${req.body.acronimo}','${req.body.anno}', '${data}');`,(err, results)=>{  
             if(err) {throw err}
             else {
                 console.log("ok");
@@ -49,11 +49,11 @@ exports.creaProgramma= (req,res)=>{
 exports.formSessione = (req, res)=>{
     //fatto
     //db.query(`SELECT * FROM programma_giornaliero WHERE programma_giornaliero.anno="${req.params.anno}" and programma_giornaliero.acronimo="${req.params.acronimo}"`, function(err,result,fields){
-    db.query(`call selectprogramma('${req.params.anno}','${req.params.acronimo}')`,(err, results)=>{
+    db.query(`call selectprogramma('${req.params.anno}','${req.params.acronimo}');`,(err, results)=>{
         if(err) throw err;
         else{
-            console.log({result});
-            res.render('newsessione', {programmi: result});
+            console.log({results});
+            res.render('newsessione', {programmi: results});
         }
     });
 }
@@ -63,7 +63,7 @@ exports.creaSessione = (req,res)=>{
     const {oraI, oraF, titolo, link} = req.body;
     //fatto
    // db.query(`INSERT INTO sessione(ora_f, ora_i, titolo, link, num_presentazioni, programma) VALUES ('${oraF}','${oraI}','${titolo}','${link}','${num}','${req.params.programma}');`,(err, results)=>{
-    db.query(`call insertsessione ('${oraF}','${oraI}','${titolo}','${link}','${req.params.programma}')`,(err, results)=>{
+    db.query(`call insertsessione ('${oraF}','${oraI}','${titolo}','${link}','${req.params.programma}');`,(err, results)=>{
         if(err){
             console.log(err);
         }
@@ -80,7 +80,7 @@ exports.programma = (req,res)=>{
     from conferenza
     where conferenza.svolgimento='attiva' and conferenza.anno= "${req.params.anno}" and conferenza.acronimo="${req.params.acronimo}"`;
     db.query(sqlverifica,function(err,results){*/
-    db.query(`call verificaconferenza('${req.params.anno}','${req.params.acronimo}')`,(err,results)=>{
+    db.query(`call verificaconferenza('${req.params.anno}','${req.params.acronimo}');`,(err,results)=>{
         if(err) throw err;
         if (results.length==0){
             console.log(results);
@@ -93,7 +93,7 @@ exports.programma = (req,res)=>{
                 inner join sessione on( programma_giornaliero.id_programma=sessione.programma)
                 where conferenza.anno= "${req.params.anno}" and conferenza.acronimo="${req.params.acronimo}"`;
                 db.query(sql, function(err, results){*/
-                db.query(`call specificaconferenza('${req.params.anno}','${req.params.acronimo}')`,(err,results)=>{
+                db.query(`call specificaconferenza('${req.params.anno}','${req.params.acronimo}');`,(err,results)=>{
                     if(err) throw err;
                     console.log("ciao"+results);
                     //verifica che la conferenza abbia un programma da viasualizzare
@@ -108,7 +108,7 @@ exports.programma = (req,res)=>{
                         and conferenza.acronimo=sponsorizzazione.acronimoConf
                         and sponsorizzazione.nome_sponsor=sponsor.nome`;
                         db.query(sqlsponsor, function(err, result){*/
-                        db.query(`call visualizzasponsor('${req.params.anno}','${req.params.acronimo}')`,(err,results)=>{
+                        db.query(`call visualizzasponsor('${req.params.anno}','${req.params.acronimo}');`,(err,results)=>{
                             if(err) throw err;
                             console.log(result);
                             res.render('conferenza',{conferenze: results, sponsors: result});
@@ -132,7 +132,7 @@ exports.disponibile=(req,res)=>{
                 from conferenza
                 where conferenza.svolgimento='attiva'`;
     db.query(sql, function(err, results,next){*/
-    db.query(`call conferenzedisponibili ()`,(err,results)=>{
+    db.query(`call conferenzedisponibili ();`,(err,results)=>{
         if(err) throw err;
         console.log({results});
 
@@ -146,10 +146,10 @@ exports.formSponsorizzazione=(req,res)=>{
     /*let sql = `select sponsor.nome as nome
                 from sponsor`;
     db.query(sql, function(err, results){*/
-    db.query(`call nomesponsor ()`,(err,results)=>{
+    db.query(`call nomesponsor();`,(err,results)=>{
         if(err) throw err;
         console.log({results});
-        res.render('newsponsorizzazione', {acronimo: req.params.acronimo,anno: req.params.anno, sponsor: results});
+        res.render('newsponsorizzazione', {acronimo: req.params.acronimo, anno: req.params.anno, sponsor: results});
     });
 }
 let conta=0;
@@ -158,7 +158,7 @@ exports.creaSponsorizzazione=(req,res)=>{
     const { importo, sponsor} = req.body;
     //fatto
     //db.query(`INSERT INTO sponsorizzazione(importo, annoConf, acronimoConf, nome_sponsor) VALUES ('${importo}','${req.params.anno}', '${req.params.acronimo}', '${sponsor}');`,(err, results)=>{
-    db.query(`call insertsponsorizzazione ('${importo}','${req.params.anno}', '${req.params.acronimo}', '${sponsor}')`,(err,results)=>{
+    db.query(`call insertsponsorizzazione ('${importo}','${req.params.anno}', '${req.params.acronimo}', '${sponsor}');`,(err,results)=>{
         if(err) {throw err};
         if (conta>5){ //forti dubbi ancora
             res.redirect('');//ancora non so dove
@@ -172,7 +172,7 @@ exports.segui = (req, res) => {
     console.log(decoded.username);
     //fatto
     //db.query(`INSERT INTO iscrizione (iscrizione_anno, iscrizione_acronimo, iscrizione_username) VALUES ('${req.params.anno}', '${req.params.acronimo}', '${decoded.username}');`, (err, results) => {
-    db.query(`call insertsegui ('${req.params.anno}', '${req.params.acronimo}', '${decoded.username}')`,(err,results)=>{
+    db.query(`call insertsegui ('${req.params.anno}', '${req.params.acronimo}', '${decoded.username}');`,(err,results)=>{
         if(err) {throw err}
         else {
         console.log("Si cazzo");
