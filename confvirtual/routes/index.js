@@ -31,7 +31,7 @@ router.get('/signin', (req, res) =>{
 router.post('/signin', utenti.signin);          //Registra un nuovo utente
 
 //HOMEPAGE
-router.get('/homepage', homepage.preferiti);
+router.get('/homepage', homepage.preferiti, homepage.classificaPresentazioni, homepage.classificaEventiHype, homepage.classificaPresentatori, homepage.renderizzaHomepage);
 
 router.get('/conferenza/:acronimo/:anno', conferenza.programma);
 router.get('/conferenza', conferenza.disponibile);

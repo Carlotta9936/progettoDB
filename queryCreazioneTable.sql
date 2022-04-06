@@ -70,6 +70,7 @@ CREATE TABLE valutazione(
 	idValutazione INT NOT NULL AUTO_INCREMENT,
     valutazione_admin VARCHAR(30) NOT NULL,
     valutazione_presentazione INT NOT NULL,
+    valutazione INT NOT NULL,
     PRIMARY KEY(idValutazione),
     CONSTRAINT valutazione_admin
 		FOREIGN KEY (valutazione_admin)
@@ -325,3 +326,14 @@ CREATE TABLE `scritto` (
     REFERENCES `tutorial` (`id_tutorial`)
     ON DELETE CASCADE
     ON UPDATE CASCADE);
+
+CREATE TABLE ruoli(
+ruoli_username VARCHAR(50) NOT NULL,
+ruolo ENUM('admin', 'presenter', 'speaker', 'user') NOT NULL,
+PRIMARY KEY (ruoli_username),
+CONSTRAINT ruoli_username
+		FOREIGN KEY (ruoli_username)
+		REFERENCES utente(username)
+        ON DELETE CASCADE
+		ON UPDATE CASCADE
+);

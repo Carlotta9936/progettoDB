@@ -4,6 +4,20 @@ block content
     h1= "Presentazioni a cui sei iscritto"
     each conferenza in conferenze
         - var url= '/conferenza/'+ conferenza.acronimo + '/'+ conferenza.anno;
-        h5
+        p
             a(href= url) #{conferenza.acronimo} #{conferenza.anno} #{conferenza.nome} #{conferenza.datainizio} #{conferenza.datafine}
     
+
+    h2= "Classifiche"
+    h4= "Migliori presentazioni per numero di like"
+    each presentazione in classificaPresentazioni
+        p #{presentazione.conta} #{presentazione.iscrizione_acronimo} #{presentazione.iscrizione_anno} 
+
+    h4= "Eventi con più hype"
+    each evento in classificaEventi 
+        p #{evento.conta} #{evento.preferiti_presentazione}
+
+    h4= "Migliori presenter/speaker"
+    each presentatore in miglioriPresenterESpeaker
+        p #{presentatore.mediaVoto} #{presentatore.valutazione_presentazione}
+
