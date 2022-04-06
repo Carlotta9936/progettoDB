@@ -1,1 +1,18 @@
-h2="articolo"
+doctype html
+head
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  title= Sessioni
+h2= 'Articolo: '+articolo
+
+form(action='/presentazione/articolo/'+ articolo method='POST')
+    .form-group
+        label(for='PDF') pdf:
+        input#PDF.form-control(type='text' name='PDF')
+    .form-group
+        label(for='pagine') numero pagine:
+        input#pagine.form-control(type='num' name='pagine')
+    .form-group
+        label(for='titolo') titolo:
+        input#titolo.form-control(type='text' name='titolo')
+    button.btn.btn-primary(type='submit') Crea

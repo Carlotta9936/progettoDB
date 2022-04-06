@@ -21,9 +21,6 @@ each sessione in programmi
     .form-group
       label(for='link') Link
       input#link.form-control(type='text' name='link')
-    .form-group
-      label(for='num') Numero delle presentazioni
-      input#num.form-control(type='num' name='num')
     button.btn.btn-primary(type='submit') Crea
 
 form(action='/conferenza/nuovaConferenza3-3/'+ programmi[0].acronimo +'/'+programmi[0].anno method='GET')
