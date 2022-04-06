@@ -1,0 +1,21 @@
+doctype html
+head
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  title Autori
+h1= "Assegnazione degli autori all' articolo "+ titolo
+// your content here...
+form(action='/autore/assegnaAutore/'+ articolo method='POST')
+  .form-group
+    label(for='autore') Selezionare gli autori dell'articolo:
+      for autore in autori
+        label= autore.nome
+        input(
+            type= 'checkbox'
+            name= 'listaautori'
+            value= autore.id_autore
+        )
+  button.btn.btn-primary(type='submit') Assegna
+
+
+

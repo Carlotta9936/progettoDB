@@ -10,6 +10,7 @@ const homepage = require('../controllers/homepage');
 const conferenza = require ('../controllers/conferenza');
 const sessione= require('../controllers/sessione');
 const presentazione= require('../controllers/presentazione');
+const autore= require('../controllers/autore');
 
 //INDEX
 router.get('/', index.informazioni);

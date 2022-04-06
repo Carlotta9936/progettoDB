@@ -5,6 +5,7 @@ const autoreController = require ('../controllers/autore');
 
 router.get('/nuovoAutore', autoreController.formAutore);
 
-router.post('/nuovoAutore', autoreController.creaAutore);
+router.post('/nuovoAutore/:id_articolo', autoreController.creaAutore);
+router.post('/assegnaAutore/:id_articolo',autoreController.assegnaAutore);
 
 module.exports = router;
