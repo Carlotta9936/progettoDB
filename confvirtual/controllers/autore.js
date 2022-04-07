@@ -10,18 +10,23 @@ exports.formAutore = (req,res)=>{
 exports.creaAutore = (req,res)=>{
     console.log(req.body);
     const{nome, cognome}= req.body;
-
-    db.query(`INSERT INTO autore(nome, cognome) VALUES ('${nome}', '${cognome}');`,(err, results)=>{
+    //fatto
+    //db.query(`INSERT INTO autore(nome, cognome) VALUES ('${nome}', '${cognome}');`,(err, results)=>{
+    db.query(`call insertautore ('${nome}', '${cognome}')`,(err,results)=>{
         if(err){
             console.log(err);
         }else{
-            let sql=(`select max(id_autore) as autore from autore `);
-            db.query(sql,(err,result)=>{
+            //fatto
+            /*let sql=(`select max(id_autore) as autore from autore `);
+            db.query(sql,(err,result)=>{*/
+            db.query(`call autorecreato ()`,(err,results)=>{
                 if(err){
                     console.log(err);
                 }else{
                     console.log('ok');
-                    db.query(`INSERT INTO scritto(autore, articolo) VALUES ('${results}', '${req.params.id_articolo}');`,(err,results)=>{
+                    //fatto
+                    //db.query(`INSERT INTO scritto(autore, articolo) VALUES ('${results}', '${req.params.id_articolo}');`,(err,results)=>{
+                    db.query(`call insertscritto ('${results[0].autore}', '${req.params.id_articolo}');`,(err,results)=>{
                         if(err){
                             console.log(err);
                         }else{
@@ -42,7 +47,9 @@ exports.assegnaAutore=(req,res)=>{
     const {listaautori}=req.body;
     listaautori.forEach((autore) => {
         console.log({ autore });
-        db.query(`INSERT INTO scritto(autore, articolo) VALUES ('${autore}', '${req.params.id_articolo}');`,(err,results)=>{
+        //fatto
+        //db.query(`INSERT INTO scritto(autore, articolo) VALUES ('${autore}', '${req.params.id_articolo}');`,(err,results)=>{
+        db.query(`call insertscritto ('${autore}', '${req.params.id_articolo}')`,(err,results)=>{  
             if(err){
                 console.log(err);
             }else{
