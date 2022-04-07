@@ -1,5 +1,4 @@
 DELIMITER $$
-USE `confvirtual`$$
 CREATE PROCEDURE conferenzePreferite (username varchar(30))
 BEGIN
 	SELECT conferenza.nome as nome, conferenza.acronimo as acronimo, conferenza.anno as anno, conferenza.dataInizio as datainizio, conferenza.dataFine as datafine
