@@ -40,7 +40,17 @@ exports.creaAutore = (req,res)=>{
 //let ddl=`update scritto set  autore='${aut[i]}', articolo='${res.params.articolo}'`
 exports.assegnaAutore=(req,res)=>{
     const {listaautori}=req.body;
-    console.log(listaautori);
+    listaautori.forEach((autore) => {
+        console.log({ autore });
+        db.query(`INSERT INTO scritto(autore, articolo) VALUES ('${autore}', '${req.params.id_articolo}');`,(err,results)=>{
+            if(err){
+                console.log(err);
+            }else{
+                console.log('ok');
+            }
+        });
+      });
+    
     //console.log(req);
 }
     
