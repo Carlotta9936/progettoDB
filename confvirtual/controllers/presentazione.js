@@ -59,7 +59,8 @@ exports.creaArticolo=(req,res)=>{
     const {PDF, pagine, titolo}= req.body;
     //fatto
     //db.query(`INSERT INTO articolo(id_articolo, pdf , stato,n_pagine, titolo) VALUES ('${req.params.id_articolo}','${PDF}','non coperto','${pagine}','${titolo}');`,(err, result)=>{
-    db.query(`call insertarticolo (${req.params.id_articolo}','${PDF}','${pagine}','${titolo}')`,(err,results)=>{
+    console.log('we'+req.params.id_articolo);
+    db.query(`call insertarticolo ('${req.params.id_articolo}','${PDF}','${pagine}','${titolo}')`,(err,results)=>{
         if(err){
             console.log(err);
         }else{
@@ -67,7 +68,7 @@ exports.creaArticolo=(req,res)=>{
             //vado a controllare che gli autori dell'articolo esistano sul db, se non esistono devo crearli
            /* let sql= (`select * from autore`);
             db.query(sql,function(err,results){*/
-            db.query(`call visulizzaautori ()`,(err,results)=>{
+            db.query(`call visualizzaautori ()`,(err,results)=>{
                 if(err){
                     console.log(err);
                 }else{

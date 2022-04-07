@@ -3,7 +3,7 @@ var router = express.Router();
 
 const autoreController = require ('../controllers/autore');
 
-router.get('/nuovoAutore', autoreController.formAutore);
+router.get('/nuovoAutore/:id_articolo', autoreController.formAutore);
 
 router.post('/nuovoAutore/:id_articolo', autoreController.creaAutore);
 router.post('/assegnaAutore/:id_articolo',autoreController.assegnaAutore);
