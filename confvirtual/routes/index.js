@@ -29,7 +29,7 @@ router.get('/signin', (req, res) =>{
   res.render('signin')
 })
 
-router.post('/signin', utenti.signin);          //Registra un nuovo utente
+router.post('/signin', utenti.signin, utenti.profile);          //Registra un nuovo utente
 
 //HOMEPAGE
 router.get('/homepage', homepage.preferiti, homepage.classificaPresentazioni, homepage.classificaEventiHype, homepage.classificaPresentatori, homepage.renderizzaHomepage);

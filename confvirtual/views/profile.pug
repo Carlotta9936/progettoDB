@@ -12,14 +12,17 @@ block content
     h5= cognome 
     h5= luogoNascita 
     h5= dataNascita
-
+    
     h3= "Conferenze"
-    h5= nomeConferenza
-    h5= acronimoConferenza
-    h5= annoConferenza
-    h5= dataInizio
-    h5= dataFine
+    each conferenza in conferenze
+        h5= conferenza.nome
+        h5= conferenza.acronimo
+        h5= conferenza.anno
+        h5= conferenza.datainizio
+        h5= conferenza.datafine
+    
 
     h3= "Presentazioni preferite"
-    h5= presentazioniNome
-    h5= presentazioniData
+    each presentazione in presentazioni
+        h5= presentazione.conferenzaNome
+        h5= presentazione.programma_giornalieroData
