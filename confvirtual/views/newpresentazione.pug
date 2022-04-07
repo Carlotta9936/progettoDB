@@ -12,8 +12,8 @@ form(action='/presentazione/nuovaPresentazione/' method='POST')
       for sessione in sessioni
         option(
           value= sessione.id
-        ) #{sessione.sessione} #{sessione.data} #{sessione.conferenza}
-  h5= 'se non trovi la sessione a cui vorresti aggiungere una presentazione è perché la sessione è già piena'
+        ) #{sessione.sessione} #{sessione.acronimo} #{sessione.data}
+  h5= 'se non trovi la sessione a cui vorresti aggiungere una presentazione è perché la sessione è già scaduta'
   .form-group
     label(for='oraI') Ora inizio
     input#oraI.form-control(type='time' name='oraI')

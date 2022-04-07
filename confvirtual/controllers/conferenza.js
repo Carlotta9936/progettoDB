@@ -48,12 +48,14 @@ exports.creaProgramma= (req,res)=>{
 //richiamo visualizzazione pre creare sessioni nei vari programmi giornalieri di una conferenza
 exports.formSessione = (req, res)=>{
     //fatto
-    //db.query(`SELECT * FROM programma_giornaliero WHERE programma_giornaliero.anno="${req.params.anno}" and programma_giornaliero.acronimo="${req.params.acronimo}"`, function(err,result,fields){
-    db.query(`call selectprogramma('${req.params.anno}','${req.params.acronimo}');`,(err, results)=>{
+    /*db.query(`SELECT * 
+    FROM programma_giornaliero
+     WHERE programma_giornaliero.anno='${req.params.anno}' and programma_giornaliero.acronimo='${req.params.acronimo}';`,(err,results)=>{
+    */db.query(`call selectprogramma ('${req.params.anno}','${req.params.acronimo}');`,(err, results)=>{
         if(err) throw err;
         else{
             console.log({results});
-            res.render('newsessione', {programmi: results});
+            res.render('newsessione', {programmi: results[0]});
         }
     });
 }
@@ -111,7 +113,7 @@ exports.programma = (req,res)=>{
                         db.query(`call visualizzasponsor('${req.params.anno}','${req.params.acronimo}');`,(err,results)=>{
                             if(err) throw err;
                             console.log(result);
-                            res.render('conferenza',{conferenze: results, sponsors: result});
+                            res.render('conferenza',{conferenze: results, sponsors: result[0]});
 
                         });
                             
@@ -136,7 +138,7 @@ exports.disponibile=(req,res)=>{
         if(err) throw err;
         console.log({results});
 
-        res.render('conferenzeAttive',{conferenze: results });
+        res.render('conferenzeAttive',{conferenze: results[0] });
     });
 
 }
@@ -149,7 +151,7 @@ exports.formSponsorizzazione=(req,res)=>{
     db.query(`call nomesponsor();`,(err,results)=>{
         if(err) throw err;
         console.log({results});
-        res.render('newsponsorizzazione', {acronimo: req.params.acronimo, anno: req.params.anno, sponsor: results});
+        res.render('newsponsorizzazione', {acronimo: req.params.acronimo, anno: req.params.anno, sponsor: results[0]});
     });
 }
 let conta=0;
