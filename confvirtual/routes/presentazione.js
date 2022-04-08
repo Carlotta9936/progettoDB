@@ -3,9 +3,9 @@ const router = express.Router();
 
 const presentazioneController = require('../controllers/presentazione');
 
-router.get('/nuovaPresentazione', presentazioneController.formPresentazione);
+router.get('/nuovaPresentazione/:sessione', presentazioneController.formPresentazione);
 
-router.post('/nuovaPresentazione', presentazioneController.creaPresentazione);
+router.post('/nuovaPresentazione/:sessione', presentazioneController.creaPresentazione);
 router.get('/articolo/:id_articolo',presentazioneController.formArticolo);
 router.post('/articolo/:id_articolo',presentazioneController.creaArticolo);
 router.get('/tutorial/:id_tutorial',presentazioneController.formTutorial);

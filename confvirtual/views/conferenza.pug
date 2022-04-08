@@ -18,6 +18,8 @@ each conferenza in conferenze
                 h5= 'Data: '+conferenza.data
                 h5= 'Ora inizio: '+conferenza.orai
                 h5= 'Ora fine: '+conferenza.oraf
+    form(action='/presentazione/nuovaPresentazione/'+conferenza.sessione method='GET')
+        button.btn.btn-primary(type='submit') Aggiungi una presentazione
      
 
 h4= "sponsor"

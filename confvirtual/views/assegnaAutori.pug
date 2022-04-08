@@ -17,8 +17,11 @@ form(action='/autore/assegnaAutore/'+ articolo method='POST')
         )
   button.btn.btn-primary(type='submit') Assegna
 h3= 'se non trovi gli autori che desideri clicca su questo bottone:'
-form(action='autore/nuovoAutore/'+ articolo method='GET')
+form(action='/autore/nuovoAutore/'+ articolo method='GET')
     button.btn.btn-primary(type='submit') Nuovo autore
+form(action='localhost:3000/conferenza/' method='GET')
+    button.btn.btn-primary(type='submit') Conferenze
+
 
 
 

@@ -3,17 +3,9 @@ head
   meta(charset='utf-8')
   meta(name='viewport' content='width=device-width, initial-scale=1')
   title Presentazione
-h1= 'Presentazioni'
+h1= 'Stai aggiungengo una presentazione alla sessione: '+sessione[0].sessione+' del: '+sessione[0].data+' della conferenza: '+sessione[0].anno+' '+sessione[0].acronimo
 // your content here...
-form(action='/presentazione/nuovaPresentazione/' method='POST')
-  .form-group
-    label(for='sessioni') Sessione a cui si vuole aggiungere una prsentazione:
-    select#sessioneConferenza.form-control(type='select' placeholder='Select sessioni' name='sessioneConferenza' required='true')
-      for sessione in sessioni
-        option(
-          value= sessione.id
-        ) #{sessione.sessione} #{sessione.acronimo} #{sessione.data}
-  h5= 'se non trovi la sessione a cui vorresti aggiungere una presentazione è perché la sessione è già scaduta'
+form(action='/presentazione/nuovaPresentazione/'+sessione[0].id method='POST')
   .form-group
     label(for='oraI') Ora inizio
     input#oraI.form-control(type='time' name='oraI')
