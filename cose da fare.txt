@@ -1,0 +1,25 @@
+Cose ancora da fare:
+
+Creatore di presentazioni	[carlotta]
+crea tutorial			[carlotta]
+diventare uno speaker		[Alsi]
+diventare un presenter		[Alsi]
+
+Associazione presentazione a uno speaker/presenter	[Carlotta]
+Controlli sul ruolo					[Alsi]		
+
+Grafica				[Carlotta/Alsi]		14/04
+
+
+Fare controlli sulle date	[Carlotta/Alsi]
+Trigger				[Carlotta/Alsi]
+
+Chat				[Carlotta]
+Log eventi 			[Alsi]
+
+
+
+					
+
+Risorse aggiutive 		[Carlotta]
+aggiungere foto e cv		[Alsi]
