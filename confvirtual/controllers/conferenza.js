@@ -78,14 +78,10 @@ exports.creaSessione = (req,res)=>{
 exports.programma = (req,res)=>{
     //fatto
     //query di verifica esista la conferenza richiesta
-    /*let sqlverifica=`select *
-    from conferenza
-    where conferenza.svolgimento='attiva' and conferenza.anno= "${req.params.anno}" and conferenza.acronimo="${req.params.acronimo}"`;
-    db.query(sqlverifica,function(err,results){*/
     db.query(`call verificaconferenza('${req.params.anno}','${req.params.acronimo}');`,(err,results)=>{
         if(err) throw err;
-        if (results.length==0){
-            console.log(results);
+        if (results[0].length==0){
+            //console.log(results[0]);
             res.render('conferenzaInesistente',{nome: req.params.acronimo, anno:req.params.anno});
         }else{
             //fatto
@@ -95,11 +91,11 @@ exports.programma = (req,res)=>{
                 inner join sessione on( programma_giornaliero.id_programma=sessione.programma)
                 where conferenza.anno= "${req.params.anno}" and conferenza.acronimo="${req.params.acronimo}"`;
                 db.query(sql, function(err, results){*/
-                db.query(`call specificaconferenza('${req.params.anno}','${req.params.acronimo}');`,(err,results)=>{
+                db.query(`call specificaconferenza('${req.params.anno}','${req.params.acronimo}');`,(err,result)=>{
                     if(err) throw err;
-                    console.log("ciao"+results);
+                    console.log("ciao"+{result});
                     //verifica che la conferenza abbia un programma da viasualizzare
-                    if (results.length>0){
+                    if (result[0].length>0){
                         //query per visulizzare gli sponsor
                         //fatto
                        /* let sqlsponsor=`select sponsor.nome
@@ -112,8 +108,8 @@ exports.programma = (req,res)=>{
                         db.query(sqlsponsor, function(err, result){*/
                         db.query(`call visualizzasponsor('${req.params.anno}','${req.params.acronimo}');`,(err,results)=>{
                             if(err) throw err;
-                            console.log(result);
-                            res.render('conferenza',{conferenze: results, sponsors: result[0]});
+                            console.log({results});
+                            res.render('conferenza',{conferenze: result[0], sponsors: results[0]});
 
                         });
                             

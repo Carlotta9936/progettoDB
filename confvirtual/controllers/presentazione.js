@@ -5,27 +5,27 @@ const db = require('../connectionDB');
 
 exports.formPresentazione = (req, res)=>{
     //fatto
-    //query per visualizzare le sessioni non ancora piene
+    //query per visualizzare dati di una sessione
     /*let sql=`select sessione.titolo as sessione, conferenza.anno as anno, conferenza.acronimo as acronimo, programma_giornaliero.data as data, sessione.id_sessione as id
     from sessione, conferenza, programma_giornaliero
     where sessione.programma=programma_giornaliero.id_programma and
     programma_giornaliero.anno=conferenza.anno and conferenza.acronimo=programma_giornaliero.acronimo
     and conferenza.svolgimento='attiva'`
     db.query(sql,function(err,results){*/
-    db.query(`call sessionidisponibili ()`,(err,results)=>{
+    db.query(`call specificasessione ('${req.params.sessione}')`,(err,results)=>{
         if(err) throw err;
-        console.log({results});
-        res.render('newpresentazione', {sessioni: results[0]});
+        //console.log(results[0]);
+        res.render('newpresentazione',{sessione: results[0]});
     });
 }
 
 
 exports.creaPresentazione = (req,res)=>{
     console.log(req.body);
-    let {oraI, oraF, ordine, sessioneConferenza, tipo} = req.body;
+    let {oraI, oraF, ordine, tipo} = req.body;
     //fatto
     //db.query(`INSERT INTO presentazione(ora_i, ora_f, ordine, sessione) VALUES ('${oraI}','${oraF}','${ordine}','${sessioneConferenza}');`,(err, results)=>{
-      db.query(`call insertpresentazione('${oraI}','${oraF}','${ordine}','${sessioneConferenza}');`,(err,results)=>{
+      db.query(`call insertpresentazione('${oraI}','${oraF}','${ordine}','${req.params.sessione}');`,(err,results)=>{
         if(err){
             console.log(err);
         }else{

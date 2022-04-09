@@ -5,7 +5,7 @@ head
   title Autore
 h2='Crea un nuovo Autore'
 // your content here...
-form(action='/autore/nuovoAutore/'+articolo method='POST')
+form(action='' method='POST')
   .form-group
     label(for='auto') Nome
     input#nome.form-control(type='text' name='nome')
@@ -13,5 +13,5 @@ form(action='/autore/nuovoAutore/'+articolo method='POST')
     label(for='cognome') Cognome
     input#cognome.form-control(type='text' name='cognome')
   button.btn.btn-primary(type='submit') Crea
-form(action='/autore/assegnaAutore'+articolo method='GET')
-  button.btn.btn-primary(type='submit') Prosegui
+form(action='/conferenza/' method='GET')
+    button.btn.btn-primary(type='submit') Conferenze
