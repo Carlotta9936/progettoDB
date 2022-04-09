@@ -38,19 +38,34 @@ exports.creaAutore = (req,res)=>{
 
 exports.assegnaAutore=(req,res)=>{
     const {listaautori}=req.body;
-    //se clicclo su assegna senza aver segnato gli auotori va in errore
-    listaautori.forEach((autore) => {
-        console.log({ autore });
-        //query che crea crea nuova istanza iscritto
-        db.query(`call insertscritto ('${autore}', '${req.params.id_articolo}')`,(err,results)=>{  
-            if(err){
-                console.log(err);
-            }else{
-                console.log('ok');
-            }
-        });
-      });
-    
-    //console.log(req);
+    console.log(listaautori);
+    if(listaautori!==undefined){
+        if(Array.isArray(listaautori)){
+            console.log("totta ti amo");
+            //se clicclo su assegna senza aver segnato gli auotori o uno solo va in errore
+            listaautori.forEach((autore) => {
+                console.log({ autore });
+                //query che crea crea nuova istanza iscritto
+                db.query(`call insertscritto ('${autore}', '${req.params.id_articolo}')`,(err,results)=>{  
+                    if(err){
+                        console.log(err);
+                    }else{
+                        console.log('ok');
+                    }
+                });
+            });
+        }else{
+            db.query(`call insertscritto ('${listaautori}', '${req.params.id_articolo}')`,(err,results)=>{  
+                if(err){
+                    console.log(err);
+                }else{
+                    console.log('ok');
+                }
+            });
+        }
+    }else{
+        console.log("ok");
+        res.render("errorautori");
+    }
 }
     
