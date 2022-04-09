@@ -15,24 +15,20 @@ exports.creaAutore = (req,res)=>{
         if(err){
             console.log(err);
         }else{
-            //query per prendere id auotore appena creato
+            //query per prendere id autore appena creato
             db.query(`call autorecreato ()`,(err,results)=>{
                 if(err){
                     console.log(err);
                 }else{
-                    //non va un cazzo!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    /*
-                    console.log(results[0]);
-                    let autore=results[0];
-                    //fatto
-                    //db.query(`INSERT INTO scritto(autore, articolo) VALUES ('${results}', '${req.params.id_articolo}');`,(err,results)=>{
+                    let autore=results[0][0].autore;
+                    //query per insesrire nella tabella scritto gli autori associati agli articoli
                     db.query(`call insertscritto ('${autore}', '${req.params.id_articolo}')`,(err,result)=>{
                         if(err){
                             console.log(err);
                         }else{
                             console.log('ok');
                         }
-                    });*/
+                    });
                 }
             });
             
