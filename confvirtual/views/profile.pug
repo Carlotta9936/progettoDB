@@ -36,12 +36,12 @@ block content
             tr
                 td= presentazione.conferenzaNome
                 td= presentazione.programma_giornalieroData
+    if modifica
+        form(action='../nuovoAdmin' method='POST')
+            button.btn.btn-primary(type='submit') Diventa un ADMIN!
 
-    form(action='../nuovoAdmin' method='POST')
-        button.btn.btn-primary(type='submit') Diventa un ADMIN!
+        form(action='../nuovoPresenter' method='GET')
+            button.btn.btn-primary(type='submit') Diventa un PRESENTER!
 
-    form(action='../nuovoPresenter' method='GET')
-        button.btn.btn-primary(type='submit') Diventa un PRESENTER!
-
-    form(action='../nuovoSpeaker' method='GET')
-        button.btn.btn-primary(type='submit') Diventa uno SPEAKER!
+        form(action='../nuovoSpeaker' method='GET')
+            button.btn.btn-primary(type='submit') Diventa uno SPEAKER!

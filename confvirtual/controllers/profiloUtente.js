@@ -43,13 +43,31 @@ exports.presentazioniPreferite = (req, res, next) => {
 
 //Renderizza il profilo con tutte le informazioni raccolte
 exports.renderizzaProfilo = (req, res) => {
-    res.render('profile', {
-        username: res.locals.informazioniPersonali.username, 
-        nome: res.locals.informazioniPersonali.nome, 
-        cognome: res.locals.informazioniPersonali.cognome,
-        luogoNascita: res.locals.informazioniPersonali.luogo_nascita,
-        dataNascita: res.locals.informazioniPersonali.data_nascita,
-        conferenze: res.locals.conferenze,
-        presentazioni: res.locals.presentazioniPreferite
-    })
+    var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
+    if(res.locals.informazioniPersonali.username===decoded.username){
+        console.log("Sono io");
+        res.render('profile', {
+            modifica: true,
+            username: res.locals.informazioniPersonali.username, 
+            nome: res.locals.informazioniPersonali.nome, 
+            cognome: res.locals.informazioniPersonali.cognome,
+            luogoNascita: res.locals.informazioniPersonali.luogo_nascita,
+            dataNascita: res.locals.informazioniPersonali.data_nascita,
+            conferenze: res.locals.conferenze,
+            presentazioni: res.locals.presentazioniPreferite
+        })
+
+    } else {
+        console.log("NON sono io");
+        res.render('profile', {
+            username: res.locals.informazioniPersonali.username, 
+            nome: res.locals.informazioniPersonali.nome, 
+            cognome: res.locals.informazioniPersonali.cognome,
+            luogoNascita: res.locals.informazioniPersonali.luogo_nascita,
+            dataNascita: res.locals.informazioniPersonali.data_nascita,
+            conferenze: res.locals.conferenze,
+            presentazioni: res.locals.presentazioniPreferite
+        })
+    }
+    
 }
