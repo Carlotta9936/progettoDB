@@ -20,8 +20,7 @@ exports.signin = (req, res, next) => {
         
         //let hashedPassword = await bcrypt.hash(password, 8);
         //console.log(hashedPassword);
-        db.query(`call inserisciNuovoUtente('${username}', '${password}', '${nome}', '${cognome}', '${luogoNascita}', '${dataNascita}'); 
-                INSERT INTO ruoli (ruoli_username, ruolo) VALUES ('${username}', 'user')`, (err, results) => {
+        db.query(`call inserisciNuovoUtente('${username}', '${password}', '${nome}', '${cognome}', '${luogoNascita}', '${dataNascita}'); `, (err, results) => {
             if(err) { 
                 console.log(err);
             }
@@ -44,13 +43,23 @@ exports.signin = (req, res, next) => {
 exports.login = (req, res, next) => {
     //Autenticazione user e password
     const { name, password } = req.body;
-    db.query(`call autenticazione('${name}', '${password}')`, (err, results) => {
+    var ruolo;
+    db.query(`call autenticazione('${name}', '${password}'); call controlloRuoli('${name}')`, (err, results) => {
         if(err) {console.log(err); }
+        console.log(results[0][1]);
+        if(results[0][1] === undefined) {
+            console.log(results[0][1]);
+            ruolo = "Utente";
+        } else {
+            console.log("Cazzo ci fa qua?");
+            ruolo = results[1][0].ruolo
+        }
+        
         if(results[0].length>0){
             //user e password combaciano
             const payload = {
                 username: name,
-                diritti: results[1][0].ruolo
+                diritti: "utente"
             };
 
             token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
@@ -95,10 +104,22 @@ exports.user_page = function(req, res){
     });
 };
 
+exports.controlloDiritti = (req, res, next) => {
+    var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
+    db.query(`call controlloRuoli('${decoded.username}')`, (err, results) => {
+        if(err) { throw err; }
+        if(results[0][0]===undefined) {
+            next(); 
+        }
+        else {
+            console.log("coglione non puoi avere due ruoli");
+        }
+    })
+}
 
 exports.update_administrator = (req, res) => {
-    var decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    db.query(`call updateAmministratore(${decoded.name})`);
+    var decoded = jwt.verify(req.cookie.token, process.env.ACCESS_TOKEN_SECRET);
+    db.query(`call updateAmministratore('${decoded.name}')`);
     
     const payload = {
         username: decoded.name,
@@ -108,3 +129,44 @@ exports.update_administrator = (req, res) => {
     token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
     res.render('profile', {user: decoded.username, ruolo: decoded.diritti});
 } 
+
+exports.form_presenter = (req, res) => {
+    res.render('formPresenter');
+}
+
+exports.form_speaker = (req, res) => {
+    res.render('formSpeaker');
+}
+
+exports.update_presenter = (req, res) => {
+    var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
+    const {uni, dipartimento} = req.body;
+    db.query(`call updatePresenter ('${decoded.username}', '${uni}','${dipartimento}')`, (err, results) => {
+        if(err) { throw err;} 
+    });
+    //riaggiorna il token
+    const payload = {
+        username: decoded.username,
+        diritti: 'presenter'
+    };
+
+    token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
+    res.render('profile', {user: decoded.username, ruolo: decoded.diritti});
+}
+
+exports.update_speaker= (req, res) => {
+    var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
+    const {uni, dipartimento} = req.body;
+    db.query(`call updateSpeaker ('${decoded.username}', '${uni}','${dipartimento}')`, (err, results) => {
+        if(err) { throw err;} 
+        
+    });
+    //riaggiorna il token
+    const payload = {
+        username: decoded.name,
+        diritti: 'speaker'
+    };
+
+    token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
+    res.render('profile', {user: decoded.username, ruolo: decoded.diritti});
+}

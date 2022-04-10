@@ -41,4 +41,13 @@ router.post('/conferenza/:acronimo/:anno', conferenza.segui);
 
 router.get('/sessione/:id_sessione/:titolo', sessione.specificaSessione);
 
+
+//  UPGRADES
+router.post('/nuovoAdmin', utenti.controlloDiritti, utenti.update_administrator);
+
+router.get('/nuovoPresenter', utenti.controlloDiritti, utenti.form_presenter);
+router.post('/nuovoPresenter', utenti.update_presenter);
+router.get('/nuovoSpeaker', utenti.controlloDiritti, utenti.form_speaker);
+router.post('/nuovoSpeaker', utenti.update_speaker)
+
 module.exports = router;
