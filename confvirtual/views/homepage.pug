@@ -2,17 +2,35 @@ extends layout
 
 block content
     h1= "Presentazioni a cui sei iscritto"
-    each conferenza in conferenze
-        - var url= '/conferenza/'+ conferenza.acronimo + '/'+ conferenza.anno;
-        p
-            a(href= url) #{conferenza.acronimo} #{conferenza.anno} #{conferenza.nome} #{conferenza.datainizio} #{conferenza.datafine}
-    
+    table
+        tr
+            th Acronimo
+            th Anno
+            th Nome
+            th data inizio
+            th data fine
+        each conferenza in conferenze
+            tr
+                td= conferenza.acronimo
+                td= conferenza.anno
+                td= conferenza.nome
+                td= conferenza.datainizio
+                td= conferenza.datafine
 
     h2= "Classifiche"
     h4= "Migliori presentazioni per numero di like"
-    each presentazione in classificaPresentazioni
-        p #{presentazione.conta} #{presentazione.iscrizione_acronimo} #{presentazione.iscrizione_anno} 
+    table
+        tr
+            th Acronimo
+            th Anno
+            th Num. like
+        each presentazione in classificaPresentazioni
+            tr
+                td= presentazione.iscrizione_acronimo
+                td= presentazione.iscrizione_anno
+                td= presentazione.conta
 
+    
     h4= "Eventi con più hype"
     each evento in classificaEventi 
         p #{evento.conta} #{evento.preferiti_presentazione}

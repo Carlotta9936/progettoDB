@@ -1,12 +1,16 @@
 const jwt = require('jsonwebtoken');
 const mysql = require('mysql');
 const db = require('../connectionDB');
+const { DateTime } = require('luxon');
 
 exports.preferiti = (req,res, next)=>{
     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
     db.query(`call conferenzePreferite('${decoded.username}');`, (err, results) => {
         if(err) { throw err; }
-        console.log(results[0]);
+        for(let i=0; i<results[0].length; i++){
+            results[0][i].datainizio = DateTime.fromJSDate(results[0][i].datainizio).toLocaleString(DateTime.DATE_MED);
+            results[0][i].datafine = DateTime.fromJSDate(results[0][i].datafine).toLocaleString(DateTime.DATE_MED);
+        }
         res.locals.conferenzePreferite = results[0];
         next();
         //res.render('homepage', {conferenze: results })

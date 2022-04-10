@@ -3,8 +3,6 @@ extends layout
 block content
     h1= user
     h1= ruolo
-    form(action='/nuovoAdmin' method='POST')
-        button.btn.btn-primary(type='submit') Diventa un ADMIN!
 
     h2= username
     h3= "Informazioni personali"
@@ -14,15 +12,36 @@ block content
     h5= dataNascita
     
     h3= "Conferenze"
-    each conferenza in conferenze
-        h5= conferenza.nome
-        h5= conferenza.acronimo
-        h5= conferenza.anno
-        h5= conferenza.datainizio
-        h5= conferenza.datafine
+    table
+        tr
+            th Nome
+            th Acronimo
+            th Anno
+            th data inizio
+            th data fine
+        each conferenza in conferenze
+            tr
+                td= conferenza.nome
+                td= conferenza.acronimo
+                td= conferenza.anno
+                td= conferenza.datainizio
+                td= conferenza.datafine
     
-
     h3= "Presentazioni preferite"
-    each presentazione in presentazioni
-        h5= presentazione.conferenzaNome
-        h5= presentazione.programma_giornalieroData
+    table
+        tr
+            th Nome conferenza
+            th Data
+        each presentazione in presentazioni
+            tr
+                td= presentazione.conferenzaNome
+                td= presentazione.programma_giornalieroData
+
+    form(action='../nuovoAdmin' method='POST')
+        button.btn.btn-primary(type='submit') Diventa un ADMIN!
+
+    form(action='../nuovoPresenter' method='GET')
+        button.btn.btn-primary(type='submit') Diventa un PRESENTER!
+
+    form(action='../nuovoSpeaker' method='GET')
+        button.btn.btn-primary(type='submit') Diventa uno SPEAKER!
