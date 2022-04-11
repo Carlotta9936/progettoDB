@@ -4,14 +4,7 @@ const db = require('../connectionDB');
 
 
 exports.formPresentazione = (req, res)=>{
-    //fatto
     //query per visualizzare dati di una sessione
-    /*let sql=`select sessione.titolo as sessione, conferenza.anno as anno, conferenza.acronimo as acronimo, programma_giornaliero.data as data, sessione.id_sessione as id
-    from sessione, conferenza, programma_giornaliero
-    where sessione.programma=programma_giornaliero.id_programma and
-    programma_giornaliero.anno=conferenza.anno and conferenza.acronimo=programma_giornaliero.acronimo
-    and conferenza.svolgimento='attiva'`
-    db.query(sql,function(err,results){*/
     db.query(`call specificasessione ('${req.params.sessione}')`,(err,results)=>{
         if(err) throw err;
         //console.log(results[0]);
@@ -23,24 +16,17 @@ exports.formPresentazione = (req, res)=>{
 exports.creaPresentazione = (req,res)=>{
     console.log(req.body);
     let {oraI, oraF, ordine, tipo} = req.body;
-    //fatto
     db.query(`call getSessione('${req.params.sessione}')`, (err, result => {
         if(err) {throw err;}
         console.log(result[0]);
         if(oraF>oraI && oraI>=result.ora_i)
-    //db.query(`INSERT INTO presentazione(ora_i, ora_f, ordine, sessione) VALUES ('${oraI}','${oraF}','${ordine}','${sessioneConferenza}');`,(err, results)=>{
             db.query(`call insertpresentazione('${oraI}','${oraF}','${ordine}','${req.params.sessione}');`,(err,results)=>{
             if(err){
                 console.log(err);
             }else{
                 tipo=req.body.tipo;
-                //fattp
                 //query per prendere l'ultima presentazione creata
-                /*let sql=`select max(presentazione.id_presentazione) as presentazione
-                        from presentazione`
-                db.query(sql,function(err, results){*/
                 db.query(`call selezionapresentazione ()`,(err,results)=>{
-                    //non funziona
                     if(err){
                         //console.log(results);
                         console.log(err);
@@ -63,17 +49,12 @@ exports.formArticolo=(req,res)=>{
 //creao articolo senza l'assegnazione del presenter
 exports.creaArticolo=(req,res)=>{
     const {PDF, pagine, titolo}= req.body;
-    //fatto
-    //db.query(`INSERT INTO articolo(id_articolo, pdf , stato,n_pagine, titolo) VALUES ('${req.params.id_articolo}','${PDF}','non coperto','${pagine}','${titolo}');`,(err, result)=>{
     console.log('we'+req.params.id_articolo);
     db.query(`call insertarticolo ('${req.params.id_articolo}','${PDF}','${pagine}','${titolo}')`,(err,results)=>{
         if(err){
             console.log(err);
         }else{
-            //fatto
             //vado a controllare che gli autori dell'articolo esistano sul db, se non esistono devo crearli
-           /* let sql= (`select * from autore`);
-            db.query(sql,function(err,results){*/
             db.query(`call visualizzaautori ()`,(err,results)=>{
                 if(err){
                     console.log(err);
