@@ -5,8 +5,8 @@ var router = express.Router();
 const sponsorController = require ('../controllers/sponsor');
 
 //form per la creazione di un nuovo sponsor
-router.get('/nuovoSponsor', sponsorController.formSponsor);
+router.get('/nuovoSponsor/:acronimo/:anno', sponsorController.formSponsor);
 
-router.post('/nuovoSponsor', sponsorController.creaSponsor);
+router.post('/nuovoSponsor/', sponsorController.creaSponsor);
 
 module.exports = router;

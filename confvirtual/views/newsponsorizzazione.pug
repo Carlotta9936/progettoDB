@@ -19,4 +19,8 @@ form(action='/conferenza/nuovaConferenza3-3/'+acronimo+'/'+anno method='POST')
           value= sponsors.nome
         ) #{sponsors.nome}
    
-  button.btn.btn-primary(type='submit') Crea
+  button.btn.btn-primary(type='submit') Assegna
+form(action='/sponsor/nuovoSponsor/'+acronimo+'/'+anno method='GET')
+  button.btn.btn-primary(type='submit') NEWSPONSOR
+form(action='/conferenza/'+acronimo+'/'+anno method='GET')
+  button.btn.btn-primary(type='submit') Fine

@@ -1,9 +1,11 @@
 Cose ancora da fare:
 
-Creatore di presentazioni	[carlotta]
-crea tutorial			[carlotta]
+Creatore di presentazioni	[Carlotta] V
+crea tutorial		    	[Carlotta]
 diventare uno speaker		[Alsi] V
 diventare un presenter		[Alsi] V
+sponsor max 5               [Carlotta]
+presenter sia un autore     [Carlotta]
 
 #Totale_sponsorizzazioni in automatico 
 
@@ -16,16 +18,17 @@ Fare controlli sulle date	[Carlotta/Alsi]:
 
 Trigger				[Carlotta/Alsi] V
 
-l'event
+l'event                     [Carlotta/Alsi]
 
 Associazione presentazione a uno speaker/presenter	[Carlotta]
-Controlli sul ruolo					[Alsi]		
+Controlli sul ruolo					                [Alsi]		
 
 Grafica				[Carlotta/Alsi]		14/04
 
 
 Risorse aggiutive 		[Carlotta]
-aggiungere foto e cv		[Alsi]
+aggiungere foto e cv	[Alsi]
+parole chiave           [Carlotta/Alsi]	
 
 
 Chat				[Carlotta]
