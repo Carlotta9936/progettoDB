@@ -2,6 +2,7 @@ const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
 const db = require('../connectionDB');
 const jwt = require('jsonwebtoken');
+const controlloDate = require('../modules/controlloDate');
 
 exports.formConferenza = (req, res)=>{
     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
@@ -14,11 +15,11 @@ exports.formConferenza = (req, res)=>{
 //creo una nuova conferenza
 //fatto
 exports.creaConferenza = (req,res,next)=>{
-    console.log(req.body);
+    var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
     const {acronimo, anno, logo, dataInizio, dataFine, nome, creatore} = req.body;
-    if(dataFine>dataInizio){    //Controllo sulle date
+    if(controlloDate.controlloDate(dataInizio, dataFine)){    //Controllo sulle date
         console.log("OK");
-        db.query(`call insertconferenza('${acronimo}','${anno}', '${logo}', '${dataInizio}','${dataFine}','${nome}','${creatore}');`,(err,results)=>{
+        db.query(`call insertconferenza('${acronimo}','${anno}', '${logo}', '${dataInizio}','${dataFine}','${nome}','${decoded.username}');`,(err,results)=>{
             if(err) {throw err}
                 else {
                     console.log("ok");
@@ -58,7 +59,10 @@ exports.formSessione = (req, res)=>{
     /*db.query(`SELECT * 
     FROM programma_giornaliero
      WHERE programma_giornaliero.anno='${req.params.anno}' and programma_giornaliero.acronimo='${req.params.acronimo}';`,(err,results)=>{
-    */db.query(`call selectprogramma ('${req.params.anno}','${req.params.acronimo}');`,(err, results)=>{
+    */
+        console.log(req.params.anno);
+        console.log(req.params.acronimo);
+        db.query(`call selectprogramma ('${req.params.anno}','${req.params.acronimo}');`,(err, results)=>{
         if(err) throw err;
         else{
             console.log({results});

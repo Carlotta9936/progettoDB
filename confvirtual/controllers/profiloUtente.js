@@ -44,7 +44,9 @@ exports.presentazioniPreferite = (req, res, next) => {
 //Renderizza il profilo con tutte le informazioni raccolte
 exports.renderizzaProfilo = (req, res) => {
     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
-    if(res.locals.informazioniPersonali.username===decoded.username && decoded.diritti==="utente"){
+    console.log(res.locals.informazioniPersonali.username);
+    console.log(decoded.diritti);
+    if(res.locals.informazioniPersonali.username===decoded.username && decoded.diritti==="Utente"){
 
         console.log("Sono io");
         res.render('profile', {

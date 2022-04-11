@@ -161,7 +161,7 @@ CREATE TABLE `sponsor` (
   `svolgimento` ENUM('attiva', 'completata') NOT NULL,
   `datainizio` DATE NOT NULL,
   `datafine` DATE NOT NULL,
-  `totale_sponsorizzazioni` INT NOT NULL,
+  `totale_sponsorizzazioni` INT NOT NULL DA,
   `nome` VARCHAR(50) NOT NULL,
   `creatore` VARCHAR(45) NOT NULL,
   INDEX `anno_idx` (`anno` ASC) VISIBLE,
@@ -326,14 +326,3 @@ CREATE TABLE `scritto` (
     REFERENCES `tutorial` (`id_tutorial`)
     ON DELETE CASCADE
     ON UPDATE CASCADE);
-
-CREATE TABLE ruoli(
-ruoli_username VARCHAR(50) NOT NULL,
-ruolo ENUM('admin', 'presenter', 'speaker', 'user') NOT NULL,
-PRIMARY KEY (ruoli_username),
-CONSTRAINT ruoli_username
-		FOREIGN KEY (ruoli_username)
-		REFERENCES utente(username)
-        ON DELETE CASCADE
-		ON UPDATE CASCADE
-);
