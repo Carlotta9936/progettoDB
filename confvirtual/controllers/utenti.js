@@ -45,21 +45,20 @@ exports.login = (req, res, next) => {
     const { name, password } = req.body;
     var ruolo;
     db.query(`call autenticazione('${name}', '${password}'); call controlloRuoli('${name}')`, (err, results) => {
-        if(err) {console.log(err); }
-        console.log(results[0][1]);
-        if(results[0][1] === undefined) {
-            console.log(results[0][1]);
-            ruolo = "Utente";
-        } else {
-            console.log("Cazzo ci fa qua?");
-            ruolo = results[1][0].ruolo
-        }
-        
-        if(results[0].length>0){
-            //user e password combaciano
+        if(err) {console.log(err); }       
+        if(results[0].length>0){    //user e password combaciano
+            if(results[1] === undefined) {
+                console.log("mmmmh" + results[0][1]);
+                ruolo = "Utente";
+            } else {
+                console.log("Cazzo ci fa qua?");
+                ruolo = results[1][0].ruolo
+            }
+
+            console.log(ruolo);
             const payload = {
                 username: name,
-                diritti: "utente"
+                diritti: ruolo
             };
 
             token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
