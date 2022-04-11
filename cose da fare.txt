@@ -9,9 +9,14 @@ presenter sia un autore     [Carlotta]
 
 #Totale_sponsorizzazioni in automatico 
 
-Fare controlli sulle date	    [Carlotta/Alsi]
-Trigger		(obbligatori)       [Carlotta/Alsi] V
-trigger ordine presentazioni    [Carlotta/Alsi]
+Fare controlli sulle date	[Carlotta/Alsi]:
+-data fine dopo data inizio:    conferenzaV, 
+-presentazione non deve eccedere da sessione
+- non si possono avere presentazioni in simultanea nella stessa sessione
+- ordine delle presentazioni
+
+
+Trigger				[Carlotta/Alsi] V
 
 l'event                     [Carlotta/Alsi]
 
