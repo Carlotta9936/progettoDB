@@ -155,14 +155,20 @@ exports.formSponsorizzazione=(req,res)=>{
 }
 
 exports.creaSponsorizzazione=(req,res)=>{
-    const { importo, sponsor} = req.body;
-    //query per inserire una nuova sponsorizzazione
-    db.query(`call insertsponsorizzazione ('${importo}','${req.params.anno}', '${req.params.acronimo}', '${sponsor}');`,(err,results)=>{
-        if(err) {throw err};
-        res.redirect('');//ancora non so dove
-      
+    //query per contare gli sponsor della conferenza
+    db.query(`call contasponsor('${req.params.anno}','${req.params.acronimo}')`,(err,results)=>{
+        if(results[0]<5){
+            const { importo, sponsor} = req.body;
+            //query per inserire una nuova sponsorizzazione
+            db.query(`call insertsponsorizzazione ('${importo}','${req.params.anno}', '${req.params.acronimo}', '${sponsor}');`,(err,results)=>{
+                if(err) {throw err};
+            });
+        }else{
+            //vengo mandato alla specifica della conferenza
+            res.redirect('/conferenza/'+req.params.acronimo+'/'+req.params.anno);
+        }
     });
-   
+    
 }
 
 exports.segui = (req, res) => {
