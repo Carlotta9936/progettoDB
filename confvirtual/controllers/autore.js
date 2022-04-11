@@ -41,7 +41,6 @@ exports.assegnaAutore=(req,res)=>{
     console.log(listaautori);
     if(listaautori!==undefined){
         if(Array.isArray(listaautori)){
-            //se clicclo su assegna senza aver segnato gli auotori o uno solo va in errore
             listaautori.forEach((autore) => {
                 console.log({ autore });
                 //query che crea crea nuova istanza iscritto

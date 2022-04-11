@@ -118,10 +118,10 @@ exports.controlloDiritti = (req, res, next) => {
 
 exports.update_administrator = (req, res) => {
     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
-    db.query(`call updateAmministratore('${decoded.name}')`);
+    db.query(`call updateAmministratore('${decoded.username}')`);
     
     const payload = {
-        username: decoded.name,
+        username: decoded.username,
         diritti: 'admin'
     };
 

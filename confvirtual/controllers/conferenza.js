@@ -53,16 +53,9 @@ exports.creaProgramma= (req,res)=>{
     }
     res.redirect('/conferenza/nuovaConferenza2-3/'+req.body.acronimo+'/'+req.body.anno);
 }
-//richiamo visualizzazione pre creare sessioni nei vari programmi giornalieri di una conferenza
+//richiamo visualizzazione per creare sessioni nei vari programmi giornalieri di una conferenza
 exports.formSessione = (req, res)=>{
-    //fatto
-    /*db.query(`SELECT * 
-    FROM programma_giornaliero
-     WHERE programma_giornaliero.anno='${req.params.anno}' and programma_giornaliero.acronimo='${req.params.acronimo}';`,(err,results)=>{
-    */
-        console.log(req.params.anno);
-        console.log(req.params.acronimo);
-        db.query(`call selectprogramma ('${req.params.anno}','${req.params.acronimo}');`,(err, results)=>{
+    db.query(`call selectprogramma ('${req.params.anno}','${req.params.acronimo}');`,(err, results)=>{
         if(err) throw err;
         else{
             console.log({results});
@@ -91,55 +84,34 @@ exports.programma = (req,res)=>{
     db.query(`call verificaconferenza('${req.params.anno}','${req.params.acronimo}');`,(err,results)=>{
         if(err) throw err;
         if (results[0].length==0){
-            //console.log(results[0]);
             res.render('conferenzaInesistente',{nome: req.params.acronimo, anno:req.params.anno});
         }else{
-            //fatto
             //vado a prendere le speicifiche con programmi e sessioni si una conferenza
-            /*let sql = `select conferenza.nome as nome, conferenza.acronimo as acronimo, conferenza.anno as anno, conferenza.creatore as creatore, conferenza.datainizio as datainizio, conferenza.datafine as datafine, conferenza.logo as logo, programma_giornaliero.data as data, sessione.link as link, sessione.ora_i as orai, sessione.titolo as titolosessione, sessione.ora_f as oraf, programma_giornaliero.data as data, sessione.id_sessione as sessione
-                from conferenza inner join programma_giornaliero on (conferenza.anno=programma_giornaliero.anno and conferenza.acronimo=programma_giornaliero.acronimo)
-                inner join sessione on( programma_giornaliero.id_programma=sessione.programma)
-                where conferenza.anno= "${req.params.anno}" and conferenza.acronimo="${req.params.acronimo}"`;
-                db.query(sql, function(err, results){*/
-                db.query(`call specificaconferenza('${req.params.anno}','${req.params.acronimo}');`,(err,result)=>{
-                    if(err) throw err;
-                    console.log("ciao"+{result});
-                    //verifica che la conferenza abbia un programma da viasualizzare
-                    if (result[0].length>0){
-                        //query per visulizzare gli sponsor
-                        //fatto
-                       /* let sqlsponsor=`select sponsor.nome
-                        from conferenza, sponsor, sponsorizzazione
-                        where conferenza.svolgimento='attiva' and conferenza.anno= "${req.params.anno}"
-                        and conferenza.acronimo= "${req.params.acronimo}"
-                        and conferenza.anno=sponsorizzazione.annoConf 
-                        and conferenza.acronimo=sponsorizzazione.acronimoConf
-                        and sponsorizzazione.nome_sponsor=sponsor.nome`;
-                        db.query(sqlsponsor, function(err, result){*/
-                        db.query(`call visualizzasponsor('${req.params.anno}','${req.params.acronimo}');`,(err,results)=>{
-                            if(err) throw err;
-                            console.log({results});
-                            res.render('conferenza',{conferenze: result[0], sponsors: results[0]});
+            db.query(`call specificaconferenza('${req.params.anno}','${req.params.acronimo}');`,(err,result)=>{
+                if(err) throw err;
+                console.log("ciao"+{result});
+                //verifica che la conferenza abbia un programma da viasualizzare
+                if (result[0].length>0){
+                    //query per visulizzare gli sponsor
+                    db.query(`call visualizzasponsor('${req.params.anno}','${req.params.acronimo}');`,(err,results)=>{
+                        if(err) throw err;
+                        console.log({results});
+                        res.render('conferenza',{conferenze: result[0], sponsors: results[0]});
 
-                        });
-                            
-                    }
-                    else{
-                        console.log("totta");
-                        res.render('conferenzaVuota',{nome: req.params.acronimo, anno:req.params.anno});
-                    }
-                });
+                    });
+                        
+                }
+                else{
+                    console.log("totta");
+                    res.render('conferenzaVuota',{nome: req.params.acronimo, anno:req.params.anno});
+                }
+            });
         }
     });
 }
 
 //visualizzazione conferenze disponibili
 exports.disponibile=(req,res)=>{
-    //fatto
-    /*let sql = `select conferenza.nome as nome, conferenza.acronimo as acronimo, conferenza.anno as anno, conferenza.datainizio as datainizio, conferenza.datafine as datafine
-                from conferenza
-                where conferenza.svolgimento='attiva'`;
-    db.query(sql, function(err, results,next){*/
     db.query(`call conferenzedisponibili ();`,(err,results)=>{
         if(err) throw err;
         console.log({results});
@@ -159,15 +131,15 @@ exports.formSponsorizzazione=(req,res)=>{
 }
 
 exports.creaSponsorizzazione=(req,res)=>{
+    const { importo, sponsor} = req.body;
+    //query per inserire una nuova sponsorizzazione
+    db.query(`call insertsponsorizzazione ('${importo}','${req.params.anno}', '${req.params.acronimo}', '${sponsor}');`,(err,results)=>{
+        if(err) {throw err};
+    });
     //query per contare gli sponsor della conferenza
     db.query(`call contasponsor('${req.params.anno}','${req.params.acronimo}')`,(err,results)=>{
-        if(results[0]<5){
-            const { importo, sponsor} = req.body;
-            //query per inserire una nuova sponsorizzazione
-            db.query(`call insertsponsorizzazione ('${importo}','${req.params.anno}', '${req.params.acronimo}', '${sponsor}');`,(err,results)=>{
-                if(err) {throw err};
-            });
-        }else{
+        console.log(results[0]);
+        if(results[0][0].num_sponsorizzazioni>=5){
             //vengo mandato alla specifica della conferenza
             res.redirect('/conferenza/'+req.params.acronimo+'/'+req.params.anno);
         }
