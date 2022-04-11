@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
 
 ////    ROUTES PER INDEX, LOGIN, SIGNIN, HOMEPAGE    ///
 
@@ -11,6 +12,8 @@ const conferenza = require ('../controllers/conferenza');
 const sessione= require('../controllers/sessione');
 const presentazione= require('../controllers/presentazione');
 const autore= require('../controllers/autore');
+
+
 
 //INDEX
 router.get('/', index.informazioni);
@@ -50,4 +53,11 @@ router.post('/nuovoPresenter', utenti.update_presenter);
 router.get('/nuovoSpeaker', utenti.controlloDiritti, utenti.form_speaker);
 router.post('/nuovoSpeaker', utenti.update_speaker)
 
+
+router.get('/profilo', (req, res) => {
+  var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET)
+  res.redirect(`/utenti/${decoded.username}`);
+}
+
+)
 module.exports = router;
