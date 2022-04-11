@@ -4,14 +4,18 @@ Creatore di presentazioni	[Carlotta] V
 crea tutorial		    	[Carlotta]
 diventare uno speaker		[Alsi] V
 diventare un presenter		[Alsi] V
-sponsor max 5               [Carlotta]
+sponsor max 5               [Carlotta] V
 presenter sia un autore     [Carlotta]
+conferenza: non deve essere richiesto chi crea la conferenza [Carlotta]
+home dell'admin bottone che faccia creare conferenze         [Alsi]
+conferenza: link alla pagina degli sponsor                   [Carlotta]
 
 #Totale_sponsorizzazioni in automatico 
+come si salvano le foto?
 
 Fare controlli sulle date	[Carlotta/Alsi]:
--data fine dopo data inizio:    conferenzaV, 
--presentazione non deve eccedere da sessione
+- data fine dopo data inizio:    conferenza V, 
+- presentazione non deve eccedere da sessione
 - non si possono avere presentazioni in simultanea nella stessa sessione
 - ordine delle presentazioni
 
