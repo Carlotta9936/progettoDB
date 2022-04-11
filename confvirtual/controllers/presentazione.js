@@ -24,29 +24,35 @@ exports.creaPresentazione = (req,res)=>{
     console.log(req.body);
     let {oraI, oraF, ordine, tipo} = req.body;
     //fatto
+    db.query(`call getSessione('${req.params.sessione}')`, (err, result => {
+        if(err) {throw err;}
+        console.log(result[0]);
+        if(oraF>oraI && oraI>=result.ora_i)
     //db.query(`INSERT INTO presentazione(ora_i, ora_f, ordine, sessione) VALUES ('${oraI}','${oraF}','${ordine}','${sessioneConferenza}');`,(err, results)=>{
-      db.query(`call insertpresentazione('${oraI}','${oraF}','${ordine}','${req.params.sessione}');`,(err,results)=>{
-        if(err){
-            console.log(err);
-        }else{
-            tipo=req.body.tipo;
-            //fattp
-            //query per prendere l'ultima presentazione creata
-            /*let sql=`select max(presentazione.id_presentazione) as presentazione
-                     from presentazione`
-            db.query(sql,function(err, results){*/
-            db.query(`call selezionapresentazione ()`,(err,results)=>{
-                //non funziona
-                if(err){
-                    //console.log(results);
-                    console.log(err);
-                }else{
-                    console.log(results[0]);
-                    res.redirect(tipo+'/'+results[0][0].id);
-                }
-            });
-        }
+            db.query(`call insertpresentazione('${oraI}','${oraF}','${ordine}','${req.params.sessione}');`,(err,results)=>{
+            if(err){
+                console.log(err);
+            }else{
+                tipo=req.body.tipo;
+                //fattp
+                //query per prendere l'ultima presentazione creata
+                /*let sql=`select max(presentazione.id_presentazione) as presentazione
+                        from presentazione`
+                db.query(sql,function(err, results){*/
+                db.query(`call selezionapresentazione ()`,(err,results)=>{
+                    //non funziona
+                    if(err){
+                        //console.log(results);
+                        console.log(err);
+                    }else{
+                        console.log(results[0]);
+                        res.redirect(tipo+'/'+results[0][0].id);
+                    }
+                });
+            }
     })
+    }))
+    
 }
 //view per la creazione di articoli
 exports.formArticolo=(req,res)=>{

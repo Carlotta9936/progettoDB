@@ -4,8 +4,8 @@ const db = require('../connectionDB');
 const jwt = require('jsonwebtoken');
 
 exports.formConferenza = (req, res)=>{
-    console.log(req.cookies.diritti);
-    if(req.cookies.diritti === "Admin"){
+    var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
+    if(decoded.diritti === "Admin"){    //Controllo ruolo dell'utente
         res.render('newconferenza');
     } else {
         res.send("Mi dispiace, per creare una conferenza bisogna essere un amministratore");
@@ -16,14 +16,19 @@ exports.formConferenza = (req, res)=>{
 exports.creaConferenza = (req,res,next)=>{
     console.log(req.body);
     const {acronimo, anno, logo, dataInizio, dataFine, nome, creatore} = req.body;
-    db.query(`call insertconferenza('${acronimo}','${anno}', '${logo}', '${dataInizio}','${dataFine}','${nome}','${creatore}');`,(err,results)=>{
-        if(err) {throw err}
-            else {
-                console.log("ok");
-                //reindirizzamento a creare sessioni
-                next();
-            } 
-    }); 
+    if(dataFine>dataInizio){    //Controllo sulle date
+        console.log("OK");
+        db.query(`call insertconferenza('${acronimo}','${anno}', '${logo}', '${dataInizio}','${dataFine}','${nome}','${creatore}');`,(err,results)=>{
+            if(err) {throw err}
+                else {
+                    console.log("ok");
+                    //reindirizzamento a creare sessioni
+                    next();
+                } 
+        }); 
+    } else {    //Nel caso le date messe non vadano bene allora renderizza la pagina per creare una conferenza
+        res.render('newconferenza');        //Messaggio di errore per le date
+    }
 }
 
 //creazione automatica della tabella programma_giornaliero in base ai giorni della conferenza
@@ -32,7 +37,6 @@ exports.creaProgramma= (req,res)=>{
     secondDate = new Date(req.body.dataFine),
     timeDifference = Math.abs(secondDate.getTime() - firstDate.getTime());
     let differentDays = Math.ceil(timeDifference / (1000 * 3600 * 24) + 1);
-    //console.log(differentDays);
     for(let i=0;i<differentDays;i++){
 
         let data= new Date(firstDate.getTime()+((1000 * 3600 * 24)*i)).toISOString().slice(0,19).replace('T', ' ');
@@ -62,6 +66,7 @@ exports.formSessione = (req, res)=>{
         }
     });
 }
+
 //creo le sessioni
 exports.creaSessione = (req,res)=>{
     console.log(req.body);
@@ -74,8 +79,6 @@ exports.creaSessione = (req,res)=>{
         }
     })
 }
-
-
 
 //visualizzazione specifica di una conferenza
 exports.programma = (req,res)=>{
