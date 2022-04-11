@@ -4,19 +4,18 @@ const db = require('../connectionDB');
 
 
 exports.formSponsor = (req,res)=>{
-    res.render('newsponsor');
+    res.render('newsponsor',{acronimo: req.params.acronimo,anno: req.params.anno});
 }
 
 exports.creaSponsor = (req,res)=>{
     console.log(req.body);
     const{nome, logo}= req.body;
-
-    //db.query(`INSERT INTO sponsor(nome, logo) VALUES ('${nome}', '${logo}');`,(err, results)=>{
+    //query per creare nuovi sponsor
     db.query(`call insertsponsor ('${nome}', '${logo}')`,(err,results)=>{ 
         if(err){
             console.log(err);
         }else{
             console.log('ok');
         }
-    })
+    });
 }

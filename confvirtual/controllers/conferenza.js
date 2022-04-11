@@ -140,27 +140,21 @@ exports.disponibile=(req,res)=>{
 }
 //visualizzazioni per inserire un nuova sponsorizazione ad una conferenza
 exports.formSponsorizzazione=(req,res)=>{
-    //fatto
-    /*let sql = `select sponsor.nome as nome
-                from sponsor`;
-    db.query(sql, function(err, results){*/
+    //query per visulizzare tutti gli sponsor
     db.query(`call nomesponsor();`,(err,results)=>{
         if(err) throw err;
         console.log({results});
         res.render('newsponsorizzazione', {acronimo: req.params.acronimo, anno: req.params.anno, sponsor: results[0]});
     });
 }
-let conta=0;
+
 exports.creaSponsorizzazione=(req,res)=>{
-    conta++; //dubbi che questo funzioni
     const { importo, sponsor} = req.body;
-    //fatto
-    //db.query(`INSERT INTO sponsorizzazione(importo, annoConf, acronimoConf, nome_sponsor) VALUES ('${importo}','${req.params.anno}', '${req.params.acronimo}', '${sponsor}');`,(err, results)=>{
+    //query per inserire una nuova sponsorizzazione
     db.query(`call insertsponsorizzazione ('${importo}','${req.params.anno}', '${req.params.acronimo}', '${sponsor}');`,(err,results)=>{
         if(err) {throw err};
-        if (conta>5){ //forti dubbi ancora
-            res.redirect('');//ancora non so dove
-        }
+        res.redirect('');//ancora non so dove
+      
     });
    
 }

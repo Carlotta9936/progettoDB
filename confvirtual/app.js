@@ -26,6 +26,7 @@ var usersRouter = require('./routes/users');
 var conferenzaRouter = require('./routes/conferenza');
 var presentazioneRouter= require('./routes/presentazione');
 var autoreRouter= require('./routes/autore');
+var sponsorRouter =require ('./routes/sponsor');
 
 
 //Indirizzamento
@@ -34,6 +35,7 @@ app.use('/utenti', usersRouter);
 app.use('/conferenza',conferenzaRouter);
 app.use('/presentazione',presentazioneRouter);
 app.use('/autore',autoreRouter);
+app.use('/sponsor',sponsorRouter);
 // ⇩ secondo me non servono
 /*app.use('/sponsor',require('./routes/sponsor'));
 app.use('/sponsorizzazione',require('./routes/sponsorizzazione'));

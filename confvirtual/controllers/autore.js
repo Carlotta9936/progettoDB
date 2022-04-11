@@ -41,7 +41,6 @@ exports.assegnaAutore=(req,res)=>{
     console.log(listaautori);
     if(listaautori!==undefined){
         if(Array.isArray(listaautori)){
-            console.log("totta ti amo");
             //se clicclo su assegna senza aver segnato gli auotori o uno solo va in errore
             listaautori.forEach((autore) => {
                 console.log({ autore });
@@ -54,7 +53,7 @@ exports.assegnaAutore=(req,res)=>{
                     }
                 });
             });
-        }else{
+        }else{//caso in cui sia solo uno l'autore
             db.query(`call insertscritto ('${listaautori}', '${req.params.id_articolo}')`,(err,results)=>{  
                 if(err){
                     console.log(err);
