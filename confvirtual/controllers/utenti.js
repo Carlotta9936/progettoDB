@@ -47,7 +47,8 @@ exports.login = (req, res, next) => {
     db.query(`call autenticazione('${name}', '${password}'); call controlloRuoli('${name}')`, (err, results) => {
         if(err) {console.log(err); }       
         if(results[0].length>0){    //user e password combaciano
-            if(results[1] === undefined) {
+            console.log(results[1]);
+            if(results[1].length==0) {
                 console.log("mmmmh" + results[0][1]);
                 ruolo = "Utente";
             } else {
@@ -117,11 +118,11 @@ exports.controlloDiritti = (req, res, next) => {
 }
 
 exports.update_administrator = (req, res) => {
-    var decoded = jwt.verify(req.cookie.token, process.env.ACCESS_TOKEN_SECRET);
-    db.query(`call updateAmministratore('${decoded.name}')`);
+    var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
+    db.query(`call updateAmministratore('${decoded.username}')`);
     
     const payload = {
-        username: decoded.name,
+        username: decoded.username,
         diritti: 'admin'
     };
 
