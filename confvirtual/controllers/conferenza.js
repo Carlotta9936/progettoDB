@@ -4,7 +4,12 @@ const db = require('../connectionDB');
 const jwt = require('jsonwebtoken');
 
 exports.formConferenza = (req, res)=>{
-    res.render('newconferenza');
+    console.log(req.cookies.diritti);
+    if(req.cookies.diritti === "Admin"){
+        res.render('newconferenza');
+    } else {
+        res.send("Mi dispiace, per creare una conferenza bisogna essere un amministratore");
+    }
 }
 //creo una nuova conferenza
 //fatto
@@ -19,8 +24,6 @@ exports.creaConferenza = (req,res,next)=>{
                 next();
             } 
     }); 
-        
-    
 }
 
 //creazione automatica della tabella programma_giornaliero in base ai giorni della conferenza
