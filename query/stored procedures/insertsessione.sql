@@ -1,7 +1,6 @@
 DELIMITER $$
 
-CREATE PROCEDURE `insertsegui`(in anno year(4),in  acronimo varchar (10),in  iscrizione_username varchar(45))
+CREATE PROCEDURE `insertsessione`(in ora_f time,in ora_i time ,in titolo varchar(100), in link varchar (50), in programma int)
 BEGIN
-	
-    INSERT INTO iscrizione (iscrizione_anno, iscrizione_acronimo, iscrizione_username) VALUES (anno, acronimo, iscrizione.username);
+	INSERT INTO sessione(ora_f, ora_i, titolo, link, programma) VALUES (ora_f, ora_i, titolo, link, programma);
 END$$
