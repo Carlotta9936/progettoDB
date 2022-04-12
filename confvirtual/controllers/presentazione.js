@@ -41,7 +41,7 @@ exports.creaPresentazione = (req,res)=>{
             });
         }
     })
-    }))
+    })
     
 }
 //view per la creazione di articoli
