@@ -25,25 +25,27 @@ exports.creaPresentazione = (req,res)=>{
             console.log("non va bene")
         }
         db.query(`call insertpresentazione('${oraI}','${oraF}','${ordine}','${req.params.sessione}');`,(err,results)=>{
-        if(err){
-            console.log(err);
-        
-            tipo=req.body.tipo;
-            //query per prendere l'ultima presentazione creata
-            db.query(`call selezionapresentazione ()`,(err,results)=>{
-                if(err){
-                    //console.log(results);
-                    console.log(err);
-                }else{
-                    console.log(results[0]);
-                    res.redirect(tipo+'/'+results[0][0].id);
-                }
-            });
-        }
-    })
-    })
-    
+            if(err){
+                console.log(err);
+            }else{
+                console.log("ok");
+
+                tipo=req.body.tipo;
+                //query per prendere l'ultima presentazione creata
+                db.query(`call selezionapresentazione ()`,(err,results)=>{
+                    if(err){
+                        //console.log(results);
+                        console.log(err);
+                    }else{
+                        console.log(results[0]);
+                        res.redirect(tipo+'/'+results[0][0].id);
+                    }
+                });
+            }
+        });
+    });
 }
+
 //view per la creazione di articoli
 exports.formArticolo=(req,res)=>{
     console.log(req.params.id_articolo);
@@ -83,10 +85,9 @@ exports.creaParoleChiave=(req,res)=>{
     let {parole}= req.body;
     parole=parole.toLowerCase();
     //query per inserire una parola
-    db.query(`call insertparola ('${parole}','${req.params.articolo}')`,(err,results)=>{
-        if(err){
-            console.log(err);
-        }
+    db.query(`call insertparola ('${parole}','${req.params.id_articolo}')`,(err,results)=>{
+        if(err){throw err;}
+ 
     });
 }
 
