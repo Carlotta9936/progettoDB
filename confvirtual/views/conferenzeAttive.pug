@@ -1,5 +1,9 @@
-h4= "Conferenze disponibili"
-each conferenza in conferenze
-    - var url= '/conferenza/'+ conferenza.acronimo + '/'+ conferenza.anno;
-    h5
-        a(href= url) #{conferenza.acronimo} #{conferenza.anno} #{conferenza.nome} #{conferenza.datainizio} #{conferenza.datafine}
+extends layout 
+
+block content
+
+    h4= "Conferenze disponibili"
+    each conferenza in conferenze
+        - var url= '/conferenza/'+ conferenza.acronimo + '/'+ conferenza.anno;
+        h5
+            a(href= url) #{conferenza.acronimo} #{conferenza.anno} #{conferenza.nome} #{conferenza.datainizio} #{conferenza.datafine}

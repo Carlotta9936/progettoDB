@@ -73,7 +73,7 @@ exports.creaSessione = (req,res)=>{
    // db.query(`INSERT INTO sessione(ora_f, ora_i, titolo, link, num_presentazioni, programma) VALUES ('${oraF}','${oraI}','${titolo}','${link}','${num}','${req.params.programma}');`,(err, results)=>{
     db.query(`call insertsessione ('${oraF}','${oraI}','${titolo}','${link}','${req.params.programma}');`,(err, results)=>{
         if(err){
-            console.log(err);
+            //console.log(err);
         }
     })
 }

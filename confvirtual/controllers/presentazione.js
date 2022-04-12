@@ -19,23 +19,27 @@ exports.creaPresentazione = (req,res)=>{
     db.query(`call getSessione('${req.params.sessione}')`, (err, result => {
         if(err) {throw err;}
         console.log(result[0]);
-        if(oraF>oraI && oraI>=result.ora_i)
-            db.query(`call insertpresentazione('${oraI}','${oraF}','${ordine}','${req.params.sessione}');`,(err,results)=>{
-            if(err){
-                console.log(err);
-            }else{
-                tipo=req.body.tipo;
-                //query per prendere l'ultima presentazione creata
-                db.query(`call selezionapresentazione ()`,(err,results)=>{
-                    if(err){
-                        //console.log(results);
-                        console.log(err);
-                    }else{
-                        console.log(results[0]);
-                        res.redirect(tipo+'/'+results[0][0].id);
-                    }
-                });
-            }
+        if(oraF>oraI && oraI>=result.ora_i){
+            console.log("VA bene");
+        }else{
+            console.log("non va bene")
+        }
+        db.query(`call insertpresentazione('${oraI}','${oraF}','${ordine}','${req.params.sessione}');`,(err,results)=>{
+        if(err){
+            console.log(err);
+        
+            tipo=req.body.tipo;
+            //query per prendere l'ultima presentazione creata
+            db.query(`call selezionapresentazione ()`,(err,results)=>{
+                if(err){
+                    //console.log(results);
+                    console.log(err);
+                }else{
+                    console.log(results[0]);
+                    res.redirect(tipo+'/'+results[0][0].id);
+                }
+            });
+        }
     })
     }))
     
