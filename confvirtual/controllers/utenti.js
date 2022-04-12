@@ -48,10 +48,8 @@ exports.login = (req, res, next) => {
         if(err) {console.log(err); }       
         if(results[0].length>0){    //user e password combaciano
             if(results[1].length === 0) {
-                console.log("mmmmh" + results[0][1]);
                 ruolo = "Utente";
             } else {
-                console.log("Cazzo ci fa qua?");
                 ruolo = results[1][0].ruolo
             }
 
