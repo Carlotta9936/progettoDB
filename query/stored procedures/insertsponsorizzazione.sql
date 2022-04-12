@@ -1,6 +1,7 @@
 DELIMITER $$
 
-CREATE PROCEDURE `insertsponsor`(in nome varchar (50), in logo varchar (30))
+CREATE PROCEDURE `insertsponsorizzazione`(in importo float(8,2),in annoConf int,in acronimoConf varchar(10),in nome_sponsor varchar(50))
 BEGIN
-    INSERT INTO sponsor(nome, logo) VALUES (nome , logo);
+	
+    INSERT INTO sponsorizzazione(importo, annoConf, acronimoConf, nome_sponsor) VALUES (importo, annoConf, acronimoConf, nome_sponsor);
 END$$

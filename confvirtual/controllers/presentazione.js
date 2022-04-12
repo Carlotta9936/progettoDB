@@ -16,10 +16,10 @@ exports.formPresentazione = (req, res)=>{
 exports.creaPresentazione = (req,res)=>{
     console.log(req.body);
     let {oraI, oraF, ordine, tipo} = req.body;
-    db.query(`call getSessione('${req.params.sessione}')`, (err, result => {
+    db.query(`call getSessione('${req.params.sessione}')`, (err, result) => {
         if(err) {throw err;}
         console.log(result[0]);
-        if(oraF>oraI && oraI>=result.ora_i)
+        //if(oraF>oraI && oraI>=result.ora_i)
             db.query(`call insertpresentazione('${oraI}','${oraF}','${ordine}','${req.params.sessione}');`,(err,results)=>{
             if(err){
                 console.log(err);
@@ -36,8 +36,8 @@ exports.creaPresentazione = (req,res)=>{
                     }
                 });
             }
-    })
-    }))
+    });
+    });
     
 }
 //view per la creazione di articoli
@@ -70,6 +70,22 @@ exports.creaArticolo=(req,res)=>{
         }
     });
 }
+
+exports.formParoleChiave=(req,res)=>{
+    res.render('newParole',{articolo: req.params.id_articolo});
+}
+
+exports.creaParoleChiave=(req,res)=>{
+    let {parole}= req.body;
+    parole=parole.toLowerCase();
+    //query per inserire una parola
+    db.query(`call insertparola ('${parole}','${req.params.articolo}')`,(err,results)=>{
+        if(err){
+            console.log(err);
+        }
+    });
+}
+
 
 exports.formTutorial=(req,res)=>{
     res.render('newtutorial');
