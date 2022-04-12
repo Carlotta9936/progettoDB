@@ -2,21 +2,23 @@ extends layout
 
 block content
     h1= "Presentazioni a cui sei iscritto"
-    table
-        tr
-            th Acronimo
-            th Anno
-            th Nome
-            th data inizio
-            th data fine
-        each conferenza in conferenze
+    table.table
+        thead
             tr
+            th(scope='col') Acronimo
+            th(scope='col') Anno
+            th(scope='col') Nome
+            th(scope='col') data inizio
+            th(scope='col') data fine
+        tbody
+            each conferenza in conferenze
+                tr
                 td= conferenza.acronimo
                 td= conferenza.anno
                 td= conferenza.nome
                 td= conferenza.datainizio
                 td= conferenza.datafine
-
+                
     h2= "Classifiche"
     h4= "Migliori presentazioni per numero di like"
     table
