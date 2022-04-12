@@ -6,9 +6,10 @@ diventare uno speaker		[Alsi] V
 diventare un presenter		[Alsi] V
 sponsor max 5               [Carlotta] V
 presenter sia un autore     [Carlotta]
+aggiungere attributo a presenter: id-autore                  [Carlotta]
 conferenza: non deve essere richiesto chi crea la conferenza [Alsi]
 home dell'admin bottone che faccia creare conferenze         [Alsi]
-conferenza: link alla pagina degli sponsor                   [Carlotta]
+conferenza: link alla pagina degli sponsor                   [Alsi/Carlotta]
 
 #Totale_sponsorizzazioni in automatico 
 come si salvano le foto?
