@@ -14,7 +14,6 @@ exports.formConferenza = (req, res)=>{
     }
 }
 //creo una nuova conferenza
-//fatto
 exports.creaConferenza = (req,res,next)=>{
     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
     const {acronimo, anno, logo, dataInizio, dataFine, nome, creatore} = req.body;
@@ -43,8 +42,7 @@ exports.creaProgramma= (req,res)=>{
 
         let data= new Date(firstDate.getTime()+((1000 * 3600 * 24)*i)).toISOString().slice(0,19).replace('T', ' ');
         console.log(data);
-        //fatto
-        //db.query(`INSERT INTO programma_giornaliero(acronimo, anno, data) VALUES ('${req.body.acronimo}','${req.body.anno}', '${data}');`,(err, results)=>{
+        //query per inserire un nuovo programma giornaliero
         db.query(`call insertprogramma('${req.body.acronimo}','${req.body.anno}', '${data}');`,(err, results)=>{  
             if(err) {throw err}
             else {
@@ -69,8 +67,7 @@ exports.formSessione = (req, res)=>{
 exports.creaSessione = (req,res)=>{
     console.log(req.body);
     const {oraI, oraF, titolo, link} = req.body;
-    //fatto
-   // db.query(`INSERT INTO sessione(ora_f, ora_i, titolo, link, num_presentazioni, programma) VALUES ('${oraF}','${oraI}','${titolo}','${link}','${num}','${req.params.programma}');`,(err, results)=>{
+    //query per inserire una nuova sessione
     db.query(`call insertsessione ('${oraF}','${oraI}','${titolo}','${link}','${req.params.programma}');`,(err, results)=>{
         if(err){
             //console.log(err);
