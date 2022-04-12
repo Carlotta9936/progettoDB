@@ -28,7 +28,7 @@ exports.signin = (req, res, next) => {
                 //console.log(results);
                 const payload = {
                     username: username,
-                    diritti: 'user'
+                    diritti: 'Utente'
                 };
     
                 token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
@@ -47,8 +47,7 @@ exports.login = (req, res, next) => {
     db.query(`call autenticazione('${name}', '${password}'); call controlloRuoli('${name}')`, (err, results) => {
         if(err) {console.log(err); }       
         if(results[0].length>0){    //user e password combaciano
-            console.log(results[1]);
-            if(results[1].length==0) {
+            if(results[1].length === 0) {
                 console.log("mmmmh" + results[0][1]);
                 ruolo = "Utente";
             } else {
@@ -127,6 +126,7 @@ exports.update_administrator = (req, res) => {
     };
 
     token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
+    res.cookie('token', token);
     res.render('profile', {user: decoded.username, ruolo: decoded.diritti});
 } 
 
@@ -151,6 +151,7 @@ exports.update_presenter = (req, res) => {
     };
 
     token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
+    res.cookie('token', token);
     res.render('profile', {user: decoded.username, ruolo: decoded.diritti});
 }
 
@@ -168,5 +169,6 @@ exports.update_speaker= (req, res) => {
     };
 
     token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
+    res.cookie('token', token);
     res.render('profile', {user: decoded.username, ruolo: decoded.diritti});
 }

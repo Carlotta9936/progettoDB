@@ -2,6 +2,8 @@ const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
 const db = require('../connectionDB');
 const jwt = require('jsonwebtoken');
+const controlloDate = require('../modules/controlloDate');
+const { DateTime } = require('luxon');
 
 exports.formConferenza = (req, res)=>{
     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
@@ -14,11 +16,11 @@ exports.formConferenza = (req, res)=>{
 //creo una nuova conferenza
 //fatto
 exports.creaConferenza = (req,res,next)=>{
-    console.log(req.body);
+    var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
     const {acronimo, anno, logo, dataInizio, dataFine, nome, creatore} = req.body;
-    if(dataFine>dataInizio){    //Controllo sulle date
+    if(controlloDate.controlloDate(dataInizio, dataFine)){    //Controllo sulle date
         console.log("OK");
-        db.query(`call insertconferenza('${acronimo}','${anno}', '${logo}', '${dataInizio}','${dataFine}','${nome}','${creatore}');`,(err,results)=>{
+        db.query(`call insertconferenza('${acronimo}','${anno}', '${logo}', '${dataInizio}','${dataFine}','${nome}','${decoded.username}');`,(err,results)=>{
             if(err) {throw err}
                 else {
                     console.log("ok");
@@ -113,7 +115,11 @@ exports.programma = (req,res)=>{
 exports.disponibile=(req,res)=>{
     db.query(`call conferenzedisponibili ();`,(err,results)=>{
         if(err) throw err;
-        console.log({results});
+        console.log(results[0]);
+        for(var i = 0; i < results[0].length; i++){
+            results[0][i].datainizio = DateTime.fromJSDate(results[0][i].datainizio).toLocaleString(DateTime.DATE_MED);
+            results[0][i].datafine = DateTime.fromJSDate(results[0][i].datafine).toLocaleString(DateTime.DATE_MED);
+        }
 
         res.render('conferenzeAttive',{conferenze: results[0] });
     });
