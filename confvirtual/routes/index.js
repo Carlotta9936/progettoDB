@@ -70,7 +70,7 @@ router.post('/nuovoAdmin', utenti.controlloDiritti, utenti.update_administrator)
 router.get('/nuovoPresenter', utenti.controlloDiritti, utenti.form_presenter);
 router.post('/nuovoPresenter', upload.fields([{ name : 'image'}, {name : 'cv'}]), utenti.update_presenter);
 router.get('/nuovoSpeaker', utenti.controlloDiritti, utenti.form_speaker);
-router.post('/nuovoSpeaker', utenti.update_speaker)
+router.post('/nuovoSpeaker', upload.fields([{ name : 'image'}, {name : 'cv'}]), utenti.update_speaker)
 
 
 router.get('/profilo', (req, res) => {

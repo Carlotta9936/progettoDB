@@ -47,6 +47,8 @@ exports.login = (req, res, next) => {
     const { name, password } = req.body;
     var ruolo;
     db.query(`call autenticazione('${name}', '${password}'); call controlloRuoli('${name}')`, (err, results) => {
+        console.log(name);
+        console.log(password);
         if(err) {console.log(err); }       
         if(results[0].length>0){    //user e password combaciano
             if(results[1].length === 0) {
@@ -142,8 +144,6 @@ exports.update_presenter = (req, res) => {
     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
     const {uni, dipartimento} = req.body;
     var files = req.files;
-    //const image = req.file.filename;
-    console.log(files.image)
 
     //const {name, img} = req.files.image;
     db.query(`call updatePresenter ('${decoded.username}', '${uni}','${dipartimento}', '${files.image[0].filename}', '${files.cv[0].filename}')`, (err, results) => {
@@ -183,7 +183,9 @@ exports.update_presenter = (req, res) => {
 exports.update_speaker= (req, res) => {
     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
     const {uni, dipartimento} = req.body;
-    db.query(`call updateSpeaker ('${decoded.username}', '${uni}','${dipartimento}')`, (err, results) => {
+    var files = req.files;
+    console.debug(req)
+    db.query(`call updateSpeaker ('${decoded.username}', '${uni}','${dipartimento}', '${files.image[0].filename}', '${files.cv[0].filename}')`, (err, results) => {
         if(err) { throw err;} 
         
     });
@@ -195,5 +197,5 @@ exports.update_speaker= (req, res) => {
 
     token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
     res.cookie('token', token);
-    res.render('profile', {user: decoded.username, ruolo: decoded.diritti});
+    res.redirect('/profilo');
 }
