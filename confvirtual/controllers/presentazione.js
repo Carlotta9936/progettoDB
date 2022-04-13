@@ -67,8 +67,12 @@ exports.creaArticolo=(req,res)=>{
                     if(results.length==0){
                         res.render('newautore',{titolo: titolo, articolo: req.params.id_articolo})
                     }else{
-                        console.log(req.params.id_articolo);
-                        res.render('assegnaAutori',{titolo: titolo, autori: results[0], articolo: req.params.id_articolo})
+                        //console.log(req.params.id_articolo);
+                        //query per prendere autori che siano anche presenter
+                        db.query(`call visualizzaautoripresenter ()`,(err,result)=>{
+                            if(err) {throw err;}
+                            res.render('assegnaAutori',{titolo: titolo, autori: results[0], articolo: req.params.id_articolo, presenter: result[0]})
+                        });
                     }
                 }
             });

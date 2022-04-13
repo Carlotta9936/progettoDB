@@ -7,3 +7,6 @@ block content
         - var url= '/conferenza/'+ conferenza.acronimo + '/'+ conferenza.anno;
         h5
             a(href= url) #{conferenza.acronimo} #{conferenza.anno} #{conferenza.nome} #{conferenza.datainizio} #{conferenza.datafine}
+
+    form(action='/conferenza/nuovaConferenza1-3' method='GET')
+      button.btn.btn-primary(type='submit') Nuova conferenza

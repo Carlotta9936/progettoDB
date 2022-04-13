@@ -15,6 +15,14 @@ form(action='/autore/assegnaAutore/'+ articolo method='POST')
             name= 'listaautori'
             value= autore.id_autore
         )
+    label(for='autore') Selezionare gli autori/presenter dell'articolo:
+      for presenters in presenter
+        label= presenters.nome
+        input(
+            type= 'checkbox'
+            name= 'listaautori'
+            value= presenters.id_autore
+        )
   button.btn.btn-primary(type='submit') Assegna
 h3= 'se non trovi gli autori che desideri clicca su questo bottone:'
 form(action='/autore/nuovoAutore/'+ articolo method='GET')

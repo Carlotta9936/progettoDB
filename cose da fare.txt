@@ -5,17 +5,20 @@ crea tutorial		    	[Carlotta] V
 diventare uno speaker		[Alsi] V
 diventare un presenter		[Alsi] V
 sponsor max 5               [Carlotta] V
-presenter sia un autore     [Carlotta]
-aggiungere attributo a presenter: id-autore                  [Carlotta]
+presenter sia un autore     [Carlotta] V
+controllo se non si seleziona un autore/presenter            [Carlotta/Alsi]
+aggiungere attributo a presenter: id-autore                  [Carlotta]V
 conferenza: non deve essere richiesto chi crea la conferenza [Alsi]
-home dell'admin bottone che faccia creare conferenze         [Alsi]
+logo in conferenza deve essere un caricamento di un'immagine [Alsi]
+home dell'admin bottone che faccia creare conferenze         [Carlotta]V
 conferenza: link alla pagina degli sponsor                   [Alsi/Carlotta]
+pdf di articolo deve essere il caricamento di un pdf         [Alsi]
 
 #Totale_sponsorizzazioni in automatico                       [Carlotta]V
-come si salvano le foto?
+IL PROGRAMMA NON DEVE CRASHARE SE CI SONO PROBLEMI DI DUPLICATI MA INFORMARTI  [Alsi/CArlotta]
 
 Fare controlli sulle date	[Carlotta/Alsi]:
-- data fine dopo data inizio:    conferenza V, 
+- data fine dopo data inizio:    conferenza V
 - presentazione non deve eccedere da sessione
 - non si possono avere presentazioni in simultanea nella stessa sessione
 - ordine delle presentazioni
@@ -34,8 +37,8 @@ Grafica				[Carlotta/Alsi]		14/04
 
 Risorse aggiutive 		[Carlotta]
 controllare solo speaker possano mettere risorse aggiuntive [Alsi]
-aggiungere foto e cv	[Alsi]
-parole chiave           [Carlotta]	V
+aggiungere foto e cv	[Alsi]V
+parole chiave           [Carlotta]V
 
 
 Chat				[Carlotta]
