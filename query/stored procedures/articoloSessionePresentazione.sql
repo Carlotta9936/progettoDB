@@ -9,5 +9,3 @@ BEGIN
 	from tutorial, sessione, presentazione
 	where presentazione.sessione=sessione.id_sessione and sessione.id_sessione= id_sessione and tutorial.id_tutorial=presentazione.id_presentazione);
 END$$
-
-DELIMITER ;

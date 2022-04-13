@@ -34,7 +34,7 @@ exports.specificaSessione=(req,res)=>{
         }else{
             db.query(`call articoloSessionePresentazione("${req.params.id_sessione}")`, function(err,results){
                 if(err) throw err;
-                console.log(results[0][0].oraf);
+                console.log(results[0]);
                 res.render('sessione',{presentazioni: results[0], sessione: req.params.id_sessione});
 
             });

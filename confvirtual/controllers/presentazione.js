@@ -25,25 +25,27 @@ exports.creaPresentazione = (req,res)=>{
             console.log("non va bene")
         }
         db.query(`call insertpresentazione('${oraI}','${oraF}','${ordine}','${req.params.sessione}');`,(err,results)=>{
-        if(err){
-            console.log(err);
-        
-            tipo=req.body.tipo;
-            //query per prendere l'ultima presentazione creata
-            db.query(`call selezionapresentazione ()`,(err,results)=>{
-                if(err){
-                    //console.log(results);
-                    console.log(err);
-                }else{
-                    console.log(results[0]);
-                    res.redirect(tipo+'/'+results[0][0].id);
-                }
-            });
-        }
-    })
-    })
-    
+            if(err){
+                console.log(err);
+            }else{
+                console.log("ok");
+
+                tipo=req.body.tipo;
+                //query per prendere l'ultima presentazione creata
+                db.query(`call selezionapresentazione ()`,(err,results)=>{
+                    if(err){
+                        //console.log(results);
+                        console.log(err);
+                    }else{
+                        console.log(results[0]);
+                        res.redirect(tipo+'/'+results[0][0].id);
+                    }
+                });
+            }
+        });
+    });
 }
+
 //view per la creazione di articoli
 exports.formArticolo=(req,res)=>{
     console.log(req.params.id_articolo);
@@ -53,7 +55,6 @@ exports.formArticolo=(req,res)=>{
 //creao articolo senza l'assegnazione del presenter
 exports.creaArticolo=(req,res)=>{
     const {PDF, pagine, titolo}= req.body;
-    console.log('we'+req.params.id_articolo);
     db.query(`call insertarticolo ('${req.params.id_articolo}','${PDF}','${pagine}','${titolo}')`,(err,results)=>{
         if(err){
             console.log(err);
@@ -75,6 +76,60 @@ exports.creaArticolo=(req,res)=>{
     });
 }
 
+//view per la creazione di articoli
+exports.formTutorial=(req,res)=>{
+    console.log(req.params.id_tutorial);
+    res.render('newtutorial',{tutorial: req.params.id_tutorial});
+}
+
+//creo tutorial
+exports.creaTutorial=(req,res)=>{
+    const {titolo, abstract}= req.body;
+    //query per inserire il tutorial
+    db.query(`call inserttutorial('${req.params.id_tutorial}','${titolo}','${abstract}')`,(err,results)=>{
+        if (err){throw(err)};
+        //query controllare ci siano degli speaker
+        db.query(`call verificaspeaker()`,(err,results)=>{
+            if (err){throw(err)};
+            if(results.length==0){
+                res.render('errorspeaker');
+            }else{
+                res.render('associaspeaker',{speaker: results[0], tutorial: req.params.id_tutorial});
+            }
+        });
+    });
+}
+
+exports.associaSpeaker=(req,res)=>{
+    //query per associare tutti gli speaker al tutorial creato
+    const {listaspeaker}=req.body;
+    if(listaspeaker!==undefined){
+        if(Array.isArray(listaspeaker)){
+            listaspeaker.forEach((speaker)=>{
+                db.query(`call insertpresenta ('${speaker}', '${req.params.id_tutorial}')`,(err,results)=>{  
+                    if(err){
+                        console.log(err);
+                    }else{
+                        console.log('ok');
+                    }
+                });
+            })
+        }else{//caso in cui sia solo uno speaker
+            db.query(`call insertpresenta ('${listaspeaker}', '${req.params.id_tutorial}')`,(err,results)=>{  
+                if(err){
+                    console.log(err);
+                }else{
+                    console.log('ok');
+                }
+            });
+        }
+    }else{
+        console.log("ok");
+        res.render("errorspeaker");
+    }
+}
+
+
 exports.formParoleChiave=(req,res)=>{
     res.render('newParole',{articolo: req.params.id_articolo});
 }
@@ -83,25 +138,10 @@ exports.creaParoleChiave=(req,res)=>{
     let {parole}= req.body;
     parole=parole.toLowerCase();
     //query per inserire una parola
-    db.query(`call insertparola ('${parole}','${req.params.articolo}')`,(err,results)=>{
-        if(err){
-            console.log(err);
-        }
+    db.query(`call insertparola ('${parole}','${req.params.id_articolo}')`,(err,results)=>{
+        if(err){throw err;}
+ 
     });
 }
 
-
-exports.formTutorial=(req,res)=>{
-    res.render('newtutorial');
-
-}
-
-exports.creaTutorial=(req,res)=>{
-    res.render('newtutorial');
-
-}
-
-/*exports.assegnaAutori=(req,res)=>{
-    res.render('index');
-}*/
 
