@@ -147,16 +147,32 @@ exports.update_presenter = (req, res) => {
     //const {name, img} = req.files.image;
     db.query(`call updatePresenter ('${decoded.username}', '${uni}','${dipartimento}', '${image}')`, (err, results) => {
         if(err) { throw err;} 
-    });
-    //riaggiorna il token
-    const payload = {
-        username: decoded.username,
-        diritti: 'presenter'
-    };
+        //query che prende id del nuovo presenter
+        db.query(`call selectpresenter ()`,(err,result)=>{
+            if(err) { throw err;} 
+            var idpresenter=1000+result[0].id;
+            var username= result[0].username;
+            //query che prende i dati utente del presenter
+            db.query(`call selectutente ('${username}')`,(err,results)=>{
+                if(err) { throw err;} 
+                var nome=results[0].nome;
+                var cognome=results[0].cognome;
+                //query va inserire il presenter tra gli autori
+                db.query(`call auotorepresenter('${idpresenter}', '${nome}','${cognome}')`,(err,results)=>{
+                    if(err) { throw err;} 
+                    //riaggiorna il token
+                    const payload = {
+                        username: decoded.username,
+                        diritti: 'presenter'
+                    };
 
-    token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
-    res.cookie('token', token);
-    //res.render('profile', {user: decoded.username, ruolo: decoded.diritti});
+                    token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
+                    res.cookie('token', token);
+                    //res.render('profile', {user: decoded.username, ruolo: decoded.diritti});
+                });
+            });
+        });
+    });
 }
 
 exports.update_speaker= (req, res) => {
