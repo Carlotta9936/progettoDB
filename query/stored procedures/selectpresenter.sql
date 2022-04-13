@@ -1,6 +1,8 @@
 DELIMITER $$
-CREATE PROCEDURE `selectpresenter` ()
+CREATE PROCEDURE `selectpresenter`()
 BEGIN
-	select max(id_presenter) as id, username
-    from presenter;
+	select massimo, usernamePresenter
+    from presenter, maxid_presenter
+    where massimo=id_presenter;
+    
 END$$

@@ -151,15 +151,19 @@ exports.update_presenter = (req, res) => {
         //query che prende id del nuovo presenter
         db.query(`call selectpresenter ()`,(err,result)=>{
             if(err) { throw err;} 
-            var idpresenter=1000+result[0].id;
-            var username= result[0].username;
+            console.log(result[0]);
+            var id=parseInt(result[0][0].massimo);
+            id=1000+id;
+            var username= result[0][0].usernamePresenter;
+
             //query che prende i dati utente del presenter
             db.query(`call selectutente ('${username}')`,(err,results)=>{
                 if(err) { throw err;} 
-                var nome=results[0].nome;
-                var cognome=results[0].cognome;
+                console.log(results[0]);
+                var nome=results[0][0].nome;
+                var cognome=results[0][0].cognome;
                 //query va inserire il presenter tra gli autori
-                db.query(`call auotorepresenter('${idpresenter}', '${nome}','${cognome}')`,(err,results)=>{
+                db.query(`call autorepresenter('${id}', '${nome}','${cognome}')`,(err,results)=>{
                     if(err) { throw err;} 
                     //riaggiorna il token
                     const payload = {

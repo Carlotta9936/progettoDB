@@ -10,5 +10,3 @@ BEGIN
     where usernameSpeaker = username);
     
 END$$
-
-DELIMITER ;
