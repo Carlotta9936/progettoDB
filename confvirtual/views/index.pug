@@ -7,32 +7,39 @@ head
   link(
     href='/stylesheets/style.css', 
     rel='stylesheet')
+  nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+    .container-fluid
+        img.d-inline-block.align-text-top(src='/img/logo.jpg' alt='' width='25' height='20')
+        |             Confvirtual
   div.container
     div.row.mt-5
       div.col-9
         h1.display-1= "Benvenuto a Confvirtual"
         div.row.mt-5
-          div.col-6
+          div.col-4
             h3.display-6.text-center= "Utenti iscritti"
-          div.col-6
+          div.col-4
             h3.display-6.text-center= "Conferenze totali"
+          div.col-4
+            h3.display-6.text-center= "Conferenze attive"
         div.row
           div.col-6
-            h3.display-4.text-center= numUtenti
+            h3.display-4.text-center.num= numUtenti
           div.col-6
-            h3.display-4.text-center= numConferenze 
+            h3.display-4.text-center.num= numConferenze 
 
       div.col-3.flex-column.justify-content-center#sidebar
         .card
           .card-body
-            form(action='/login' method='POST')
+            h2= "Accedi o registrati"
+            form(action='/login' method='POST').mt-3
               .mb-3
                 label.form-label(for='username') Username
                 input#username.form-control(type='text')
               .mb-3
                 label.form-label(for='password') Password
                 input#password.form-control(type='password')
-              div.d-grid.d-md-flex.justify-content-md-end
+              div.d-grid.d-md-flex.justify-content-md-center
                 button.btn.btn-primary.btn-block(type='submit') Accedi
 
               if message
@@ -40,5 +47,5 @@ head
             div.text-center.mt-3
               h6= "oppure registrati"
               form(action='/signin' method='GET')
-                button.btn.btn-primary.btn-lg.btn-block(type='submit') Signin
+                button.btn.btn-primary.btn-block(type='submit') Signin
 

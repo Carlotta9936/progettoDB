@@ -169,7 +169,7 @@ exports.update_presenter = (req, res) => {
 
                     token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
                     res.cookie('token', token);
-                    res.render('profile', {user: decoded.username, ruolo: decoded.diritti});
+                    res.redirect('/profilo');
                 });
             });
         });

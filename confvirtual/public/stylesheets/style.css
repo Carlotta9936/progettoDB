@@ -17,6 +17,10 @@ img {
   width:10%;
 }
 
+.num{
+  color: #0d6efd
+}
+
 #contornoBottoni {
   border-radius: 5%;
   border: black;

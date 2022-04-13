@@ -53,22 +53,33 @@ exports.presentazioniPreferite = (req, res, next) => {
 //Renderizza il profilo con tutte le informazioni raccolte
 exports.renderizzaProfilo = (req, res) => {
     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
-    console.log(res.locals.file.image);
-    if(res.locals.informazioniPersonali.username===decoded.username && decoded.diritti==="Utente"){
+    if(decoded.diritti==="Utente"){
+        if(res.locals.informazioniPersonali.username===decoded.username){
+            res.render('profile', {
+                modifica: true,
+                username: res.locals.informazioniPersonali.username,
+                nome: res.locals.informazioniPersonali.nome, 
+                cognome: res.locals.informazioniPersonali.cognome,
+                luogoNascita: res.locals.informazioniPersonali.luogo_nascita,
+                dataNascita: res.locals.informazioniPersonali.data_nascita,
+                conferenze: res.locals.conferenze,
+                presentazioni: res.locals.presentazioniPreferite
+            })
+        } else {
+            res.render('profile', {
+                modifica: false,
+                username: res.locals.informazioniPersonali.username,
+                nome: res.locals.informazioniPersonali.nome, 
+                cognome: res.locals.informazioniPersonali.cognome,
+                luogoNascita: res.locals.informazioniPersonali.luogo_nascita,
+                dataNascita: res.locals.informazioniPersonali.data_nascita,
+                conferenze: res.locals.conferenze,
+                presentazioni: res.locals.presentazioniPreferite
+            })
+        }
+    } else if (decoded.diritti==="Presenter" || decoded.diritti==="Speaker") {
         res.render('profile', {
-            modifica: true,
-            username: res.locals.informazioniPersonali.username,
-            fotoProfilo: res.locals.file.image,
-            nome: res.locals.informazioniPersonali.nome, 
-            cognome: res.locals.informazioniPersonali.cognome,
-            luogoNascita: res.locals.informazioniPersonali.luogo_nascita,
-            dataNascita: res.locals.informazioniPersonali.data_nascita,
-            conferenze: res.locals.conferenze,
-            presentazioni: res.locals.presentazioniPreferite
-        })
-
-    } else {
-        res.render('profile', {
+            modifica:false,
             username: res.locals.informazioniPersonali.username, 
             fotoProfilo: res.locals.file.image,
             nome: res.locals.informazioniPersonali.nome, 
@@ -78,6 +89,17 @@ exports.renderizzaProfilo = (req, res) => {
             conferenze: res.locals.conferenze,
             presentazioni: res.locals.presentazioniPreferite
         })
+    } else {
+        res.render('profile', {
+            modifica:false,
+            username: res.locals.informazioniPersonali.username, 
+            fotoProfilo: false,
+            nome: res.locals.informazioniPersonali.nome, 
+            cognome: res.locals.informazioniPersonali.cognome,
+            luogoNascita: res.locals.informazioniPersonali.luogo_nascita,
+            dataNascita: res.locals.informazioniPersonali.data_nascita,
+            conferenze: res.locals.conferenze,
+            presentazioni: res.locals.presentazioniPreferite
+    })
     }
-    
 }
