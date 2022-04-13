@@ -141,11 +141,12 @@ exports.form_speaker = (req, res) => {
 exports.update_presenter = (req, res) => {
     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
     const {uni, dipartimento} = req.body;
-    console.debug(req.file);
-    const image = req.file.filename;
+    var files = req.files;
+    //const image = req.file.filename;
+    console.log(files.image)
 
     //const {name, img} = req.files.image;
-    db.query(`call updatePresenter ('${decoded.username}', '${uni}','${dipartimento}', '${image}')`, (err, results) => {
+    db.query(`call updatePresenter ('${decoded.username}', '${uni}','${dipartimento}', '${files.image[0].filename}', '${files.cv[0].filename}')`, (err, results) => {
         if(err) { throw err;} 
     });
     //riaggiorna il token
@@ -156,7 +157,7 @@ exports.update_presenter = (req, res) => {
 
     token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
     res.cookie('token', token);
-    //res.render('profile', {user: decoded.username, ruolo: decoded.diritti});
+    res.render('profile', {user: decoded.username, ruolo: decoded.diritti});
 }
 
 exports.update_speaker= (req, res) => {

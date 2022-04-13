@@ -12,6 +12,11 @@ a {
   color: #00B7FF;
 }
 
+img { 
+  height: 10%;
+  width:10%;
+}
+
 #contornoBottoni {
   border-radius: 5%;
   border: black;
