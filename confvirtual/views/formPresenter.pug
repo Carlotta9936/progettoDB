@@ -2,9 +2,11 @@ extends layout
 
 block content
     h3= "Per diventare un presenter è necessario essere affiliati con un università"
-    form(action='' method='POST')
+    form(action='' method='POST' enctype='multipart/form-data')
         .form-group
             input.input-fiel(type='text' placeholder='Università' name='uni')
         .form-group
             input.input-field(type='text' placeholder='Dipartimento' name='dipartimento')
+        .form-group
+            input(type='file' name='image' accept='image/*')
         button.btn.btn-primary(type='submit') Diventa un presenter

@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const db = require('./connectionDB');
 
+
 var app = express();
 
 // view engine setup
@@ -13,10 +14,10 @@ app.set('view engine', 'pug');    //Motore grafico
 
 app.use(logger('dev'));
 //Parse URL-encoded bodies (as sent by HTML forms)
-app.use(express.urlencoded({ extended: false}));
+//app.use(express.urlencoded({ extended: false}));
 //Parse JSON bodies (ad sent by API clients)
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -51,8 +52,6 @@ db.connect((err, result) => {
       console.log("MySQL conneceted!")
   }
 })
-
-
 
 app.use(cookieParser());
 

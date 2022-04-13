@@ -2,6 +2,11 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 
+const bodyparser = require("body-parser")
+const multer = require('multer');
+var  upload  =  multer ( {  dest : 'uploads/'  } ) 
+
+
 ////    ROUTES PER INDEX, LOGIN, SIGNIN, HOMEPAGE    ///
 
 // Require controller modules
@@ -46,10 +51,25 @@ router.get('/sessione/:id_sessione/:titolo', sessione.specificaSessione);
 
 
 //  UPGRADES
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, '../public/img')},
+  filename:(req, file, cb) => {
+    cb(null, 'images/')
+    //return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
+  }
+})
+
+upload = multer ({
+  storage: storage
+})
+
+
+
 router.post('/nuovoAdmin', utenti.controlloDiritti, utenti.update_administrator);
 
 router.get('/nuovoPresenter', utenti.controlloDiritti, utenti.form_presenter);
-router.post('/nuovoPresenter', utenti.update_presenter);
+router.post('/nuovoPresenter', upload.single('image'), utenti.update_presenter);
 router.get('/nuovoSpeaker', utenti.controlloDiritti, utenti.form_speaker);
 router.post('/nuovoSpeaker', utenti.update_speaker)
 

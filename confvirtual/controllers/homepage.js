@@ -17,18 +17,20 @@ exports.preferiti = (req,res, next)=>{
     })
 }
 
-exports.classificaPresentazioni = (req, res, next) => {
-    db.query(`call classificaPresentazioni();`, (err, results) => {
+exports.classificaEventiHype = (req, res, next) => {
+    db.query(`call eventiHype();`, (err, results) => {
         if(err) {throw err; }
-        res.locals.presentazioni = results[0];
+        //console.log(results[0]);
+        res.locals.hype = results[0];
         next();
     })
 }
 
-exports.classificaEventiHype = (req, res, next) => {
-    db.query(`call eventiHype();`, (err, results) => {
+exports.classificaPresentazioni = (req, res, next) => {
+    db.query(`call classificaPresentazioni();`, (err, results) => {
         if(err) {throw err; }
-        res.locals.hype = results[0];
+        console.log(results[0]);
+        res.locals.presentazioni = results[0];
         next();
     })
 }
@@ -43,5 +45,5 @@ exports.classificaPresentatori = (req, res, next) => {
 
 exports.renderizzaHomepage = (req, res) => {
     console.log(res.locals.miglioriPS)
-    res.render('homepage', { conferenze: res.locals.conferenzePreferite, classificaPresentazioni: res.locals.presentazioni, classificaEventi: res.locals.hype, miglioriPresenterESpeaker: res.locals.miglioriPS } );
+    res.render('homepage', { conferenze: res.locals.conferenzePreferite, conferenzeHype: res.locals.hype, presentazioni: res.locals.presentazioni, miglioriPresenterESpeaker: res.locals.miglioriPS } );
 }

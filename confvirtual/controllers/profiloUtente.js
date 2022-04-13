@@ -16,6 +16,15 @@ exports.informazioniPersonali = (req, res, next) => {
     })
 }
 
+exports.caricaFile = (req, res, next) => {
+    db.query(`call getFilePersonali('${req.params.username}')`, (err, results) => {
+        if(err) {throw err; }
+        console.log(results[0][0]);
+        res.locals.file = results[0][0];
+        next();
+    })
+}
+
 //Raccoglie le conferenze a cui l'utente è iscritto
 exports.conferenze = (req, res, next) => {
     db.query(`call conferenze('${req.params.username}')`, (err, result) => {
@@ -44,12 +53,12 @@ exports.presentazioniPreferite = (req, res, next) => {
 //Renderizza il profilo con tutte le informazioni raccolte
 exports.renderizzaProfilo = (req, res) => {
     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
+    console.log(res.locals.file.image);
     if(res.locals.informazioniPersonali.username===decoded.username && decoded.diritti==="Utente"){
-
-        console.log("Sono io");
         res.render('profile', {
             modifica: true,
-            username: res.locals.informazioniPersonali.username, 
+            username: res.locals.informazioniPersonali.username,
+            fotoProfilo: res.locals.file.image,
             nome: res.locals.informazioniPersonali.nome, 
             cognome: res.locals.informazioniPersonali.cognome,
             luogoNascita: res.locals.informazioniPersonali.luogo_nascita,
@@ -59,9 +68,9 @@ exports.renderizzaProfilo = (req, res) => {
         })
 
     } else {
-        console.log("NON sono io");
         res.render('profile', {
             username: res.locals.informazioniPersonali.username, 
+            fotoProfilo: res.locals.file.image,
             nome: res.locals.informazioniPersonali.nome, 
             cognome: res.locals.informazioniPersonali.cognome,
             luogoNascita: res.locals.informazioniPersonali.luogo_nascita,

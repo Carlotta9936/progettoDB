@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('../connectionDB');
 var cookieParser = require('cookie-parser');
+const fileUpload = require('express-fileupload');
+
 
 var token;
 
@@ -139,7 +141,11 @@ exports.form_speaker = (req, res) => {
 exports.update_presenter = (req, res) => {
     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
     const {uni, dipartimento} = req.body;
-    db.query(`call updatePresenter ('${decoded.username}', '${uni}','${dipartimento}')`, (err, results) => {
+    console.debug(req.file);
+    const image = req.file.filename;
+
+    //const {name, img} = req.files.image;
+    db.query(`call updatePresenter ('${decoded.username}', '${uni}','${dipartimento}', '${image}')`, (err, results) => {
         if(err) { throw err;} 
     });
     //riaggiorna il token
@@ -150,7 +156,7 @@ exports.update_presenter = (req, res) => {
 
     token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
     res.cookie('token', token);
-    res.render('profile', {user: decoded.username, ruolo: decoded.diritti});
+    //res.render('profile', {user: decoded.username, ruolo: decoded.diritti});
 }
 
 exports.update_speaker= (req, res) => {

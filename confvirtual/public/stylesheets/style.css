@@ -1,8 +1,20 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+html, body{
+  height: 100vh;
+  overflow-y: hidden;
+
+}
+
+#sidebar{
+  margin-top: 15%;
 }
 
 a {
   color: #00B7FF;
+}
+
+#contornoBottoni {
+  border-radius: 5%;
+  border: black;
+  height: 30%;
+  width: 20%;
 }

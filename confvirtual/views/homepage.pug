@@ -2,14 +2,14 @@ extends layout
 
 block content
     h1= "Presentazioni a cui sei iscritto"
-    table.table
+    table.table.mt-4
         thead
             tr
             th(scope='col') Acronimo
             th(scope='col') Anno
             th(scope='col') Nome
-            th(scope='col') data inizio
-            th(scope='col') data fine
+            th(scope='col') Data inizio
+            th(scope='col') Data fine
         tbody
             each conferenza in conferenze
                 tr
@@ -18,26 +18,39 @@ block content
                 td= conferenza.nome
                 td= conferenza.datainizio
                 td= conferenza.datafine
-                
-    h2= "Classifiche"
-    h4= "Migliori presentazioni per numero di like"
-    table
-        tr
-            th Acronimo
-            th Anno
-            th Num. like
-        each presentazione in classificaPresentazioni
-            tr
-                td= presentazione.iscrizione_acronimo
-                td= presentazione.iscrizione_anno
-                td= presentazione.conta
+                  
+    div.row.mt-5
+        h2= "Classifiche"
+        div.col-4
+            h4= "Migliori conferenze per hype"
+            table
+                tr
+                    th Acronimo
+                    th Anno
+                    th Num. iscrizioni
+                each conferenzaHype in conferenzeHype
+                    tr
+                        td= conferenzaHype.iscrizione_acronimo
+                        td= conferenzaHype.iscrizione_anno
+                        td= conferenzaHype.conta
 
-    
-    h4= "Eventi con più hype"
-    each evento in classificaEventi 
-        p #{evento.conta} #{evento.preferiti_presentazione}
+        div.col-4   
+            h4= "Migliori presentazioni per numero di like"
+            table
+                tr
+                    th Nome
+                    th Num. like
+                    th Anno
+                    th Acronimo
+                each presentazione in presentazioni 
+                    tr
+                        td= presentazione.nome
+                        td= presentazione.conta
+                        td= presentazione.anno
+                        td= presentazione.acronimo
 
-    h4= "Migliori presenter/speaker"
-    each presentatore in miglioriPresenterESpeaker
-        p #{presentatore.mediaVoto} #{presentatore.valutazione_presentazione}
+        div.col-4
+            h4= "Migliori presenter/speaker"
+            each presentatore in miglioriPresenterESpeaker
+                p #{presentatore.mediaVoto} #{presentatore.valutazione_presentazione}
 
