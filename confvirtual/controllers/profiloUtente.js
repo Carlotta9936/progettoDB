@@ -53,8 +53,11 @@ exports.presentazioniPreferite = (req, res, next) => {
 //Renderizza il profilo con tutte le informazioni raccolte
 exports.renderizzaProfilo = (req, res) => {
     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
+    console.log(decoded.username);
+    console.log(res.locals.informazioniPersonali.username)
     if(decoded.diritti==="Utente"){
         if(res.locals.informazioniPersonali.username===decoded.username){
+            console.log("Sono io")
             res.render('profile', {
                 modifica: true,
                 username: res.locals.informazioniPersonali.username,
@@ -66,6 +69,7 @@ exports.renderizzaProfilo = (req, res) => {
                 presentazioni: res.locals.presentazioniPreferite
             })
         } else {
+            console.log("Non sono io")
             res.render('profile', {
                 modifica: false,
                 username: res.locals.informazioniPersonali.username,

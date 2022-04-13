@@ -35,15 +35,15 @@ head
             form(action='/login' method='POST').mt-3
               .mb-3
                 label.form-label(for='username') Username
-                input#username.form-control(type='text')
+                input#username.form-control(type='text' placeholder='Username' name='name')
               .mb-3
                 label.form-label(for='password') Password
-                input#password.form-control(type='password')
+                input#password.form-control(type='password' placeholder='Password' name='password')
               div.d-grid.d-md-flex.justify-content-md-center
                 button.btn.btn-primary.btn-block(type='submit') Accedi
+            if message
+                h2= message
 
-              if message
-                  h2= message
             div.text-center.mt-3
               h6= "oppure registrati"
               form(action='/signin' method='GET')
