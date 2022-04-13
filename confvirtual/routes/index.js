@@ -3,9 +3,11 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 
 const bodyparser = require("body-parser")
+//const stor = require('../modules/multer');
 const multer = require('multer');
-var  upload  =  multer ( {  dest : 'uploads/'  } ) 
+//var  upload  =  multer ( {  dest : 'uploads/'  } ) 
 
+var path = require('path');
 
 ////    ROUTES PER INDEX, LOGIN, SIGNIN, HOMEPAGE    ///
 
@@ -17,7 +19,6 @@ const conferenza = require ('../controllers/conferenza');
 const sessione= require('../controllers/sessione');
 const presentazione= require('../controllers/presentazione');
 const autore= require('../controllers/autore');
-
 
 
 //INDEX
@@ -53,23 +54,21 @@ router.get('/sessione/:id_sessione/:titolo', sessione.specificaSessione);
 //  UPGRADES
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '../public/img')},
+    cb(null, 'public/uploads/')},
   filename:(req, file, cb) => {
-    cb(null, 'images/')
-    //return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
+    cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
   }
 })
 
-upload = multer ({
+const upload = multer ({
   storage: storage
-})
-
+});
 
 
 router.post('/nuovoAdmin', utenti.controlloDiritti, utenti.update_administrator);
 
 router.get('/nuovoPresenter', utenti.controlloDiritti, utenti.form_presenter);
-router.post('/nuovoPresenter', upload.single('image'), utenti.update_presenter);
+router.post('/nuovoPresenter', upload.fields([{ name : 'image'}, {name : 'cv'}]), utenti.update_presenter);
 router.get('/nuovoSpeaker', utenti.controlloDiritti, utenti.form_speaker);
 router.post('/nuovoSpeaker', utenti.update_speaker)
 
