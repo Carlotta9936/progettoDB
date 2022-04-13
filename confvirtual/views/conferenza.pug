@@ -25,4 +25,6 @@ each conferenza in conferenze
 h4= "sponsor"
 
 each sponsor in sponsors
-    h5= sponsor.nome
+    - var url= '/sponsor/' + sponsor.nome;
+        a(href= url)
+            h5= sponsor.nome

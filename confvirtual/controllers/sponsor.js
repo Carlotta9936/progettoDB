@@ -19,3 +19,11 @@ exports.creaSponsor = (req,res)=>{
         }
     });
 }
+
+exports.paginaSponsor=(req,res)=>{
+    //query per visualizzare i dati dello sponsor
+    db.query(`call selectsponsor ('${req.params.nome}')`,(err,results)=>{
+        if(err) {throw err};
+        res.render('sponsor',{ sponsor: results[0][0].nome, logo: results[0][0].logo})
+    });
+}

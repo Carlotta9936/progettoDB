@@ -7,19 +7,21 @@ h2= "Nuova conferenza"
 // your content here...
 form(action='/conferenza/nuovaConferenza1-3' method='POST')
   .form-group
-    label(for='acronimo') Acronimo
+    label(for='acronimo') Acronimo:
     input#acronimo.form-control(type='text' name='acronimo')
   .form-group
-    label(for='anno') Anno
+    label(for='anno') Anno:
     input#anno.form-control(type='text' name='anno')
   .form-group
     label(for='logo') Logo
     input#logo.form-control(type='text' name='logo')
+    //input#logo.form-control(type='file' name='logo' accept='image/*')
+
   .form-group
-    label(for='dataInizio') DataInizio
+    label(for='dataInizio') DataInizio:
     input#dataInizio.form-control(type='date' name='dataInizio')
   .form-group
-    label(for='dataFine') DataFine
+    label(for='dataFine') DataFine:
     input#dataFine.form-control(type='date' name='dataFine')
   .form-group
     label(for='nome') Nome

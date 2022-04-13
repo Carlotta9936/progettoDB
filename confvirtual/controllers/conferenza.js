@@ -20,12 +20,12 @@ exports.creaConferenza = (req,res,next)=>{
     if(controlloDate.controlloDate(dataInizio, dataFine)){    //Controllo sulle date
         console.log("OK");
         db.query(`call insertconferenza('${acronimo}','${anno}', '${logo}', '${dataInizio}','${dataFine}','${nome}','${decoded.username}');`,(err,results)=>{
-            if(err) {throw err}
-                else {
-                    console.log("ok");
-                    //reindirizzamento a creare sessioni
-                    next();
-                } 
+            if(err) {throw err};
+                
+            console.log("ok");
+            //reindirizzamento a creare sessioni
+            next();
+                
         }); 
     } else {    //Nel caso le date messe non vadano bene allora renderizza la pagina per creare una conferenza
         res.render('newconferenza');        //Messaggio di errore per le date

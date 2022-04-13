@@ -11,7 +11,7 @@ aggiungere attributo a presenter: id-autore                  [Carlotta]V
 conferenza: non deve essere richiesto chi crea la conferenza [Alsi]
 logo in conferenza deve essere un caricamento di un'immagine [Alsi]
 home dell'admin bottone che faccia creare conferenze         [Carlotta]V
-conferenza: link alla pagina degli sponsor                   [Alsi/Carlotta]
+conferenza: link alla pagina degli sponsor                   [Alsi/Carlotta]V
 pdf di articolo deve essere il caricamento di un pdf         [Alsi]
 
 #Totale_sponsorizzazioni in automatico                       [Carlotta]V
