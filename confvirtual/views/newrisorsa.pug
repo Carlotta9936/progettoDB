@@ -2,7 +2,8 @@ doctype html
 head
   meta(charset='utf-8')
   meta(name='viewport' content='width=device-width, initial-scale=1')
-  title= Risorsa aggiuntiva
+  title= Risorsaaggiuntiva
+h1= "ciao"
 h2= 'Stai aggiungengo risorse al tutorial: '+tutorial
 
 form(action='/risorseAggiuntive/'+ tutorial method='POST')
@@ -12,4 +13,4 @@ form(action='/risorseAggiuntive/'+ tutorial method='POST')
     .form-group
         label(for='descrizione') descrizione:
         input#descrizione.form-control(type='text' name='descrizione')
-    button.btn.btn-primary(type='submit') Aggiungi
+    //button.btn.btn-primary(type='submit') Aggiungi
