@@ -124,7 +124,7 @@ exports.update_administrator = (req, res) => {
     
     const payload = {
         username: decoded.username,
-        diritti: 'admin'
+        diritti: 'Admin'
     };
 
     token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
@@ -168,7 +168,7 @@ exports.update_presenter = (req, res) => {
                     //riaggiorna il token
                     const payload = {
                         username: decoded.username,
-                        diritti: 'presenter'
+                        diritti: 'Presenter'
                     };
 
                     token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
@@ -192,7 +192,7 @@ exports.update_speaker= (req, res) => {
     //riaggiorna il token
     const payload = {
         username: decoded.username,
-        diritti: 'speaker'
+        diritti: 'Speaker'
     };
 
     token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
