@@ -1,0 +1,15 @@
+doctype html
+head
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  title= Risorsa aggiuntiva
+h2= 'Stai aggiungengo risorse al tutorial: '+tutorial
+
+form(action='/risorseAggiuntive/'+ tutorial method='POST')
+    .form-group
+        label(for='link') pdf:
+        input#link.form-control(type='text' name='link')
+    .form-group
+        label(for='descrizione') descrizione:
+        input#descrizione.form-control(type='text' name='descrizione')
+    button.btn.btn-primary(type='submit') Aggiungi
