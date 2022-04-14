@@ -1,27 +1,30 @@
-doctype html
-head
-  meta(charset='utf-8')
-  meta(name='viewport' content='width=device-width, initial-scale=1')
-  title= Sessioni
-h2= programmi[0].anno+' '+ programmi[0].acronimo
-each sessione in programmi
+extends layout 
 
-  h3= sessione.data
-  h4= 'crea le tue sessioni'
-  form(action='/conferenza/nuovaConferenza2-3/'+ sessione.acronimo+'/'+sessione.anno+'/'+sessione.id_programma method='POST')
-    .form-group
-      label(for='oraI') Ora inizio
-      input#oraI.form-control(type='time' name='oraI')
-    .form-group
-      label(for='oraF') Ora fine
-      input#oraF.form-control(type='time' name='oraF')
-    .form-group
-      label(for='titolo') Titolo
-      input#titolo.form-control(type='text' name='titolo')
-    .form-group
-      label(for='link') Link
-      input#link.form-control(type='text' name='link')
-    button.btn.btn-primary(type='submit') Crea
+block content 
 
-form(action='/conferenza/nuovaConferenza3-3/'+ programmi[0].acronimo +'/'+programmi[0].anno method='GET')
-  button.btn.btn-primary(type='submit') Prosegui
+  h2= programmi[0].anno+' '+ programmi[0].acronimo
+  div.container
+    div.row.mt-5
+      each sessione in programmi
+        .container.mt-4.col-4
+          .card
+            .card-body
+              h3= sessione.data
+              h4= 'crea le tue sessioni'
+              form(action='/conferenza/nuovaConferenza2-3/'+ sessione.acronimo+'/'+sessione.anno+'/'+sessione.id_programma method='POST')
+                .form-group
+                  label(for='oraI') Ora inizio
+                  input#oraI.form-control(type='time' name='oraI')
+                .form-group
+                  label(for='oraF') Ora fine
+                  input#oraF.form-control(type='time' name='oraF')
+                .form-group
+                  label(for='titolo') Titolo
+                  input#titolo.form-control(type='text' name='titolo')
+                .form-group
+                  label(for='link') Link
+                  input#link.form-control(type='text' name='link')
+                button.btn.btn-primary(type='submit') Crea
+
+    form(action='/conferenza/nuovaConferenza3-3/'+ programmi[0].acronimo +'/'+programmi[0].anno method='GET')
+      button.btn.btn-primary.btn-lg(type='submit') Prosegui

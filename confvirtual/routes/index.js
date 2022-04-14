@@ -2,12 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 
-const bodyparser = require("body-parser")
-//const stor = require('../modules/multer');
-const multer = require('multer');
-//var  upload  =  multer ( {  dest : 'uploads/'  } ) 
-
-var path = require('path');
+const {upload} = require("../modules/multer")
 
 ////    ROUTES PER INDEX, LOGIN, SIGNIN, HOMEPAGE    ///
 
@@ -51,21 +46,7 @@ router.post('/conferenza/:acronimo/:anno', conferenza.segui);
 
 router.get('/sessione/:id_sessione/:titolo', sessione.specificaSessione);
 
-
-//  UPGRADES
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'public/uploads/')},
-  filename:(req, file, cb) => {
-    cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
-  }
-})
-
-const upload = multer ({
-  storage: storage
-});
-
-
+//UPGRADES
 router.post('/nuovoAdmin', utenti.controlloDiritti, utenti.update_administrator);
 
 router.get('/nuovoPresenter', utenti.controlloDiritti, utenti.form_presenter);

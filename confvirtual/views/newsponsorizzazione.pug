@@ -1,26 +1,29 @@
-doctype html
-head
-  meta(charset='utf-8')
-  meta(name='viewport' content='width=device-width, initial-scale=1')
-  title Sponsorizzazione
-// your content here...
-h3= 'Sponsorizzazione'
-h3= acronimo 
-h3= anno
-form(action='/conferenza/nuovaConferenza3-3/'+acronimo+'/'+anno method='POST')
-  .form-group
-    label(for='importo') Importo
-    input#importo.form-control(type='num' name='importo')
-  .form-group
-    label(for='sponsor') Sponsor:
-    select#sponsors.form-control(type='select' placeholder='Select sponsor' name='sponsor' required='true')
-      for sponsors in sponsor
-        option(
-          value= sponsors.nome
-        ) #{sponsors.nome}
-   
-  button.btn.btn-primary(type='submit') Assegna
-form(action='/sponsor/nuovoSponsor/'+acronimo+'/'+anno method='GET')
-  button.btn.btn-primary(type='submit') NEWSPONSOR
-form(action='/conferenza/'+acronimo+'/'+anno method='GET')
+extends layout 
+
+block content
+  h3= 'Sponsorizzazione'
+  h3= acronimo 
+  h3= anno
+  .container.mt-4.col-5
+    .card
+      .card-body
+        form(action='/conferenza/nuovaConferenza3-3/'+acronimo+'/'+anno method='POST')
+          .form-group
+            label(for='importo') Importo
+            input#importo.form-control(type='num' name='importo')
+          .form-group
+            label(for='sponsor') Sponsor:
+            select#sponsors.form-control(type='select' placeholder='Select sponsor' name='sponsor' required='true')
+              for sponsors in sponsor
+                option(
+                  value= sponsors.nome
+                ) #{sponsors.nome}
+          
+          button.btn.btn-primary(type='submit') Assegna
+    .card
+      .card-body
+        form(action='/sponsor/nuovoSponsor/'+acronimo+'/'+anno method='GET')
+            button.btn.btn-primary(type='submit') NEWSPONSOR
+            
+  form(action='/conferenza/'+acronimo+'/'+anno method='GET')
   button.btn.btn-primary(type='submit') Fine
