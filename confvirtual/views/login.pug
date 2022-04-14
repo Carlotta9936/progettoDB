@@ -1,12 +1,20 @@
 extends layout 
 
 block content
-    form(action='/login' method='POST')
-        .form-group
-            input.input-fiel(type='text' placeholder='Username' name='name')
-        .form-group
-            input.input-field(type='password' placeholder='Password' name='password')
-        button.btn.btn-primary(type='submit') Login
+    .container.mt-5.col-7
+        .card
+            .card-body
+                h2= "Prima di andare sul sito ti devi accedere furbacchione"
+                form(action='/login' method='POST')
+                    .form-group
+                        input.input-fiel(type='text' placeholder='Username' name='name')
+                    .form-group
+                        input.input-field(type='password' placeholder='Password' name='password')
+                    button.btn.btn-primary(type='submit') Login
 
-    if message
-        h2= message
+                if message
+                    h2= message
+                
+                h3= "oppure registrati"
+                form(action='/signin' method='GET')
+                    button.btn.btn-primary(type='submit') SIGNIN

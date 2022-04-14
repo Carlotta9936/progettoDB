@@ -24,31 +24,34 @@ exports.creaPresentazione = (req,res)=>{
             controlloDate.controlloOrario(result[0][0].ora_i, oraI) && controlloDate.controlloOrario(oraF, result[0][0].ora_f)){   //L'orario delle presentazioni non può eccedere quello della sessione
             db.query(`call getPresentazioni('${req.params.sessione}')`, (err, results) => {
                 for(var i=0; i<results[0].length; i++){
-                    if(controlloDate.controlloOrario(oraF, results[0][i].oraInizio) || controlloDate.controlloDate(results[0][i].oraFine, oraI)){
-                        db.query(`call insertpresentazione('${oraI}','${oraF}','${ordine}','${req.params.sessione}');`,(err,results)=>{
-                            if(err){
-                                console.log(err);
-                            }else{
-                                //console.log("ok");
-                                tipo=req.body.tipo;
-                                //query per prendere l'ultima presentazione creata
-                                db.query(`call selezionapresentazione ()`,(err,results)=>{
-                                    if(err){
-                                        //console.log(results);
-                                        console.log(err);
-                                    }else{
-                                        //console.log(results[0]);
-                                        res.redirect(tipo+'/'+results[0][0].id);
-                                    }
-                                });
-                            }
-                        });
-                    } else {
+                    if(!controlloDate.controlloOrario(oraF, results[0][i].oraInizio) || !controlloDate.controlloDate(results[0][i].oraFine, oraI)){
+                        console.log("err")
                         res.send("Errore");
                     }
                 }
+                db.query(`call insertpresentazione('${oraI}','${oraF}','${ordine}','${req.params.sessione}');`,(err,results)=>{
+                    if(err){
+                        console.log(err);
+                    }else{
+                        //console.log("ok");
+                        tipo=req.body.tipo;
+                        //query per prendere l'ultima presentazione creata
+                        console.log("MMMMMH")
+                        db.query(`call selezionapresentazione ()`,(err,results)=>{
+                            if(err){
+                                //console.log(results);
+                                console.log(err);
+                            }else{
+                                //console.log(results[0]);
+                                console.log("MMMMMMMH!!!!!!!!!!!!!!!")
+                                res.redirect(tipo+'/'+results[0][0].id);
+                            }
+                        });
+                    }
+                }); 
         });
         } else {
+            console.log("Erro")
             res.send("Errore");
         }
     });

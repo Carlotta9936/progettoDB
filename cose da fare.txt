@@ -15,7 +15,7 @@ conferenza: link alla pagina degli sponsor                   [Alsi/Carlotta]V
 pdf di articolo deve essere il caricamento di un pdf         [Alsi]
 
 #Totale_sponsorizzazioni in automatico                       [Carlotta]V
-IL PROGRAMMA NON DEVE CRASHARE SE CI SONO PROBLEMI DI DUPLICATI MA INFORMARTI  [Alsi/CArlotta]
+IL PROGRAMMA NON DEVE CRASrsTI MA INFORMARTI  [Alsi/CArlotta]
 
 Fare controlli sulle date	[Carlotta/Alsi]:
 - data fine dopo data inizio:    conferenza V
@@ -46,3 +46,13 @@ parole chiave           [Carlotta]V
 
 Chat				[Carlotta]
 Log eventi 			[Alsi]	
+
+
+Cose da chiedere a pino:
+https://getbootstrap.com/docs/5.1/components/dropdowns/
+
+https://getbootstrap.com/docs/5.1/components/accordion/
+
+spostare a destra la navbar
+
+Alert
