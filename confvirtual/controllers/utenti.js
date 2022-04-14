@@ -191,7 +191,7 @@ exports.update_speaker= (req, res) => {
     });
     //riaggiorna il token
     const payload = {
-        username: decoded.name,
+        username: decoded.username,
         diritti: 'speaker'
     };
 
