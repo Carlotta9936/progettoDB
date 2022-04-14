@@ -21,17 +21,13 @@ exports.creaConferenza = (req,res,next)=>{
     if(req.files.length === null){
         var logo = req.files.logo[0].filename;
     } else {
-        var logo = "fotoProfiloDefault.png";
+        var logo = "logoConferenzaDefault.png";
     }
     if(controlloDate.controlloDate(dataInizio, dataFine)){    //Controllo sulle date
-        console.log("OK");
         db.query(`call insertconferenza('${acronimo}','${anno}', '${logo}', '${dataInizio}','${dataFine}','${nome}','${decoded.username}');`,(err,results)=>{
             if(err) {throw err};
-                
-            console.log("ok");
             //reindirizzamento a creare sessioni
             next();
-                
         }); 
     } else {    //Nel caso le date messe non vadano bene allora renderizza la pagina per creare una conferenza
         res.render('newconferenza');        //Messaggio di errore per le date
@@ -103,7 +99,11 @@ exports.programma = (req,res)=>{
                     //query per visulizzare gli sponsor
                     db.query(`call visualizzasponsor('${req.params.anno}','${req.params.acronimo}');`,(err,results)=>{
                         if(err) throw err;
-                        console.log({results});
+                        result[0][0].datainizio = DateTime.fromJSDate(result[0][0].datainizio).toLocaleString(DateTime.DATE_MED);
+                        result[0][0].datafine = DateTime.fromJSDate(result[0][0].datafine).toLocaleString(DateTime.DATE_MED);
+                        for(var i = 0; i < result[0].length; i++){
+                            result[0][i].data = DateTime.fromJSDate(result[0][i].data).toLocaleString(DateTime.DATE_MED);
+                        }
                         res.render('conferenza',{conferenze: result[0], sponsors: results[0]});
 
                     });

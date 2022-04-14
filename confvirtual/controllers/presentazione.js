@@ -1,6 +1,8 @@
 const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
 const db = require('../connectionDB');
+const controlloDate = require('../modules/controlloDate');
+const { DateTime } = require('luxon');
 
 
 exports.formPresentazione = (req, res)=>{
@@ -14,35 +16,44 @@ exports.formPresentazione = (req, res)=>{
 
 
 exports.creaPresentazione = (req,res)=>{
-    console.log(req.body);
     let {oraI, oraF, ordine, tipo} = req.body;
     db.query(`call getSessione('${req.params.sessione}')`, (err, result) => {
         if(err) {throw err;}
-        console.log(result[0]);
-        if(oraF>oraI && oraI>=result.ora_i){
-            console.log("VA bene");
-        }else{
-            console.log("non va bene")
-        }
-        db.query(`call insertpresentazione('${oraI}','${oraF}','${ordine}','${req.params.sessione}');`,(err,results)=>{
-            if(err){
-                console.log(err);
-            }else{
-                console.log("ok");
-
-                tipo=req.body.tipo;
-                //query per prendere l'ultima presentazione creata
-                db.query(`call selezionapresentazione ()`,(err,results)=>{
+        //result[0][0].ora_i = DateTime.fromJSDate(result[0][0].ora_i).toLocaleString(DateTime.DATE_MED);
+        if(controlloDate.controlloOrario(oraI, oraF) &&     //L'orario di inizio deve essere prima dell'orario d'inizio
+            controlloDate.controlloOrario(result[0][0].ora_i, oraI) && controlloDate.controlloOrario(oraF, result[0][0].ora_f)){   //L'orario delle presentazioni non può eccedere quello della sessione
+            db.query(`call getPresentazioni('${req.params.sessione}')`, (err, results) => {
+                for(var i=0; i<results[0].length; i++){
+                    if(!controlloDate.controlloOrario(oraF, results[0][i].oraInizio) || !controlloDate.controlloDate(results[0][i].oraFine, oraI)){
+                        console.log("err")
+                        res.send("Errore");
+                    }
+                }
+                db.query(`call insertpresentazione('${oraI}','${oraF}','${ordine}','${req.params.sessione}');`,(err,results)=>{
                     if(err){
-                        //console.log(results);
                         console.log(err);
                     }else{
-                        console.log(results[0]);
-                        res.redirect(tipo+'/'+results[0][0].id);
+                        //console.log("ok");
+                        tipo=req.body.tipo;
+                        //query per prendere l'ultima presentazione creata
+                        console.log("MMMMMH")
+                        db.query(`call selezionapresentazione ()`,(err,results)=>{
+                            if(err){
+                                //console.log(results);
+                                console.log(err);
+                            }else{
+                                //console.log(results[0]);
+                                console.log("MMMMMMMH!!!!!!!!!!!!!!!")
+                                res.redirect(tipo+'/'+results[0][0].id);
+                            }
+                        });
                     }
-                });
-            }
+                }); 
         });
+        } else {
+            console.log("Erro")
+            res.send("Errore");
+        }
     });
 }
 

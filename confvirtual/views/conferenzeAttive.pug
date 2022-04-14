@@ -3,10 +3,25 @@ extends layout
 block content
 
     h4= "Conferenze disponibili"
-    each conferenza in conferenze
-        - var url= '/conferenza/'+ conferenza.acronimo + '/'+ conferenza.anno;
-        h5
-            a(href= url) #{conferenza.acronimo} #{conferenza.anno} #{conferenza.nome} #{conferenza.datainizio} #{conferenza.datafine}
+    table.row
+        tr
+            th Nome
+            th Acronimo
+            th Anno
+            th Data inizio
+            th Data fine
+        each conferenza in conferenze
+            - var url= '/conferenza/'+ conferenza.acronimo + '/'+ conferenza.anno;
+            
+                tr
+                    td= conferenza.nome
+                    td= conferenza.acronimo
+                    td= conferenza.anno
+                    td= conferenza.datainizio
+                    td= conferenza.datafine
+                    td
+                        a(href= url)
+                            img(src="img/linkIcon.png")
 
     form(action='/conferenza/nuovaConferenza1-3' method='GET')
       button.btn.btn-primary(type='submit') Nuova conferenza

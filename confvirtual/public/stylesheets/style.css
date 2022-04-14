@@ -17,6 +17,11 @@ img {
   width:10%;
 }
 
+#icon{
+  height: 5%;
+  width: 5%;
+}
+
 .num{
   color: #0d6efd
 }
@@ -26,4 +31,9 @@ img {
   border: black;
   height: 30%;
   width: 20%;
+}
+
+#logo{
+  width: 70%;
+  height: 80%;
 }

@@ -81,7 +81,7 @@ exports.renderizzaProfilo = (req, res) => {
                 presentazioni: res.locals.presentazioniPreferite
             })
         }
-    } else if (decoded.diritti==="Presenter" || decoded.diritti==="speaker") {
+    } else if (decoded.diritti==="Presenter" || decoded.diritti==="Speaker") {
         res.render('profile', {
             modifica:false,
             username: res.locals.informazioniPersonali.username, 
