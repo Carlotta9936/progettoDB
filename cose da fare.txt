@@ -8,8 +8,8 @@ sponsor max 5               [Carlotta] V
 presenter sia un autore     [Carlotta] V
 controllo se non si seleziona un autore/presenter            [Carlotta/Alsi]
 aggiungere attributo a presenter: id-autore                  [Carlotta]V
-conferenza: non deve essere richiesto chi crea la conferenza [Alsi]
-logo in conferenza deve essere un caricamento di un'immagine [Alsi]
+conferenza: non deve essere richiesto chi crea la conferenza [Alsi] V
+logo in conferenza deve essere un caricamento di un'immagine [Alsi] V
 home dell'admin bottone che faccia creare conferenze         [Carlotta]V
 conferenza: link alla pagina degli sponsor                   [Alsi/Carlotta]V
 pdf di articolo deve essere il caricamento di un pdf         [Alsi]
@@ -19,8 +19,8 @@ IL PROGRAMMA NON DEVE CRASHARE SE CI SONO PROBLEMI DI DUPLICATI MA INFORMARTI  [
 
 Fare controlli sulle date	[Carlotta/Alsi]:
 - data fine dopo data inizio:    conferenza V
-- presentazione non deve eccedere da sessione
-- non si possono avere presentazioni in simultanea nella stessa sessione
+- presentazione non deve eccedere da sessione V
+- non si possono avere presentazioni in simultanea nella stessa sessione V
 - ordine delle presentazioni
 
 
