@@ -114,16 +114,16 @@ exports.associaSpeaker=(req,res)=>{
                     if(err){
                         console.log(err);
                     }else{
-                        console.log('ok');
+                        res.redirect('/conferenza');
                     }
                 });
-            })
+            });
         }else{//caso in cui sia solo uno speaker
             db.query(`call insertpresenta ('${listaspeaker}', '${req.params.id_tutorial}')`,(err,results)=>{  
                 if(err){
                     console.log(err);
                 }else{
-                    console.log('ok');
+                    res.redirect('/conferenza');
                 }
             });
         }
