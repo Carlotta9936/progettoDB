@@ -13,8 +13,8 @@ form(action='/conferenza/nuovaConferenza1-3' method='POST')
     label(for='anno') Anno:
     input#anno.form-control(type='text' name='anno')
   .form-group
-    label(for='logo') Logo
-    input#logo.form-control(type='text' name='logo')
+    label(for='logo') Logo:
+    input(type='file' name='image' accept='image/*')
     //input#logo.form-control(type='file' name='logo' accept='image/*')
 
   .form-group

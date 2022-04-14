@@ -38,6 +38,23 @@ block content
             tr
                 td= presentazione.conferenzaNome
                 td= presentazione.programma_giornalieroData
+    
+    // Example single danger button
+    .btn-group
+    button.btn.btn-danger.dropdown-toggle(type='button' data-bs-toggle='dropdown' aria-expanded='false')
+        | Action
+    ul.dropdown-menu
+        li
+        a.dropdown-item(href='#') Action
+        li
+        a.dropdown-item(href='#') Another action
+        li
+        a.dropdown-item(href='#') Something else here
+        li
+        hr.dropdown-divider
+        li
+        a.dropdown-item(href='#') Separated link
+
     if modifica
         form(action='../nuovoAdmin' method='POST')
             button.btn.btn-primary(type='submit') Diventa un ADMIN!
@@ -47,3 +64,5 @@ block content
 
         form(action='../nuovoSpeaker' method='GET')
             button.btn.btn-primary(type='submit') Diventa uno SPEAKER!
+
+    
