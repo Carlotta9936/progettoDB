@@ -16,7 +16,13 @@ exports.formConferenza = (req, res)=>{
 //creo una nuova conferenza
 exports.creaConferenza = (req,res,next)=>{
     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
-    const {acronimo, anno, logo, dataInizio, dataFine, nome, creatore} = req.body;
+    const {acronimo, anno, dataInizio, dataFine, nome} = req.body;
+    //Se non carica l'immagine mette l'immagine di default
+    if(req.files.length === null){
+        var logo = req.files.logo[0].filename;
+    } else {
+        var logo = "fotoProfiloDefault.png";
+    }
     if(controlloDate.controlloDate(dataInizio, dataFine)){    //Controllo sulle date
         console.log("OK");
         db.query(`call insertconferenza('${acronimo}','${anno}', '${logo}', '${dataInizio}','${dataFine}','${nome}','${decoded.username}');`,(err,results)=>{
@@ -58,6 +64,10 @@ exports.formSessione = (req, res)=>{
         if(err) throw err;
         else{
             console.log({results});
+            for(var i = 0; i < results[0].length; i++) {
+                results[0][i].data = DateTime.fromJSDate(results[0][i].data).toLocaleString(DateTime.DATE_MED);
+            }
+            
             res.render('newsessione', {programmi: results[0]});
         }
     });
