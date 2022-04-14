@@ -12,9 +12,7 @@ const utenti = require('../controllers/utenti');
 const homepage = require('../controllers/homepage');
 const conferenza = require ('../controllers/conferenza');
 const sessione= require('../controllers/sessione');
-const presentazione= require('../controllers/presentazione');
-const autore= require('../controllers/autore');
-const risorsa= require('../controllers/risorseAggiuntive');
+
 
 
 //INDEX

@@ -7,10 +7,10 @@ exports.formRisorse=(req,res)=>{
     //devo passare anche il cooki per sapere chi sta creando la risorsa
 }
 
-exports.creaRisorsa=(req,res)=>{
+/*exports.creaRisorsa=(req,res)=>{
     const{link,descrizione}=req.body;
     //query per creare una nuova risorsa
-   /* db.query(`call insertrisorsa('${link}','${descrizione}')`,(err,results)=>{
+    db.query(`call insertrisorsa('${link}','${descrizione}')`,(err,results)=>{
         if(err) {throw err}; //manca il parametro dello speaker 
-    });*/
-}
+    });
+}*/

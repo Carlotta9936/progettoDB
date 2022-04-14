@@ -29,13 +29,14 @@ Trigger				[Carlotta/Alsi] V
 l'event                     [Carlotta/Alsi]
 
 Associazione presentazione a speaker	    [Carlotta] V
-Assegnare un presenter a una pressentazione [Carlotta]
+Assegnare un presenter a una presentazione [Carlotta]
 Controlli sul ruolo					        [Alsi]		
 
 Grafica				[Carlotta/Alsi]		14/04
 
 
-Risorse aggiutive 		[Carlotta]
+Risorse aggiutive 		[Carlotta]\
+controllare che solo gli speaker di quel tutorial possano caricare risorse aggiuntive   [Alsi]
 controllare solo speaker possano mettere risorse aggiuntive [Alsi]
 aggiungere si possa modificare/aggiungere successivamente risorse aggiuntive  [Alsi]
 aggiungere foto e cv	[Alsi]V
