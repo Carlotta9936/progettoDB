@@ -35,8 +35,17 @@ exports.specificaSessione=(req,res)=>{
             db.query(`call articoloSessionePresentazione("${req.params.id_sessione}")`, function(err,results){
                 if(err) throw err;
                 console.log(results[0]);
-                res.render('sessione',{presentazioni: results[0], sessione: req.params.id_sessione});
-
+                //controllo tipologia della presentazione
+                db.query(`call istutorial('${results[0][0].id}')`,(err,result)=>{
+                    if(err) throw err;//hai detto che è da maiale, fai le view con gli id e il tipo di presentazione
+                    var tipo='';
+                    if(result.length==0){
+                        tipo='articolo';
+                    }else{
+                        tipo='tutorial';
+                    }
+                    res.render('sessione',{presentazioni: results[0], sessione: req.params.id_sessione, tipo: tipo});
+                });
             });
         }
     });

@@ -3,6 +3,8 @@ h4= "Sessione: "+ presentazioni[0].titolosessione
 h4= "Presentazioni"
 
 each presentazione in presentazioni
-    h5= 'Titolo Presentazione: '+ presentazione.titolo
-    h5= 'Ora inizio: '+ presentazione.orai
-    h5= 'Ora fine: '+ presentazione.oraf
+    - var url= '/' + tipo +'/'+ presentazione.id
+        a(href= url)
+            h5= 'Titolo Presentazione: '+ presentazione.titolo
+            h5= 'Ora inizio: '+ presentazione.orai
+            h5= 'Ora fine: '+ presentazione.oraf

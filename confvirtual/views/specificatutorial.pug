@@ -1,0 +1,17 @@
+extends layout
+
+block content
+    div.row-2
+        div.col-7
+
+            h3= 'Tutorial: '+ tutorial[0].titolo 
+            h5='Speaker: '
+                each tutorials in tutorial
+                    - var url= '/speaker'+ tutorials.speaker//ancora non c'è il link
+                        a(href= url)
+                            h5= tutorials.nome +' '+ tutorials.cognome
+            h5= 'Abstract: '+tutorial[0].abstract
+           
+                    
+
+
