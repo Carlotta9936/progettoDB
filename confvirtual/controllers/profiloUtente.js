@@ -10,9 +10,12 @@ var token;
 exports.informazioniPersonali = (req, res, next) => {
     db.query(`call informazioniPersonali('${req.params.username}')`, (err, result) => {
         if(err) { throw err; }
-        result[0][0].data_nascita = DateTime.fromJSDate(result[0][0].data_nascita).toLocaleString(DateTime.DATE_MED);
-        res.locals.informazioniPersonali = result[0][0];
-        next();
+        if(result[0].length === 0){ res.status(404).render("notFound"); }
+        else {
+            result[0][0].data_nascita = DateTime.fromJSDate(result[0][0].data_nascita).toLocaleString(DateTime.DATE_MED);
+            res.locals.informazioniPersonali = result[0][0];
+            next();
+        }
     })
 }
 
