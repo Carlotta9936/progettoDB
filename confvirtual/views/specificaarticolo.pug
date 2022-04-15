@@ -1,0 +1,18 @@
+extends layout
+
+block content
+    div.row-2
+        div.col-7
+
+            h3= 'Articolo: '+ articolo[0].titolo 
+
+            h5='Autori: '
+            each articoli in articolo 
+                h5= articoli.nome +' '+ articoli.cognome
+            h5='Pdf: '+articolo[0].pdf
+            h5='Pagine: '+articolo[0].n_pagine
+            - var url= '/presenter'+ articolo[0].presenter//ancora non c'è il link
+                a(href= url)
+                    h5='Presenter: '+articolo[0].presenter
+
+

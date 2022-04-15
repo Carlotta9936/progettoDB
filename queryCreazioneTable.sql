@@ -326,3 +326,25 @@ CREATE TABLE `scritto` (
     REFERENCES `tutorial` (`id_tutorial`)
     ON DELETE CASCADE
     ON UPDATE CASCADE);
+    
+   #Messaggio
+    CREATE TABLE `confvirtual`.`messaggio` (
+  `id_messaggio` INT NOT NULL,
+  `username` VARCHAR(30) NOT NULL,
+  `sessione` INT NOT NULL,
+  `data` DATE NOT NULL,
+  `ora` TIME NOT NULL,
+  `testo` VARCHAR(500) NOT NULL,
+  PRIMARY KEY (`id_messaggio`),
+  INDEX `sessione_idx` (`sessione` ASC) VISIBLE,
+  INDEX `username_idx` (`username` ASC) VISIBLE,
+  CONSTRAINT `sessione`
+    FOREIGN KEY (`sessione`)
+    REFERENCES `confvirtual`.`sessione` (`id_sessione`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `username`
+    FOREIGN KEY (`username`)
+    REFERENCES `confvirtual`.`utente` (`username`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
