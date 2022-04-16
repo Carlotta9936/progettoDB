@@ -1,18 +1,20 @@
 extends layout 
 
 block content
-
-    h4= "Conferenze disponibili"
-    table.row
-        tr
+    h2.mt-4= "Conferenze disponibili"
+    table.table.mt-4
+        thead
+            tr
             th Nome
             th Acronimo
             th Anno
             th Data inizio
             th Data fine
-        each conferenza in conferenze
-            - var url= '/conferenza/'+ conferenza.acronimo + '/'+ conferenza.anno;
-            
+            th Link
+        
+        tbody
+            each conferenza in conferenze
+                - var url= '/conferenza/'+ conferenza.acronimo + '/'+ conferenza.anno;
                 tr
                     td= conferenza.nome
                     td= conferenza.acronimo

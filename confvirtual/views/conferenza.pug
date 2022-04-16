@@ -1,41 +1,39 @@
 extends layout 
 
 block content
-    div.container
-        h1.mt-4= conferenze[0].nome
-        div.row.mt-5
-            div.col-3
-                -  var percorsoImg = '/uploads/'+conferenze[0].logo 
-                img#logo(src= percorsoImg)
-            div.col-6
-                h3= "Informazioni"
-                h5= conferenze[0].acronimo + "  " + conferenze[0].anno
-                h5= "Inizia: " + conferenze[0].datainizio
-                h5= "Finisce: " + conferenze[0].datafine
-                h5= "Creatore: " + conferenze[0].creatore
-            div.col-3
-                form(action='' method='POST')
-                    button.btn.btn-primary.btn-lg(type='submit') SEGUI
-                button.btn.btn-primary(type='submit') Vai alla conferenza
-                h5= "Numero iscritti"
-                h5= "10"
+    h1.mt-4= conferenze[0].nome
+    div.row.mt-5
+        div.col-3
+            -  var percorsoImg = '/uploads/'+conferenze[0].logo 
+            img#logo(src= percorsoImg)
+        div.col-6
+            h3= "Informazioni"
+            h5= conferenze[0].acronimo + "  " + conferenze[0].anno
+            h5= "Inizia: " + conferenze[0].datainizio
+            h5= "Finisce: " + conferenze[0].datafine
+            h5= "Creatore: " + conferenze[0].creatore
+        div.col-3
+            form(action='' method='POST')
+                button.btn.btn-primary.btn-lg(type='submit') SEGUI
+            h5= "Numero iscritti"
+            h5= numIscritti
 
-        h4= "sessioni"
+    h4= "sessioni"
 
-        each conferenza in conferenze
-            - var url= '/sessione/' + conferenza.sessione + '/'+ conferenza.titolosessione;
-                    a(href= url)
-                        h5= 'Nome sessione: '+conferenza.titolosessione
-                        h5= 'Data: '+conferenza.data
-                        h5= 'Ora inizio: '+conferenza.orai
-                        h5= 'Ora fine: '+conferenza.oraf
-            form(action='/presentazione/nuovaPresentazione/'+conferenza.sessione method='GET')
-                button.btn.btn-primary(type='submit') Aggiungi una presentazione
-            
-
-        h4= "sponsor"
-
-        each sponsor in sponsors
-            - var url= '/sponsor/' + sponsor.nome;
+    each conferenza in conferenze
+        - var url= '/sessione/' + conferenza.sessione + '/'+ conferenza.titolosessione;
                 a(href= url)
-                    h5= sponsor.nome
+                    h5= 'Nome sessione: '+conferenza.titolosessione
+                    h5= 'Data: '+conferenza.data
+                    h5= 'Ora inizio: '+conferenza.orai
+                    h5= 'Ora fine: '+conferenza.oraf
+        form(action='/presentazione/nuovaPresentazione/'+conferenza.sessione method='GET')
+            button.btn.btn-primary(type='submit') Aggiungi una presentazione
+        
+
+    h4= "sponsor"
+
+    each sponsor in sponsors
+        - var url= '/sponsor/' + sponsor.nome;
+            a(href= url)
+                h5= sponsor.nome
