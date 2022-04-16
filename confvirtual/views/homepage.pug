@@ -24,12 +24,14 @@ block content
         div.col-4
             h4= "Migliori conferenze per hype"
             table
-                tr
+                thead
+                    tr
                     th Acronimo
                     th Anno
                     th Num. iscrizioni
-                each conferenzaHype in conferenzeHype
-                    tr
+                tbody
+                    each conferenzaHype in conferenzeHype
+                        tr
                         td= conferenzaHype.iscrizione_acronimo
                         td= conferenzaHype.iscrizione_anno
                         td= conferenzaHype.conta
@@ -37,13 +39,15 @@ block content
         div.col-4   
             h4= "Migliori presentazioni per numero di like"
             table
-                tr
+                thead 
+                    tr
                     th Nome
                     th Num. like
                     th Anno
                     th Acronimo
-                each presentazione in presentazioni 
-                    tr
+                tbody
+                    each presentazione in presentazioni 
+                        tr
                         td= presentazione.nome
                         td= presentazione.conta
                         td= presentazione.anno
@@ -51,6 +55,14 @@ block content
 
         div.col-4
             h4= "Migliori presenter/speaker"
-            each presentatore in miglioriPresenterESpeaker
-                p #{presentatore.mediaVoto} #{presentatore.valutazione_presentazione}
+            table
+                thead 
+                    tr  
+                    th Username 
+                    th Media voto 
+                tbody 
+                    each presentatore in miglioriPresenterESpeaker
+                        tr
+                        td= presentatore.votato
+                        td= presentatore.mediaVoto
 
