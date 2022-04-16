@@ -37,7 +37,7 @@ var sponsorRouter =require ('./routes/sponsor');
 var risorsaRouter= require ('./routes/risorseAggiuntive');
 var articoloRouter= require ('./routes/articolo');
 var tutorialRouter=require ('./routes/tutorial');
-
+var ricercaRouter = require ('./routes/ricerca');
 
 //Indirizzamento
 app.use('/', indexRouter);
@@ -49,6 +49,7 @@ app.use('/sponsor',sponsorRouter);
 app.use('/risorseAggiuntive', risorsaRouter);
 app.use('/articolo',articoloRouter);
 app.use('/tutorial',tutorialRouter);
+app.use('/ricerca/', ricercaRouter);
 // ⇩ secondo me non servono
 /*app.use('/sponsor',require('./routes/sponsor'));
 app.use('/sponsorizzazione',require('./routes/sponsorizzazione'));
