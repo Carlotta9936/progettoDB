@@ -1,0 +1,29 @@
+extends layout 
+
+block content 
+    .card
+      .card-body
+        form(action='/:username/modificaProfilo' method='POST')
+          .form-group
+            label(for='username') Username
+            input#username.form-control(type='text' name='username' value= Dati.username)
+          .form-group
+            label(for='password') Password
+            input#password.form-control(type='password' name='password' value= Dati.password)
+          .form-group
+            label(for='passwordConfirm') Conferma password
+            input#passwordConfirm.form-control(type='password' name='passwordConfirm' value= Dati.password)
+          br
+          .form-group
+            label(for='nome') Nome
+            input#nome.form-control(type='text' name='nome' value= Dati.nome)
+          .form-group
+            label(for='cognome') Cognome
+            input#cognome.form-control(type='text' name='cognome' value= Dati.cognome)
+          .form-group
+            label(for='luogoNascita') Luogo di nascita
+            input#luogoNascita.form-control(type='text' name='luogoNascita' value= Dati.luogo_nascita)
+          .form-group
+            label(for='dataNascita') Data di nascita
+            input#dataNascita.form-control(type='date' name='dataNascita' value= Dati.data_nascita)
+          button.btn.btn-primary.mt-3(type='submit') Aggiorna

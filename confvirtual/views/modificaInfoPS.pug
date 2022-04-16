@@ -1,0 +1,18 @@
+extends layout 
+
+block content
+    h3= "Aggiorna dati"
+    form(action='' method='POST' enctype='multipart/form-data')
+        .form-group
+            label(for='uni') Università:
+            input.input-fiel(type='text' placeholder='Università' name='uni' value= Dati.universita)
+        .form-group
+            label(for='dipartimento') Dipartimento:
+            input.input-field(type='text' placeholder='Dipartimento' name='dipartimento' value= Dati.dipartimento)
+        .form-group
+            label(for='image') Foto profilo:
+            input(type='file' name='image' accept='image/*')
+        .form-group
+            label(for='cv') CV:
+            input(type='file' name='cv' accept='pdf/*')
+        button.btn.btn-primary(type='submit') Aggiorna

@@ -3,7 +3,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('../connectionDB');
 var cookieParser = require('cookie-parser');
-const fileUpload = require('express-fileupload');
 
 
 var token;

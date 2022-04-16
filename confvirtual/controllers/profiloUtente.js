@@ -112,3 +112,53 @@ exports.renderizzaProfilo = (req, res) => {
     })
     }}
 }
+
+
+exports.modifica = (req, res) => {
+    console.log(res.locals.informazioniPersonali.data_nascita);
+    res.locals.informazioniPersonali.data_nascita = new Date(res.locals.informazioniPersonali.data_nascita).toISOString().split("T")[0];
+    console.log(res.locals.informazioniPersonali.data_nascita);
+    res.render('modificaProfilo', {Dati: res.locals.informazioniPersonali});
+
+}
+
+
+exports.aggiornaInfo = (req, res) => {
+    const { username, password, passwordConfirm, nome, cognome, luogoNascita, dataNascita } = req.body;
+    db.query(`call aggiornaInfo('${username}', '${password}', '${nome}', '${cognome}', '${luogoNascita}', '${dataNascita}');`, (err, results) => {
+        if(err) {throw err;}
+        res.redirect('/homepage');
+    });
+}
+
+exports.getInfo = (req, res, next) => {
+    db.query(`call getInfoPS('${req.params.username}')`, (err, result) => {
+        console.log(result[0][0]);
+        res.locals.foto=  result[0][0];
+        res.render('modificaInfoPS', {Dati: result[0][0]});
+    })
+}
+
+exports.aggiornaPS = (req, res) => {
+    const {uni, dipartimento} = req.body;
+    var foto = req.files.image;
+    var cv = req.files.cv;
+    console.log(cv);
+    //console.log("--------" + foto[0]);
+    db.query(`call getInfoPS('${req.params.username}')`, (err, result) => {
+        if(err) {throw err; }
+        if(foto === undefined){
+            foto = result[0][0].foto;
+        }
+        if(cv === undefined) {
+            cv = result[0][0].cv;
+        }
+
+        console.log();
+        db.query(`call aggiornaInfoPs('${result[0][0].ruolo}', '${result[0][0].username}','${uni}', '${dipartimento}', '${cv[0].filename}', '${foto[0].filename}')`, (err, result) => {
+            if(err) {throw err;}
+            res.redirect('/homepage');
+        })
+    })
+    
+}
