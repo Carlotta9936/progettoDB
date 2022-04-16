@@ -141,21 +141,25 @@ exports.getInfo = (req, res, next) => {
 
 exports.aggiornaPS = (req, res) => {
     const {uni, dipartimento} = req.body;
-    var foto = req.files.image;
-    var cv = req.files.cv;
+    var foto = req.files.image
+    var cv = req.files.cv
     console.log(cv);
     //console.log("--------" + foto[0]);
     db.query(`call getInfoPS('${req.params.username}')`, (err, result) => {
         if(err) {throw err; }
         if(foto === undefined){
             foto = result[0][0].foto;
+        } else {
+            foto = foto[0].filename;
         }
         if(cv === undefined) {
             cv = result[0][0].cv;
+        } else {
+            cv = cv[0].filename
         }
 
-        console.log();
-        db.query(`call aggiornaInfoPs('${result[0][0].ruolo}', '${result[0][0].username}','${uni}', '${dipartimento}', '${cv[0].filename}', '${foto[0].filename}')`, (err, result) => {
+        console.log(foto);
+        db.query(`call aggiornaInfoPs('${result[0][0].ruolo}', '${result[0][0].username}','${uni}', '${dipartimento}', '${cv}', '${foto}')`, (err, result) => {
             if(err) {throw err;}
             res.redirect('/homepage');
         })
