@@ -23,6 +23,7 @@ Fare controlli sulle date	[Carlotta/Alsi]:
 - non si possono avere presentazioni in simultanea nella stessa sessione V
 - ordine delle presentazioni
 
+- ricerca utenti
 
 Trigger				[Carlotta/Alsi] V
 
