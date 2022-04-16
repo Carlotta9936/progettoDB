@@ -1,0 +1,11 @@
+extends layout 
+
+block content 
+
+    h2.mt-3= "Utenti"
+    each utente in utenti
+        h3= utente.username + "  "  + utente.nome + "  "  + utente.cognome
+
+    h2.mt-5= "Conferenze"
+    each conferenza in conferenze 
+        h3= conferenza.nome + "  "  + conferenza.acronimo + "  "  + conferenza.anno

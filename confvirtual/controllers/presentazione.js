@@ -9,7 +9,8 @@ exports.formPresentazione = (req, res)=>{
     //query per visualizzare dati di una sessione
     db.query(`call specificasessione ('${req.params.sessione}')`,(err,results)=>{
         if(err) throw err;
-        //console.log(results[0]);
+        console.log(results[0]);
+        results[0][0].data = DateTime.fromJSDate(results[0][0].data).toLocaleString(DateTime.DATE_MED);
         res.render('newpresentazione',{sessione: results[0]});
     });
 }
@@ -36,14 +37,12 @@ exports.creaPresentazione = (req,res)=>{
                         //console.log("ok");
                         tipo=req.body.tipo;
                         //query per prendere l'ultima presentazione creata
-                        console.log("MMMMMH")
                         db.query(`call selezionapresentazione ()`,(err,results)=>{
                             if(err){
                                 //console.log(results);
                                 console.log(err);
                             }else{
                                 //console.log(results[0]);
-                                console.log("MMMMMMMH!!!!!!!!!!!!!!!")
                                 res.redirect(tipo+'/'+results[0][0].id);
                             }
                         });

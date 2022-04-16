@@ -1,32 +1,31 @@
-doctype html
-head
-  meta(charset='utf-8')
-  meta(name='viewport' content='width=device-width, initial-scale=1')
-  title Presentazione
-h1= 'Stai aggiungengo una presentazione alla sessione: '+sessione[0].sessione+' del: '+sessione[0].data+' della conferenza: '+sessione[0].anno+' '+sessione[0].acronimo
-// your content here...
-form(action='/presentazione/nuovaPresentazione/'+sessione[0].id method='POST')
-  .form-group
-    label(for='oraI') Ora inizio
-    input#oraI.form-control(type='time' name='oraI')
-  .form-group
-    label(for='oraF') Ora fine
-    input#oraF.form-control(type='time' name='oraF')
-  .form-group
-    label(for='ordine') Ordine
-    input#ordine.form-control(type='num' name='ordine')
-  .form-group
-    label(for='tipo') Tipologia della presentazione:
-      select#tipo.form-control(type='select' placeholder='Select tipologia' name='tipo' required='true')
-          option(
-            value= '/presentazione/tutorial'
-          ) tutorial
-          option(
-            value= '/presentazione/articolo'
-          ) articolo
-          tipo= tipo
-    
-  button.btn.btn-primary(type='submit') Crea 
+extends layout 
+
+block content 
+  div.row
+    div.col-7
+      h1= 'Stai aggiungengo una presentazione alla sessione: '+sessione[0].sessione+' del: '+sessione[0].data+' della conferenza: '+sessione[0].anno+' '+sessione[0].acronimo
+      form(action='/presentazione/nuovaPresentazione/'+sessione[0].id method='POST')
+        .form-group
+          label(for='oraI') Ora inizio
+          input#oraI.form-control(type='time' name='oraI')
+        .form-group
+          label(for='oraF') Ora fine
+          input#oraF.form-control(type='time' name='oraF')
+        .form-group
+          label(for='ordine') Ordine
+          input#ordine.form-control(type='num' name='ordine')
+        .form-group
+          label(for='tipo') Tipologia della presentazione:
+            select#tipo.form-control(type='select' placeholder='Select tipologia' name='tipo' required='true')
+                option(
+                  value= '/presentazione/tutorial'
+                ) tutorial
+                option(
+                  value= '/presentazione/articolo'
+                ) articolo
+                tipo= tipo
+          
+        button.btn.btn-primary(type='submit') Crea 
 
 
 

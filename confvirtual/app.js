@@ -37,7 +37,7 @@ var sponsorRouter =require ('./routes/sponsor');
 var risorsaRouter= require ('./routes/risorseAggiuntive');
 var articoloRouter= require ('./routes/articolo');
 var tutorialRouter=require ('./routes/tutorial');
-
+var ricercaRouter = require ('./routes/ricerca');
 
 //Indirizzamento
 app.use('/', indexRouter);
@@ -49,6 +49,7 @@ app.use('/sponsor',sponsorRouter);
 app.use('/risorseAggiuntive', risorsaRouter);
 app.use('/articolo',articoloRouter);
 app.use('/tutorial',tutorialRouter);
+app.use('/ricerca/', ricercaRouter);
 // ⇩ secondo me non servono
 /*app.use('/sponsor',require('./routes/sponsor'));
 app.use('/sponsorizzazione',require('./routes/sponsorizzazione'));
@@ -109,10 +110,19 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
+
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
+  console.log(res.locals);
+  console.log(err.message);
+  if(err.message === "jwt must be provided"){
+    res.render('login');
+  }
 
+  if(err.status === 404){
+    res.render('notFound');
+  }
   // render the error page
   res.status(err.status || 500);
   res.render('error');

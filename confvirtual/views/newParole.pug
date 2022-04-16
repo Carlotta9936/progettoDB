@@ -1,14 +1,12 @@
-doctype html
-head
-  meta(charset='utf-8')
-  meta(name='viewport' content='width=device-width, initial-scale=1')
-  title= Sessioni
-h2= "Aggiungi parole chiavi all'Articolo: " +articolo
+extends layout 
 
-form(action='/presentazione/chiavi/'+ articolo method='POST')
-    .form-group
-        label(for='parole') parola:
-        input#parole.form-control(type='text' name='parole')
-    button.btn.btn-primary(type='submit') Aggiungi
-form(action='/conferenza/' method='GET')
-    button.btn.btn-primary(type='submit') FINE
+block content 
+    h2= "Aggiungi parole chiavi all'Articolo: " +articolo
+
+    form(action='/presentazione/chiavi/'+ articolo method='POST')
+        .form-group
+            label(for='parole') parola:
+            input#parole.form-control(type='text' name='parole')
+        button.btn.btn-primary(type='submit') Aggiungi
+    form(action='/conferenza/' method='GET')
+        button.btn.btn-primary(type='submit') FINE

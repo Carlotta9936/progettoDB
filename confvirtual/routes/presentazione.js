@@ -16,8 +16,4 @@ router.get('/chiavi/:id_articolo',presentazioneController.formParoleChiave);
 router.post('/chiavi/:id_articolo',presentazioneController.creaParoleChiave);
 router.post('/speaker/:id_tutorial',presentazioneController.associaSpeaker);
 
-
-
-
-
 module.exports = router;

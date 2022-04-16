@@ -95,18 +95,26 @@ exports.programma = (req,res)=>{
                 if(err) throw err;
                 console.log("ciao"+{result});
                 //verifica che la conferenza abbia un programma da viasualizzare
-                if (result[0].length>0){
-                    //query per visulizzare gli sponsor
-                    db.query(`call visualizzasponsor('${req.params.anno}','${req.params.acronimo}');`,(err,results)=>{
-                        if(err) throw err;
-                        result[0][0].datainizio = DateTime.fromJSDate(result[0][0].datainizio).toLocaleString(DateTime.DATE_MED);
-                        result[0][0].datafine = DateTime.fromJSDate(result[0][0].datafine).toLocaleString(DateTime.DATE_MED);
-                        for(var i = 0; i < result[0].length; i++){
-                            result[0][i].data = DateTime.fromJSDate(result[0][i].data).toLocaleString(DateTime.DATE_MED);
-                        }
-                        res.render('conferenza',{conferenze: result[0], sponsors: results[0]});
 
-                    });
+                
+                if (result[0].length>0){
+
+                    db.query(`call getNumeroIscritti('${req.params.acronimo}', '${req.params.anno}');`, (err, numIsc) => {
+                        if(err) {throw err;}
+                        //res.locals.numIscritti = result[0][0].numIscritti
+                        db.query(`call visualizzasponsor('${req.params.anno}','${req.params.acronimo}');`,(err,results)=>{
+                            if(err) throw err;
+                            result[0][0].datainizio = DateTime.fromJSDate(result[0][0].datainizio).toLocaleString(DateTime.DATE_MED);
+                            result[0][0].datafine = DateTime.fromJSDate(result[0][0].datafine).toLocaleString(DateTime.DATE_MED);
+                            for(var i = 0; i < result[0].length; i++){
+                                result[0][i].data = DateTime.fromJSDate(result[0][i].data).toLocaleString(DateTime.DATE_MED);
+                            }
+                            res.render('conferenza',{conferenze: result[0], sponsors: results[0], numIscritti: numIsc[0][0].numIscritti});
+    
+                        });
+                    })
+                    //query per visulizzare gli sponsor
+                    
                         
                 }
                 else{

@@ -1,12 +1,11 @@
 DELIMITER $$
-CREATE PROCEDURE classificaPresentatori ()
+CREATE PROCEDURE `classificaPresentatori`()
 BEGIN
-	select avg(valutazione) as mediaVoto, valutazione_presentazione
-	from valutazione
-	group by valutazione_presentazione
+	select votato, avg(voto) as mediaVoto
+	from votiEvotati
+	group by votato
 	order by mediaVoto
 	DESC
 	LIMIT 5;
+    
 END$$
-
-DELIMITER ;
