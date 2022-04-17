@@ -18,22 +18,40 @@ block content
             h5= "Numero iscritti"
             h5= numIscritti
 
-    h4= "sessioni"
+    if permessi 
+        - var url = "/modifica" 
+        form(action="./modifica" method='GET')
+            button.btn.btn-primary.btn-lg(type='submit') Modifica conferenza
 
+
+    h4= "Sessioni"
+       
     each conferenza in conferenze
-        - var url= '/sessione/' + conferenza.sessione + '/'+ conferenza.titolosessione;
-                a(href= url)
-                    h5= 'Nome sessione: '+conferenza.titolosessione
-                    h5= 'Data: '+conferenza.data
-                    h5= 'Ora inizio: '+conferenza.orai
-                    h5= 'Ora fine: '+conferenza.oraf
-        form(action='/presentazione/nuovaPresentazione/'+conferenza.sessione method='GET')
-            button.btn.btn-primary(type='submit') Aggiungi una presentazione
-        
+        - var Data = conferenza.sessione
+        #accordionExample.accordion
+            .accordion-item
+                h2#headingOne.accordion-header
+                    button.accordion-button(type='button' data-bs-toggle='collapse' data-bs-target='#collapseOne' aria-expanded='true' aria-controls='collapseOne')
+                        | #{conferenza.sessione}
+                #collapseOne.accordion-collapse.collapse.show(aria-labelledby='headingOne' data-bs-parent='#accordionExample')
+                    .accordion-body
+                        - var url= '/sessione/' + conferenza.sessione + '/'+ conferenza.titolosessione;
+                        .card
+                            .card-body
+                                a(href= url)
+                                    h5= 'Nome sessione: '+conferenza.titolosessione
+                                    h5= 'Data: '+conferenza.data
+                                    h5= 'Ora inizio: '+conferenza.orai
+                                    h5= 'Ora fine: '+conferenza.oraf
+                                if permessi
+                                    form(action='/presentazione/nuovaPresentazione/'+conferenza.sessione method='GET')
+                                        button.btn.btn-primary(type='submit') Aggiungi una presentazione
 
     h4= "sponsor"
 
     each sponsor in sponsors
         - var url= '/sponsor/' + sponsor.nome;
             a(href= url)
+                img(src='/uploads/'+sponsor.logo)
                 h5= sponsor.nome
+

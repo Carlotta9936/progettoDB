@@ -39,6 +39,9 @@ router.get('/homepage', homepage.preferiti, homepage.classificaPresentazioni, ho
 
 router.get('/conferenza/:acronimo/:anno', conferenza.programma);
 router.get('/conferenza', conferenza.disponibile);
+router.get('/conferenza/:acronimo/:anno/modifica', conferenza.modificaConferenza);
+router.post('/conferenza/:acronimo/:anno/modifica/aggiungiModeratori', conferenza.aggiungiAdmin);
+
 
 router.post('/conferenza/:acronimo/:anno', conferenza.segui);
 

@@ -41,7 +41,7 @@ controllare che solo gli speaker di quel tutorial possano caricare risorse aggiu
 controllare solo speaker possano mettere risorse aggiuntive [Alsi]
 aggiungere si possa modificare/aggiungere successivamente risorse aggiuntive  [Alsi]
 aggiungere foto e cv	[Alsi]V
-aggiungere si possa modificare/aggiungere successivamente foto e cv  [Alsi]
+aggiungere si possa modificare/aggiungere successivamente foto e cv  [Alsi] V
 parole chiave           [Carlotta]V
 
 

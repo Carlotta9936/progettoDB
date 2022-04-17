@@ -13,7 +13,7 @@ body
       button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation')
         span.navbar-toggler-icon
       #navbarNav.collapse.navbar-collapse
-        <form action="/ricerca?s=" + ricerca.value method="POST" class="d-flex">
+        <form action="/ricerca?s=" method="POST" class="d-flex">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="ricerca">
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>

@@ -63,7 +63,6 @@ exports.formSessione = (req, res)=>{
             for(var i = 0; i < results[0].length; i++) {
                 results[0][i].data = DateTime.fromJSDate(results[0][i].data).toLocaleString(DateTime.DATE_MED);
             }
-            
             res.render('newsessione', {programmi: results[0]});
         }
     });
@@ -90,44 +89,46 @@ exports.programma = (req,res)=>{
         if (results[0].length==0){
             res.render('conferenzaInesistente',{nome: req.params.acronimo, anno:req.params.anno});
         }else{
-            //vado a prendere le speicifiche con programmi e sessioni si una conferenza
-            db.query(`call specificaconferenza('${req.params.anno}','${req.params.acronimo}');`,(err,result)=>{
-                if(err) throw err;
-                console.log("ciao"+{result});
-                //verifica che la conferenza abbia un programma da viasualizzare
-
-                
-                if (result[0].length>0){
-
-                    db.query(`call getNumeroIscritti('${req.params.acronimo}', '${req.params.anno}');`, (err, numIsc) => {
-                        if(err) {throw err;}
-                        //res.locals.numIscritti = result[0][0].numIscritti
-                        db.query(`call visualizzasponsor('${req.params.anno}','${req.params.acronimo}');`,(err,results)=>{
-                            if(err) throw err;
-                            result[0][0].datainizio = DateTime.fromJSDate(result[0][0].datainizio).toLocaleString(DateTime.DATE_MED);
-                            result[0][0].datafine = DateTime.fromJSDate(result[0][0].datafine).toLocaleString(DateTime.DATE_MED);
-                            for(var i = 0; i < result[0].length; i++){
-                                result[0][i].data = DateTime.fromJSDate(result[0][i].data).toLocaleString(DateTime.DATE_MED);
-                            }
-                            res.render('conferenza',{conferenze: result[0], sponsors: results[0], numIscritti: numIsc[0][0].numIscritti});
+            //vado a prendere le specifiche con programmi e sessioni di una conferenza
+            db.query(`call datiConferenza('${req.params.anno}', '${req.params.acronimo}')`, (err, results) => {
+                if(err) {throw err;}
+                //console.log({results});
+                 //verifica che la conferenza abbia un programma da viasualizzare
+                if (results[0].length>0){
+                    results[0][0].datainizio = DateTime.fromJSDate(results[0][0].datainizio).toLocaleString(DateTime.DATE_MED);
+                    results[0][0].datafine = DateTime.fromJSDate(results[0][0].datafine).toLocaleString(DateTime.DATE_MED);
+                    for(var i = 0; i < results[0].length; i++){
+                        results[0][i].data = DateTime.fromJSDate(results[0][i].data).toLocaleString(DateTime.DATE_MED);
+                    }
+                    console.log(results[0]);
+                    console.log(results[1]);
+                    console.log(results[2]);
+                    console.log(results[3]);
+                    console.log(results[4]);
+                    var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
+                    var modifica = false;
+                    for(var i = 0; i < results[1].length; i++){
+                        if(results[1][i].associazione_username === decoded.username) { 
+                            modifica = true;
+                        }
+                    }
+                    console.log(results[1][0]);
+                    res.render('conferenza',{conferenze: results[0], giorni: results[2], moderatori: results[1], permessi: modifica, sponsors: results[4], numIscritti: results[3][0].numIscritti});
     
-                        });
-                    })
-                    //query per visulizzare gli sponsor
-                    
-                        
-                }
-                else{
-                    console.log("totta");
+                } else {
+                    console.log("conferneza vuota");
                     res.render('conferenzaVuota',{nome: req.params.acronimo, anno:req.params.anno});
                 }
-            });
+            })
         }
     });
 }
 
 //visualizzazione conferenze disponibili
 exports.disponibile=(req,res)=>{
+    var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
+    console.log(decoded.diritti);
+    var aggiungiConferenza = decoded.diritti === "Admin"? true : false;
     db.query(`call conferenzedisponibili ();`,(err,results)=>{
         if(err) throw err;
         console.log(results[0]);
@@ -135,8 +136,7 @@ exports.disponibile=(req,res)=>{
             results[0][i].datainizio = DateTime.fromJSDate(results[0][i].datainizio).toLocaleString(DateTime.DATE_MED);
             results[0][i].datafine = DateTime.fromJSDate(results[0][i].datafine).toLocaleString(DateTime.DATE_MED);
         }
-
-        res.render('conferenzeAttive',{conferenze: results[0] });
+        res.render('conferenzeAttive',{conferenze: results[0], admin: aggiungiConferenza});
     });
 
 }
@@ -178,4 +178,19 @@ exports.segui = (req, res) => {
         console.log("Si cazzo");
         }
     });
+}
+
+exports.modificaConferenza = (req, res) => {
+    db.query(`call getAdminLiberi('${req.params.anno}', '${req.params.acronimo}')`, (err, results) => {
+        console.log(results[0]);
+        res.render("modificaConferenza", {admins: results[0], anno: req.params.anno});
+    })
+} 
+
+exports.aggiungiAdmin = (req, res) => {
+    const {admin} = req.body;
+    db.query(`call aggiungiAssociazioni('${admin}', '${req.params.anno}', '${req.params.acronimo}');`, (err, results) => {
+        if(err) {throw err;}
+        res.status(200);
+    })
 }

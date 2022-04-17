@@ -1,0 +1,17 @@
+extends layout 
+
+block content 
+
+    h1= "Aggiungi moderatori"
+    form(action='./modifica/aggiungiModeratori' method='POST')
+        label(for='admin') Amministratori:
+            select#sponsors.form-control(type='select' placeholder='Select sponsor' name='admin')
+              for admin in admins
+                option(
+                  value= admin.usernameAdmin
+                ) #{admin.usernameAdmin}
+        button.btn.btn-primary(type='submit') Aggiungi
+
+    
+    form(action="." method="GET")
+        button.btn.btn-primary(type='submit') Fine

@@ -1,21 +1,17 @@
-doctype html
-head
-  meta(charset='utf-8')
-  meta(name='viewport' content='width=device-width, initial-scale=1')
-  title Speaker
-h1= "Assegnazione degli speaker al tutorial "+ tutorial
-// your content here...
-form(action='/presentazione/speaker/'+ tutorial method='POST')
-  .form-group
-    label(for='speaker') Selezionare gli spaker:
-      for speakers in speaker
-        label= speakers.usernameSpeaker
-        input(
-            type= 'checkbox'
-            name= 'listaspeaker'
-            value= speakers.usernameSpeaker
-        )
-  button.btn.btn-primary(type='submit') Assegna
+extends layout 
+
+block content 
+  form(action='/presentazione/speaker/'+ tutorial method='POST')
+    .form-group
+      label(for='speaker') Selezionare gli spaker:
+        for speakers in speaker
+          label= speakers.usernameSpeaker
+          input(
+              type= 'checkbox'
+              name= 'listaspeaker'
+              value= speakers.usernameSpeaker
+          )
+    button.btn.btn-primary(type='submit') Assegna
 
 
 

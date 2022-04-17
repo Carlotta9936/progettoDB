@@ -23,7 +23,7 @@ block content
                     td= conferenza.datafine
                     td
                         a(href= url)
-                            img(src="img/linkIcon.png")
-
-    form(action='/conferenza/nuovaConferenza1-3' method='GET')
-      button.btn.btn-primary(type='submit') Nuova conferenza
+                            img(src="img/linkIcon.png")                     
+    if admin
+        form(action='/conferenza/nuovaConferenza1-3' method='GET')
+            button.btn.btn-primary(type='submit') Nuova conferenza

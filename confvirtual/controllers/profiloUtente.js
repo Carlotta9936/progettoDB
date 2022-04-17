@@ -109,8 +109,8 @@ exports.renderizzaProfilo = (req, res) => {
                     dataNascita: res.locals.informazioniPersonali.data_nascita,
                     conferenze: res.locals.conferenze,
                     presentazioni: res.locals.presentazioniPreferite
-    })
-    }}
+                })
+            }}
 }
 
 

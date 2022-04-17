@@ -1,18 +1,18 @@
-doctype html
-head
-  meta(charset='utf-8')
-  meta(name='viewport' content='width=device-width, initial-scale=1')
-  title Sponsor
-h3= 'crea nuovi sponsor poi torna alla sponsorizzazioni'
-// your content here...
-form(action='/sponsor/nuovoSponsor' method='POST')
-  .form-group
-    label(for='nome') Nome
-    input#nome.form-control(type='text' name='nome')
-  .form-group
-    label(for='logo') Logo
-    input#logo.form-control(type='text' name='logo')
-    //input#logo.form-control(type='file' name='logo' accept='image/*')
-  button.btn.btn-primary(type='submit') Crea
-form(action='/conferenza/nuovaConferenza3-3/'+acronimo+'/'+anno method='GET')
-  button.btn.btn-primary(type='submit') Torna a sponsorizzazioni
+extends layout 
+
+block content
+  .container.mt-4.col-5
+      .card
+        .card-body
+          h2= "Creazione di uno sponsor"
+          form(action='/sponsor/nuovoSponsor' method='POST' enctype='multipart/form-data')
+            .form-group
+              label(for='nome') Nome
+              input#nome.form-control(type='text' name='nome')
+            .form-group
+              label(for='logo') Logo
+              input(type='file' name='image' accept='image/*')
+            button.btn.btn-primary(type='submit') Crea
+
+          form(action='/conferenza/nuovaConferenza3-3/'+acronimo+'/'+anno method='GET')
+            button.btn.btn-primary(type='submit') Torna a sponsorizzazioni
