@@ -25,17 +25,19 @@ block content
                 button.btn.btn-primary.btn-lg(type='submit') SEGUI
             h5= "Numero iscritti"
             h5= numIscritti
+            
     
     h4.mt-4= "Programma giornalieri:"
     
-    #accordionExample.accordion.mt-4
-        each giorno in giorni
+        #accordionExample.accordion.mt-4
+        each giorno, i in giorni
             -var field = giorno.data
+            -var index = "giorno"+i
             .accordion-item
                 h2#headingOne.accordion-header
-                button.accordion-button(type='button' data-bs-toggle='collapse' data-bs-target="#giorno" aria-expanded='true' aria-controls=giorno)
+                button.accordion-button(type='button' data-bs-toggle='collapse' data-bs-target="#"+index aria-expanded='true' aria-controls=index)
                     | Programma del #{giorno.data}
-                #giorno.accordion-collapse.collapse.show(aria-labelledby='headingOne' data-bs-parent='#accordionExample')
+                div.accordion-collapse.collapse.show(id=index aria-labelledby='headingOne' data-bs-parent='#accordionExample')
                     .accordion-body
                         div.row
                             each conferenza in conferenze
@@ -54,6 +56,8 @@ block content
                                                     form(action='/presentazione/nuovaPresentazione/'+conferenza.sessione method='GET')
                                                         button.btn.btn-primary(type='submit') Aggiungi una presentazione
 
+
+    
     h4.mt-4= "Sponsor:"
     div.row
         each sponsor in sponsors
@@ -62,4 +66,3 @@ block content
                 a(href= urlSponsor)
                     img.sponsor(src='/uploads/'+sponsor.logo)
                     h5= sponsor.nome
-

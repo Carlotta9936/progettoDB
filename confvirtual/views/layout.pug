@@ -32,8 +32,8 @@ body
 script.
   document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('.ricerca').addEventListener('submit', function (event) {
-  var cosaricerca = document.getElementById("s").value;
-  window.location.replace("/ricerca?s=" + cosaricerca);
+  var ricerca = document.getElementById("s").value;
+  window.location.replace("/ricerca?s=" + ricerca);
   event.preventDefault();
   });
   });
