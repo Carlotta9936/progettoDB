@@ -1,7 +1,5 @@
 html, body{
   height: 100vh;
-  overflow-y: hidden;
-
 }
 
 #sidebar{
@@ -24,6 +22,11 @@ img {
 
 #fiore{
   width: 60%;
+}
+
+.sponsor{
+  height: 18%;
+  width: 18%;
 }
 .num{
   color: #0d6efd

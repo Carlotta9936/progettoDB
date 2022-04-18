@@ -3,7 +3,7 @@ extends layout
 block content 
     .card
       .card-body
-        form(action='/:username/modificaProfilo' method='POST')
+        form(action='/utenti/:username/modificaProfilo' method='POST')
           .form-group
             label(for='username') Username
             input#username.form-control(type='text' name='username' value= Dati.username)

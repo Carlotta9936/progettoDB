@@ -93,7 +93,7 @@ exports.programma = (req,res)=>{
             db.query(`call datiConferenza('${req.params.anno}', '${req.params.acronimo}')`, (err, results) => {
                 if(err) {throw err;}
                 //console.log({results});
-                 //verifica che la conferenza abbia un programma da viasualizzare
+                 //verifica che la conferenza abbia un programma da visualizzare
                 if (results[0].length>0){
                     results[0][0].datainizio = DateTime.fromJSDate(results[0][0].datainizio).toLocaleString(DateTime.DATE_MED);
                     results[0][0].datafine = DateTime.fromJSDate(results[0][0].datafine).toLocaleString(DateTime.DATE_MED);
@@ -105,19 +105,29 @@ exports.programma = (req,res)=>{
                     console.log(results[2]);
                     console.log(results[3]);
                     console.log(results[4]);
+
+                    //Controllo se l'utente ha il diritto di modificare
                     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
                     var modifica = false;
+                    
                     for(var i = 0; i < results[1].length; i++){
+                        console.log(decoded.username + "  " + results[1][i].associazione_username)
                         if(results[1][i].associazione_username === decoded.username) { 
                             modifica = true;
                         }
                     }
-                    console.log(results[1][0]);
+                    
+                    //Pulisco le date del programma giornaliero
+                    for(var i = 0; i<results[2].length; i++){
+                        results[2][i].data = DateTime.fromJSDate(results[2][i].data).toLocaleString(DateTime.DATE_MED);
+                    }
+                    console.log(results[2]);
+                    //Renderizzo tutto
                     res.render('conferenza',{conferenze: results[0], giorni: results[2], moderatori: results[1], permessi: modifica, sponsors: results[4], numIscritti: results[3][0].numIscritti});
     
                 } else {
                     console.log("conferneza vuota");
-                    res.render('conferenzaVuota',{nome: req.params.acronimo, anno:req.params.anno});
+                    res.render('conferenzaVuota',{nome: req.params.acronimo, anno:req.params.anno, admin: true});
                 }
             })
         }
@@ -158,7 +168,6 @@ exports.creaSponsorizzazione=(req,res)=>{
     });
     //query per contare gli sponsor della conferenza
     db.query(`call contasponsor('${req.params.anno}','${req.params.acronimo}')`,(err,results)=>{
-        console.log(results[0]);
         if(results[0][0].num_sponsorizzazioni>=5){
             //vengo mandato alla specifica della conferenza
             res.redirect('/conferenza/'+req.params.acronimo+'/'+req.params.anno);

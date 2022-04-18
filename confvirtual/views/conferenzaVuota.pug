@@ -2,3 +2,6 @@ extends layout
 
 block content
     h3= 'non è ancora possibile vedere il programma della conferenza: '+ nome +' '+ anno
+    if admin
+        form(action="/conferenza/nuovaConferenza2-3/"+nome+"/"+anno method='GET')
+            button.btn.btn-primary(type='submit') Aggiungi un programma
