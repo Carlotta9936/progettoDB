@@ -44,6 +44,8 @@ exports.specificaSessione=(req,res)=>{
                     }else{
                         tipo='tutorial';
                     }
+                    console.log("siamo noi" + results[0][0]);
+                    
                     res.render('sessione',{presentazioni: results[0], sessione: req.params.id_sessione, tipo: tipo});
                 });
             });

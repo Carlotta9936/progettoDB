@@ -1,39 +1,29 @@
-doctype html
-head
-  meta(charset='utf-8')
-  meta(name='viewport' content='width=device-width, initial-scale=1')
-  title Autori
-h1= "Assegnazione degli autori all' articolo "+ titolo
-// your content here...
-form(action='/autore/assegnaAutore/'+ articolo method='POST')
-  .form-group
-    label(for='autore') Selezionare gli autori dell'articolo:
-      for autore in autori
-        label= autore.nome
-        input(
-            type= 'checkbox'
-            name= 'listaautori'
-            value= autore.id_autore
-        )
-    label(for='autore') Selezionare gli autori/presenter dell'articolo:
-      for presenters in presenter
-        label= presenters.nome
-        input(
-            type= 'checkbox'
-            name= 'listaautori'
-            value= presenters.id_autore
-        )
-  button.btn.btn-primary(type='submit') Assegna
-h3= 'se non trovi gli autori che desideri clicca su questo bottone:'
-form(action='/autore/nuovoAutore/'+ articolo method='GET')
-    button.btn.btn-primary(type='submit') Nuovo autore
-form(action='/presentazione/chiavi/'+articolo method='GET')
-    button.btn.btn-primary(type='submit') Parole chiavi
+extends layout 
 
-
-
-
-
-
-
-
+block content
+  h1= "Assegnazione degli autori all' articolo "+ titolo
+  // your content here...
+  form(action='/autore/assegnaAutore/'+ articolo method='POST')
+    .form-group
+      label(for='autore') Selezionare gli autori dell'articolo:
+        for autore in autori
+          label= autore.nome
+          input(
+              type= 'checkbox'
+              name= 'listaautori'
+              value= autore.id_autore
+          )
+      label(for='autore') Selezionare gli autori/presenter dell'articolo:
+        for presenters in presenter
+          label= presenters.nome
+          input(
+              type= 'checkbox'
+              name= 'listaautori'
+              value= presenters.id_autore
+          )
+    button.btn.btn-primary(type='submit') Assegna
+  h3= 'se non trovi gli autori che desideri clicca su questo bottone:'
+  form(action='/autore/nuovoAutore/'+ articolo method='GET')
+      button.btn.btn-primary(type='submit') Nuovo autore
+  form(action='/presentazione/chiavi/'+articolo method='GET')
+      button.btn.btn-primary(type='submit') Parole chiavi

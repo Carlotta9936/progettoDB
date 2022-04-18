@@ -25,7 +25,13 @@ exports.creaPresentazione = (req,res)=>{
             controlloDate.controlloOrario(result[0][0].ora_i, oraI) && controlloDate.controlloOrario(oraF, result[0][0].ora_f)){   //L'orario delle presentazioni non può eccedere quello della sessione
             db.query(`call getPresentazioni('${req.params.sessione}')`, (err, results) => {
                 for(var i=0; i<results[0].length; i++){
-                    if(!controlloDate.controlloOrario(oraF, results[0][i].oraInizio) || !controlloDate.controlloDate(results[0][i].oraFine, oraI)){
+                    console.log(oraI);
+                    console.log(oraF);
+                    console.log(results[0][i].oraInizio);
+                    console.log(results[0][i].oraFine);
+                    if(!(controlloDate.controlloOrario(oraI, results[0][i].oraInizio) && controlloDate.controlloDate(oraF, results[0][i].oraInizio) ||
+                        controlloDate.controlloOrario(results[0][i].oraFine, oraF) && controlloDate.controlloDate(results[0][i].oraFine, oraI)))
+                    {
                         console.log("err")
                         res.send("Errore");
                     }
@@ -64,8 +70,10 @@ exports.formArticolo=(req,res)=>{
 
 //creao articolo senza l'assegnazione del presenter
 exports.creaArticolo=(req,res)=>{
-    const {PDF, pagine, titolo}= req.body;
-    db.query(`call insertarticolo ('${req.params.id_articolo}','${PDF}','${pagine}','${titolo}')`,(err,results)=>{
+    const {pagine, titolo}= req.body;
+    console.log(req.files.PDF);
+    const PDF = req.files.PDF;
+    db.query(`call insertarticolo ('${req.params.id_articolo}','${PDF[0].filename}','${pagine}','${titolo}')`,(err,results)=>{
         if(err){
             console.log(err);
         }else{

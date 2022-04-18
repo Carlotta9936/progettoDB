@@ -7,9 +7,9 @@ block content
             h3= 'Tutorial: '+ tutorial[0].titolo 
             h5='Speaker: '
                 each tutorials in tutorial
-                    - var url= '/speaker'+ tutorials.speaker//ancora non c'è il link
+                    - var url= '../utenti/'+ tutorials.speaker//ancora non c'è il link
                         a(href= url)
-                            h5= tutorials.nome +' '+ tutorials.cognome
+                            h5= tutorials.speaker
             h5= 'Abstract: '+tutorial[0].abstract
            
                     

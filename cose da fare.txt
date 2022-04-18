@@ -1,59 +1,55 @@
 Cose ancora da fare:
 
+
+controllo se non si seleziona un autore/presenter            [Carlotta/Alsi]
+
+IL PROGRAMMA NON DEVE CRASrsTI MA INFORMARTI  [Alsi/CArlotta] \
+
+Fare controlli sulle date	[Carlotta/Alsi]:
+- ordine delle presentazioni
+
+Assegnare un presenter a una presentazione [Carlotta]
+Controlli sul ruolo					        [Alsi]		\
+
+Togliere link a sponsor
+
+Risorse aggiutive 		[Carlotta]\
+controllare che solo gli speaker di quel tutorial possano caricare risorse aggiuntive   [Alsi]
+aggiungere si possa modificare/aggiungere successivamente risorse aggiuntive  [Alsi]
+
+
+Aggiustare bottoni nel profilo      [Alsi]
+
+Chat				[Carlotta] \
+Log eventi 			[Alsi]	
+
+
+Alert
+
+COSE FATTE:
 Creatore di presentazioni	[Carlotta] V
 crea tutorial		    	[Carlotta] V
 diventare uno speaker		[Alsi] V
 diventare un presenter		[Alsi] V
 sponsor max 5               [Carlotta] V
 presenter sia un autore     [Carlotta] V
-controllo se non si seleziona un autore/presenter            [Carlotta/Alsi]
 aggiungere attributo a presenter: id-autore                  [Carlotta]V
 conferenza: non deve essere richiesto chi crea la conferenza [Alsi] V
 logo in conferenza deve essere un caricamento di un'immagine [Alsi] V
 home dell'admin bottone che faccia creare conferenze         [Carlotta]V
 conferenza: link alla pagina degli sponsor                   [Alsi/Carlotta]V
-pdf di articolo deve essere il caricamento di un pdf         [Alsi]
-
+pdf di articolo deve essere il caricamento di un pdf         [Alsi] V
 #Totale_sponsorizzazioni in automatico                       [Carlotta]V
-IL PROGRAMMA NON DEVE CRASrsTI MA INFORMARTI  [Alsi/CArlotta]
 
 Fare controlli sulle date	[Carlotta/Alsi]:
 - data fine dopo data inizio:    conferenza V
 - presentazione non deve eccedere da sessione V
 - non si possono avere presentazioni in simultanea nella stessa sessione V
-- ordine delle presentazioni
 
-- ricerca utenti
-
+Ricerca utenti V
 Trigger				[Carlotta/Alsi] V
-
-l'event                     [Carlotta/Alsi] \
-
+l'event                     [Carlotta/Alsi] V
 Associazione presentazione a speaker	    [Carlotta] V
-Assegnare un presenter a una presentazione [Carlotta]
-Controlli sul ruolo					        [Alsi]		
-
-Grafica				[Carlotta/Alsi]		14/04
-
-
-Risorse aggiutive 		[Carlotta]\
-controllare che solo gli speaker di quel tutorial possano caricare risorse aggiuntive   [Alsi]
-controllare solo speaker possano mettere risorse aggiuntive [Alsi]
-aggiungere si possa modificare/aggiungere successivamente risorse aggiuntive  [Alsi]
 aggiungere foto e cv	[Alsi]V
 aggiungere si possa modificare/aggiungere successivamente foto e cv  [Alsi] V
 parole chiave           [Carlotta]V
-
-
-Chat				[Carlotta]
-Log eventi 			[Alsi]	
-
-
-Cose da chiedere a pino:
-https://getbootstrap.com/docs/5.1/components/dropdowns/
-
-https://getbootstrap.com/docs/5.1/components/accordion/
-
-spostare a destra la navbar
-
-Alert
