@@ -37,34 +37,16 @@ exports.specificaSessione=(req,res)=>{
                 console.log(results[0]);
                 //controllo tipologia della presentazione
                 db.query(`call istutorial('${req.params.id_sessione}')`,(err,result)=>{
-                    if(err) throw err;
-                        var tipo='';
+                    if(err) throw err;//hai detto che è da maiale, fai le view con gli id e il tipo di presentazione
+                    var tipo='';
                     if(result.length==0){
                         tipo='articolo';
                     }else{
                         tipo='tutorial';
                     }
                     console.log("siamo noi" + results[0][0]);
-                    var permessi= false; //variabile per gestire i peremessi di entrata alla chat
-                    var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
-                    //query per verificare se sono iscritto alla conferenza di cui fa parte la sessione
-                    db.query(`call verificaorasessione('${req.params.id_sessione}')`,(err,result)=>{ //da finire
-                        if(err) throw err;
-                        var data = new Date();
-                        var gg, mm, aaaa;
-                        gg = data.getDate() + "/";
-                        mm = data.getMonth() + 1 + "/";
-                        aaaa = data.getFullYear();
-                        data= gg+'/'+mm+'/'+aaaa;
-                        if(result[0].data==data){
-                            permessi=true;
-                            console.log('ciao'+data);
-                        }
-                        console.log(data);
-
-                        res.render('sessione',{presentazioni: results[0], sessione: req.params.id_sessione, tipo: tipo, permessi: permessi});
-                    });
                     
+                    res.render('sessione',{presentazioni: results[0], sessione: req.params.id_sessione, tipo: tipo});
                 });
             });
         }
