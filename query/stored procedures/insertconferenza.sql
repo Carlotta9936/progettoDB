@@ -3,4 +3,5 @@ CREATE PROCEDURE `insertconferenza`(in acronimo varchar (10) , in anno year(4) ,
 BEGIN
 	
     INSERT INTO conferenza(acronimo, anno, logo, datainizio, datafine, nome, creatore) VALUES (acronimo, anno, logo, datainizio, datafine, nome, creatore);
+    call aggiungiAssociazioni(creatore, anno, acronimo);
 END$$
