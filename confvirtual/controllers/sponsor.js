@@ -10,9 +10,9 @@ exports.formSponsor = (req,res)=>{
 exports.creaSponsor = (req,res)=>{
     const{nome}= req.body;    
     console.log(req.files.image[0].filename);
-   
-    if(req.files.length !== 0){
-        var logo = req.files.logo[0].filename;
+    console.log(req.files);
+    if(req.files.image.length !== 0){
+        var logo = req.files.image[0].filename;
     } else {
         var logo = "sponsorDefault.png";
     }

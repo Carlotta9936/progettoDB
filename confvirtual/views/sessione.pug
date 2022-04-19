@@ -1,6 +1,9 @@
 extends layout 
 
 block content
+    if permessi
+        form(action='/'+sessione+'/chat' method='GET')
+                button.btn.btn-primary(type='submit') Chat
     h4= "Sessione: "+ presentazioni[0].titolosessione
     h4= "Presentazioni"
     each presentazione in presentazioni
@@ -9,3 +12,4 @@ block content
             h5= 'Titolo Presentazione: '+ presentazione.titolo
             h5= 'Ora inizio: '+ presentazione.orai
             h5= 'Ora fine: '+ presentazione.oraf
+    
