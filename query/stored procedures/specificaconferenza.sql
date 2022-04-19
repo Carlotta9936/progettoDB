@@ -1,5 +1,4 @@
 DELIMITER $$
-
 CREATE PROCEDURE `specificaconferenza`(in anno year(4),in acronimo varchar(10))
 BEGIN
 	select conferenza.nome as nome, conferenza.acronimo as acronimo, conferenza.anno as anno,
@@ -11,5 +10,3 @@ BEGIN
 	inner join sessione on( programma_giornaliero.id_programma=sessione.programma)
 	where conferenza.anno= anno and conferenza.acronimo= acronimo;
 END$$
-
-DELIMITER ;

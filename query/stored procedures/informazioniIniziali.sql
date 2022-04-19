@@ -5,4 +5,3 @@ BEGIN
 	SELECT count(*) as numConferenze FROM conferenza;
 	SELECT count(*) as numConferenzeAttive FROM conferenza WHERE svolgimento = "Attiva";
 END$$
-DELIMITER ;

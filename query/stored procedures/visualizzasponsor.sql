@@ -11,5 +11,3 @@ BEGIN
 	and sponsorizzazione.nome_sponsor=sponsor.nome;
                         
 END$$
-
-DELIMITER ;

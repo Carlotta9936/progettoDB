@@ -4,5 +4,3 @@ BEGIN
 	INSERT INTO speaker (usernameSpeaker, universita, dipartimento, foto, cv) VALUES (username, uni, dip, img, curriculum);
     
 END$$
-
-DELIMITER ;

@@ -1,5 +1,4 @@
 DELIMITER $$
-
 CREATE  PROCEDURE `selectprogramma`( anno int, acronimo varchar(10))
 BEGIN
 	SELECT * 
@@ -7,5 +6,3 @@ BEGIN
     WHERE programma_giornaliero.anno=anno and programma_giornaliero.acronimo= acronimo;
     
 END$$
-
-DELIMITER ;

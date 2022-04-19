@@ -9,5 +9,3 @@ BEGIN
 	where preferiti.preferiti_username = username;
 END$$
 
-DELIMITER ;
-

@@ -1,5 +1,4 @@
 DELIMITER $$
-
 CREATE PROCEDURE `insertautore`(in nome varchar(45),in  cognome varchar(45))
 BEGIN
 	

@@ -7,4 +7,3 @@ BEGIN
     call getNumeroIscritti (anno, acronimo);
     call visualizzaSponsor (anno, acronimo);
 END$$
-DELIMITER ;

@@ -1,5 +1,4 @@
 DELIMITER $$
-
 CREATE PROCEDURE `insertarticolo`(in id_articolo int, in pdf varchar(70),in n_pagine int,in  titolo varchar(70))
 BEGIN
 	
