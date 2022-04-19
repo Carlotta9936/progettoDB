@@ -6,7 +6,9 @@ var logger = require('morgan');
 const db = require('./connectionDB');
 var http =require("http");
 var socketio=require("socket.io");
-
+const { MongoClient } = require('mongodb');
+const URI = "mongodb+srv://admin:admin@eventslog.oghro.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+const mongo = new MongoClient(URI);
 const { DateTime } = require('luxon');
 var app = express();
 
@@ -92,7 +94,7 @@ io.on('connection', (socket) => {
   });
 });
 
-//Connessione al database
+//Connessione al database MySQL
 db.connect((err, result) => {
   if(err) {
       console.log(err)
@@ -100,6 +102,19 @@ db.connect((err, result) => {
       console.log("MySQL conneceted!")
   }
 })
+
+//Connessione al database NoSQL
+mongo.connect((err) => {
+  if(err) {
+    console.log(err)
+  } else {
+      console.log("MongoDB conneceted!")
+  }
+});
+
+
+
+//const databasesList = client.db().admin().listDatabases();
 
 app.use(cookieParser());
 

@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('../connectionDB');
 var cookieParser = require('cookie-parser');
-
+var createlog = require('../modules/connectionDBMongo');
 
 var token;
 
@@ -34,6 +34,7 @@ exports.signin = (req, res, next) => {
     
                 token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
                 res.cookie('token', token);
+                
                 next();     //Dovrà rimandare alla home page
             }
         })
@@ -56,15 +57,30 @@ exports.login = (req, res, next) => {
                 ruolo = results[1][0].ruolo
             }
 
-            console.log(ruolo);
-            const payload = {
-                username: name,
-                diritti: ruolo
-            };
+            //Creo il log
+            const orario = Date.now();
 
-            token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
-            res.cookie('token', token);
-            next();
+            createlog({utente: name, login: orario}).then(
+                function(idLog) { //Creo il token
+                    const payload = {
+                        username: name,
+                        diritti: ruolo,
+                        log: idLog
+                    };
+                    token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
+        
+                    //Creo il cookie
+                    res.cookie('token', token);
+                    
+                    next(); 
+                },
+                function(error) { console.log("Errore mongo(loide): ", error);}
+              );
+
+            //var i  = Promise.resolve(idLog);
+            //createLog({utente: name, login: orario}).then();
+
+            
                         
         } else {
             //Messaggio errore user o password sbagliati
