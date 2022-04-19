@@ -11,8 +11,6 @@ Fare controlli sulle date	[Carlotta/Alsi]:
 Assegnare un presenter a una presentazione [Carlotta]
 Controlli sul ruolo					        [Alsi]		\
 
-Togliere link a sponsor
-
 Risorse aggiutive 		[Carlotta]\
 controllare che solo gli speaker di quel tutorial possano caricare risorse aggiuntive   [Alsi]
 aggiungere si possa modificare/aggiungere successivamente risorse aggiuntive  [Alsi]

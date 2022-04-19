@@ -82,8 +82,8 @@ exports.creaSessione = (req,res)=>{
 
 //visualizzazione specifica di una conferenza
 exports.programma = (req,res)=>{
-    //fatto
-    //query di verifica esista la conferenza richiesta
+    var segui=true; //variabile per seguire conferenze
+    //query che verifica che la conferenza richiesta sia attiva
     db.query(`call verificaconferenza('${req.params.anno}','${req.params.acronimo}');`,(err,results)=>{
         if(err) throw err;
         if (results[0].length==0){
@@ -93,7 +93,7 @@ exports.programma = (req,res)=>{
             db.query(`call datiConferenza('${req.params.anno}', '${req.params.acronimo}')`, (err, results) => {
                 if(err) {throw err;}
                 //console.log({results});
-                 //verifica che la conferenza abbia un programma da visualizzare
+                //verifica che la conferenza abbia un programma da visualizzare
                 if (results[0].length>0){
                     results[0][0].datainizio = DateTime.fromJSDate(results[0][0].datainizio).toLocaleString(DateTime.DATE_MED);
                     results[0][0].datafine = DateTime.fromJSDate(results[0][0].datafine).toLocaleString(DateTime.DATE_MED);
@@ -123,7 +123,7 @@ exports.programma = (req,res)=>{
                     }
                     console.log(results[2]);
                     //Renderizzo tutto
-                    res.render('conferenza',{conferenze: results[0], giorni: results[2], moderatori: results[1], permessi: modifica, sponsors: results[4], numIscritti: results[3][0].numIscritti});
+                    res.render('conferenza',{conferenze: results[0], giorni: results[2], moderatori: results[1], permessi: modifica, sponsors: results[4], numIscritti: results[3][0].numIscritti, segui: segui});
     
                 } else {
                     console.log("conferneza vuota");
@@ -203,4 +203,60 @@ exports.aggiungiAdmin = (req, res) => {
         if(err) {throw err;}
         res.status(200);
     })
+}
+
+exports.ricercaConferenza =(req,res)=>{
+    var modifica = false; //variabile per gestire i permessi di modifica
+    var segui=true; //variabile per seguire una conferenza
+    //query che verifica che la conferenza richiesta sia attiva
+    db.query(`call cercaconferenza('${req.params.anno}','${req.params.acronimo}');`,(err,results)=>{
+        if(err) throw err;
+        if (results[0].length==0){
+            res.render('conferenzaInesistente',{nome: req.params.acronimo, anno:req.params.anno});
+        }else{
+            //vado a prendere le specifiche con programmi e sessioni di una conferenza
+            db.query(`call datiConferenza('${req.params.anno}', '${req.params.acronimo}')`, (err, results) => {
+                if(err) {throw err;}
+                //console.log({results});
+                //verifica che la conferenza abbia un programma da visualizzare
+                if (results[0].length>0){
+                    results[0][0].datainizio = DateTime.fromJSDate(results[0][0].datainizio).toLocaleString(DateTime.DATE_MED);
+                    results[0][0].datafine = DateTime.fromJSDate(results[0][0].datafine).toLocaleString(DateTime.DATE_MED);
+                    for(var i = 0; i < results[0].length; i++){
+                        results[0][i].data = DateTime.fromJSDate(results[0][i].data).toLocaleString(DateTime.DATE_MED);
+                    }
+                    /*console.log(results[0]);
+                    console.log(results[1]);
+                    console.log(results[2]);
+                    console.log(results[3]);
+                    console.log(results[4]);*/
+
+                    //Controllo se l'utente ha il diritto di modificare
+                    var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);                    
+                    for(var i = 0; i < results[1].length; i++){
+                        console.log(decoded.username + "  " + results[1][i].associazione_username)
+                        if(results[1][i].associazione_username === decoded.username) { 
+                            modifica=true;
+                        }
+                    }
+                    console.log(results[0][0]);
+                    if(results[0][0].svolgimento=="completata"){
+                        modifica = false;
+                        segui=false;
+                    }                    
+                    //Pulisco le date del programma giornaliero
+                    for(var i = 0; i<results[2].length; i++){
+                        results[2][i].data = DateTime.fromJSDate(results[2][i].data).toLocaleString(DateTime.DATE_MED);
+                    }
+                    console.log(results[2]);
+                    //Renderizzo tutto
+                    res.render('conferenza',{conferenze: results[0], giorni: results[2], moderatori: results[1], permessi: modifica, sponsors: results[4], numIscritti: results[3][0].numIscritti, segui: segui});
+    
+                } else {
+                    console.log("conferneza vuota");
+                    res.render('conferenzaVuota',{nome: req.params.acronimo, anno:req.params.anno, admin: modifica});
+                }
+            })
+        }
+    });
 }

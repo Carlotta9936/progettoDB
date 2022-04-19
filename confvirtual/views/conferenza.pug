@@ -21,8 +21,9 @@ block content
             - var creatore = "/utenti/" + conferenze[0].creatore
             h5= "Creatore: " + conferenze[0].creatore
         div.col-3
-            form(action='' method='POST')
-                button.btn.btn-primary.btn-lg(type='submit') SEGUI
+            if segui
+                form(action='' method='POST')
+                    button.btn.btn-primary.btn-lg(type='submit') SEGUI
             h5= "Numero iscritti"
             h5= numIscritti
             
