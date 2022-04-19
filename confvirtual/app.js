@@ -68,7 +68,16 @@ app.get('/:id_sessione/chat', (req, res) => {
     user = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
     user = user.username;
     console.log(user);
-    res.render("chat");
+    //query per stampare i messaggi della chat se già ce ne sono
+    db.query(`call stampamessaggi('${req.params.id_sessione}')`,(err,results)=>{
+      if(results.length==0){
+        res.render("chatvuota");
+      }else{
+        console.log(results[0]);
+        res.render("chat", {messaggi: results[0]});
+      }
+    }); 
+    
 });
 
 
@@ -90,7 +99,6 @@ io.on('connection', (socket) => {
         });
       }
     });
-    
   });
 });
 
