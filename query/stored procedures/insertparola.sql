@@ -1,8 +1,5 @@
 DELIMITER $$
-USE `confvirtual`$$
-CREATE PROCEDURE `visualizza presentazione` (in newsessione int)
+CREATE PROCEDURE `insertparola`(in newparola varchar(15),in newarticolo int)
 BEGIN
-	select *
-    from presentazione
-    where sessione=newsessione;
+    insert into chiave (parola,articolo) values (newparola, newarticolo);
 END$$

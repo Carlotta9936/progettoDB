@@ -4,5 +4,3 @@ BEGIN
 	INSERT INTO utente (username, password, nome, cognome, luogo_nascita, data_nascita) 
 	VALUES (username, password, nome, cognome, luogoNascita, dataNascita);
 END$$
-
-DELIMITER ;

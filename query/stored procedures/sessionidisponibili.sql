@@ -1,5 +1,4 @@
 DELIMITER $$
-
 CREATE PROCEDURE `sessionidisponibili`()
 BEGIN
 	select sessione.titolo as sessione, conferenza.anno as anno, conferenza.acronimo as acronimo,
@@ -9,5 +8,3 @@ BEGIN
     programma_giornaliero.anno=conferenza.anno and conferenza.acronimo=programma_giornaliero.acronimo
     and conferenza.svolgimento='attiva';
 END$$
-
-DELIMITER ;

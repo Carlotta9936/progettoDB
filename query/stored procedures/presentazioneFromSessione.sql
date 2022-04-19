@@ -5,5 +5,3 @@ BEGIN
     from presentazione, sessione
     where presentazione.sessione=sessione.id_sessione and sessione.id_sessione= id_sessione;
 END$$
-
-DELIMITER ;

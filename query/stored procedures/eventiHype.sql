@@ -8,5 +8,3 @@ BEGIN
 	DESC
 	LIMIT 5;
 END$$
-
-DELIMITER ;

@@ -1,5 +1,4 @@
 DELIMITER $$
-
 CREATE PROCEDURE `verificaspeaker` ()
 BEGIN
 	select *

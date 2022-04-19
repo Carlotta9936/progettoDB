@@ -6,4 +6,3 @@ BEGIN
     WHERE username = user;
     
 END$$
-DELIMITER ;

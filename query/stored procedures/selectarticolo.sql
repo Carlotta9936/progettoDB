@@ -1,5 +1,4 @@
 DELIMITER $$
-
 CREATE PROCEDURE `selectarticolo`(in id int)
 BEGIN
 	select autore.nome as nome ,autore.cognome as cognome, articolo, pdf, stato, n_pagine, titolo, articolo.usernamePresenter as presenter

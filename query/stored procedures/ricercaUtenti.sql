@@ -1,6 +1,5 @@
 DELIMITER $$
-USE `confvirtual`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ricercaUtenti`(ricerca varchar(30))
+CREATE PROCEDURE `ricercaUtenti`(ricerca varchar(30))
 BEGIN
 	(select username, utente.nome as nome, utente.cognome as cognome
 	from utente

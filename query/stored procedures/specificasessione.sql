@@ -1,5 +1,4 @@
 DELIMITER $$
-
 CREATE PROCEDURE `specificasessione`(in sessione int)
 BEGIN
 	select sessione.titolo as sessione, conferenza.anno as anno, conferenza.acronimo as acronimo,

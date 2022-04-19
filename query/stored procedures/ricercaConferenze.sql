@@ -1,6 +1,5 @@
 DELIMITER $$
-USE `confvirtual`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ricercaConferenze`(ricerca varchar(40))
+CREATE PROCEDURE `ricercaConferenze`(ricerca varchar(40))
 BEGIN
 	(select nome, acronimo, anno
 	from conferenza
