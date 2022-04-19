@@ -185,6 +185,7 @@ exports.segui = (req, res) => {
         if(err) {throw err}
         else {
         console.log("Si cazzo");
+        res.redirect("/conferenza/"+req.params.acronimo+"/"+req.params.anno);
         }
     });
 }

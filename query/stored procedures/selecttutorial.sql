@@ -1,7 +1,7 @@
 DELIMITER $$
-CREATE PROCEDURE `selecttutorial` (in id int)
+CREATE PROCEDURE `selecttutorial`(in id int)
 BEGIN
-	select utente.nome as nome, utente.cognome as cognome, tutorial.titolo, tutorial.abstract, speaker.usernameSpeaker as speaker
+	select utente.nome as nome, utente.cognome as cognome, tutorial.titolo as titolo , tutorial.abstract as abstract
     from tutorial, presenta, speaker, utente
     where id_tutorial=id and presenta.tutorial=id_tutorial and presenta.presenta_usernameSpeaker=speaker.usernameSpeaker;
 END$$
