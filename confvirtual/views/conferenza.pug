@@ -62,7 +62,5 @@ block content
     div.row
         each sponsor in sponsors
             div.col-2
-                - var urlSponsor= '/sponsor/' + sponsor.nome;
-                a(href= urlSponsor)
-                    img.sponsor(src='/uploads/'+sponsor.logo)
-                    h5= sponsor.nome
+                img.sponsor(src='/uploads/'+sponsor.logo)
+                h5= sponsor.nome

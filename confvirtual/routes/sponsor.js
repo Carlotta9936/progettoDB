@@ -9,8 +9,4 @@ const sponsorController = require ('../controllers/sponsor');
 router.get('/nuovoSponsor', sponsorController.formSponsor);
 router.post('/nuovoSponsor',  upload.fields([{ name : 'image'}]), sponsorController.creaSponsor);
 
-router.get('/:nome', sponsorController.paginaSponsor);
-
-//router.post('/nuovoSponsor/', upload.fields([{ name : 'image'}]), sponsorController.creaSponsor);
-
 module.exports = router;
