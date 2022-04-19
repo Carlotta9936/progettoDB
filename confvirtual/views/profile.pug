@@ -51,9 +51,10 @@ block content
                     a.dropdown-item(href='../nuovoPresenter') Diventa un PRESENTER!
                 li
                     a.dropdown-item(href='../nuovoSpeaker') Diventa uno SPEAKER!
-
-    form(action='./'+username +'/modificaProfilo' method='GET')
+    if aggiorna1
+        form(action='./'+username +'/modificaProfilo' method='GET')
             button.btn.btn-primary(type='submit') AGGIORNA INFORMAZIONI
 
-    form(action='./'+username +'/modificaInfoPS' method='GET')
+    if aggiorna2
+        form(action='./'+username +'/modificaInfoPS' method='GET')
             button.btn.btn-primary(type='submit') AGGIORNA INFORMAZIONI2

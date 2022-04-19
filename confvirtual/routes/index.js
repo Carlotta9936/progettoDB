@@ -48,7 +48,7 @@ router.post('/conferenza/:acronimo/:anno', conferenza.segui);
 router.get('/sessione/:id_sessione/:titolo', sessione.specificaSessione);
 
 //UPGRADES
-router.post('/nuovoAdmin', utenti.controlloDiritti, utenti.update_administrator);
+router.get('/nuovoAdmin', utenti.controlloDiritti, utenti.update_administrator);
 
 router.get('/nuovoPresenter', utenti.controlloDiritti, utenti.form_presenter);
 router.post('/nuovoPresenter', upload.fields([{ name : 'image'}, {name : 'cv'}]), utenti.update_presenter);
