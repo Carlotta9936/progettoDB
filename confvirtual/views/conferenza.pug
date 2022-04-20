@@ -52,6 +52,8 @@ block content
                                                     h5= 'Data: '+conferenza.data
                                                     h5= 'Ora inizio: '+conferenza.orai
                                                     h5= 'Ora fine: '+conferenza.oraf
+                                                form(action='/'+conferenza.sessione+'/chat' method='GET')
+                                                    button.btn.btn-primary(type='submit') CHAT
                                             
                                                 if permessi
                                                     form(action='/presentazione/nuovaPresentazione/'+conferenza.sessione method='GET')
