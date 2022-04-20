@@ -9,6 +9,7 @@ block content
                 - var url = "/modifica" 
                 form(action="./modifica" method='GET')
                     button.btn.btn-outline-light(type='submit') Modifica conferenza
+
     div.row.mt-5
         div.col-3
             -  var percorsoImg = '/uploads/'+conferenze[0].logo 
@@ -24,6 +25,8 @@ block content
             if segui
                 form(action='' method='POST')
                     button.btn.btn-primary.btn-lg(type='submit') SEGUI
+            else 
+                button.btn.btn-lg.btn-primary(type='button' disabled='') segui già
             h5= "Numero iscritti"
             h5= numIscritti
             
