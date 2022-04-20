@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('../connectionDB');
 const { DateTime } = require('luxon');
+const {updateLog} = require('../modules/connectionDBMongo');
+
 
 var token;
 
@@ -56,8 +58,7 @@ exports.presentazioniPreferite = (req, res, next) => {
 //Renderizza il profilo con tutte le informazioni raccolte
 exports.renderizzaProfilo = (req, res) => {
     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
-    console.log(decoded.username);
-    console.log(res.locals.informazioniPersonali.username)
+    updateLog(`${decoded.log}`, {profiliGuardati: `${res.locals.informazioniPersonali.username}`});
     var mod, agg1, agg2 = false;
     var foto = null;
     console.log(res.locals);

@@ -1,25 +1,34 @@
-const { MongoClient } = require('mongodb');
-const URI = "mongodb+srv://admin:admin@eventslog.oghro.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+const { MongoClient, ObjectId } = require('mongodb');
+const dotenv = require('dotenv');
+
+dotenv.config({ path: './.env' });
+
+//const URI = "mongodb+srv://admin:admin@eventslog.oghro.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+const URI = process.env.URI;
 const mongo = new MongoClient(URI);
 
 mongo.connect((err) => { if(err) { console.log(err) } });
 
-async function createlog (log) {
+async function createLog (log) {
     try{
         const result = await mongo.db("LogActivity").collection("Log").insertOne(log);
-        console.log(result.insertedId);
         return(result.insertedId);
     } catch (e) {
         console.log(e);
     }
 }
 
-async function updateLog (log) {
+async function updateLog (id, log) {
+    console.log(log);
+    console.log(typeof id);
+    console.log(typeof log);
+    //console.log(ObjectId(id));
     try{
-        const result = await mongo.db("LogActivity").collection("Log").insertOne(log);
+        const result = await mongo.db("LogActivity").collection("Log").updateOne({_id: ObjectId(id)}, {$push: log});
+        console.log(result);
     } catch (e) {
         console.log(e);
     }
 }
 
-module.exports = createlog, updateLog;
+module.exports = {createLog, updateLog};

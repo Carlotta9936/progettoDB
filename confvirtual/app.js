@@ -7,7 +7,7 @@ const db = require('./connectionDB');
 var http =require("http");
 var socketio=require("socket.io");
 const { MongoClient } = require('mongodb');
-const URI = "mongodb+srv://admin:admin@eventslog.oghro.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+const URI = process.env.URI;
 const mongo = new MongoClient(URI);
 const { DateTime } = require('luxon');
 var app = express();

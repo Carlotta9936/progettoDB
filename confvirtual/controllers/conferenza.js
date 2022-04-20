@@ -4,6 +4,7 @@ const db = require('../connectionDB');
 const jwt = require('jsonwebtoken');
 const controlloDate = require('../modules/controlloDate');
 const { DateTime } = require('luxon');
+const {updateLog} = require('../modules/connectionDBMongo');
 
 exports.formConferenza = (req, res)=>{
     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
@@ -92,7 +93,10 @@ exports.programma = (req,res)=>{
             //vado a prendere le specifiche con programmi e sessioni di una conferenza
             db.query(`call datiConferenza('${req.params.anno}', '${req.params.acronimo}')`, (err, results) => {
                 if(err) {throw err;}
-                //console.log({results});
+                //Log
+                var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
+                updateLog(`${decoded.log}`, {conferenzeGuardate: `${req.params.acronimo} ${req.params.anno}`})
+                
                 //verifica che la conferenza abbia un programma da visualizzare
                 if (results[0].length>0){
                     results[0][0].datainizio = DateTime.fromJSDate(results[0][0].datainizio).toLocaleString(DateTime.DATE_MED);
@@ -100,11 +104,11 @@ exports.programma = (req,res)=>{
                     for(var i = 0; i < results[0].length; i++){
                         results[0][i].data = DateTime.fromJSDate(results[0][i].data).toLocaleString(DateTime.DATE_MED);
                     }
-                    console.log(results[0]);
+                    /*console.log(results[0]);
                     console.log(results[1]);
                     console.log(results[2]);
                     console.log(results[3]);
-                    console.log(results[4]);
+                    console.log(results[4]);*/
 
                     //Controllo se l'utente ha il diritto di modificare
                     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
@@ -178,14 +182,14 @@ exports.creaSponsorizzazione=(req,res)=>{
 
 exports.segui = (req, res) => {
     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
-    console.log(decoded.username);
-    //fatto
-    //db.query(`INSERT INTO iscrizione (iscrizione_anno, iscrizione_acronimo, iscrizione_username) VALUES ('${req.params.anno}', '${req.params.acronimo}', '${decoded.username}');`, (err, results) => {
     db.query(`call insertsegui ('${req.params.anno}', '${req.params.acronimo}', '${decoded.username}');`,(err,results)=>{
         if(err) {throw err}
         else {
-        console.log("Si cazzo");
-        res.redirect("/conferenza/"+req.params.acronimo+"/"+req.params.anno);
+            //Log
+            //updateLog(`${decoded.log}`, {conferenzeGuardate: `${req.params.acronimo} ${req.params.anno}`})
+            updateLog(`${decoded.log}`, {conferenzeSeguite: `${req.params.acronimo} ${req.params.anno}`})
+            console.log("Si cazzo");
+            res.redirect("/conferenza/"+req.params.acronimo+"/"+req.params.anno);
         }
     });
 }

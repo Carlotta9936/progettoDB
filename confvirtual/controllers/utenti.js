@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('../connectionDB');
 var cookieParser = require('cookie-parser');
-var createlog = require('../modules/connectionDBMongo');
+var {createLog, updateLog} = require('../modules/connectionDBMongo');
 
 var token;
 
@@ -26,16 +26,22 @@ exports.signin = (req, res, next) => {
                 console.log(err);
             }
             else {
-                //console.log(results);
-                const payload = {
-                    username: username,
-                    diritti: 'Utente'
-                };
+                const orario = Date.now();
+
+                createLog({utente: username, login: orario}).then(
+                    function(idLog) { //Creo il token
+                        const payload = {
+                            username: username,
+                            diritti: 'Utente',
+                            log: idLog
+                        };
     
-                token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
-                res.cookie('token', token);
+                    token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
+                    res.cookie('token', token);
                 
-                next();     //Dovrà rimandare alla home page
+                    next();     //Dovrà rimandare alla home page
+                } 
+                )
             }
         })
     });
@@ -60,7 +66,7 @@ exports.login = (req, res, next) => {
             //Creo il log
             const orario = Date.now();
 
-            createlog({utente: name, login: orario}).then(
+            createLog({utente: name, login: orario}).then(
                 function(idLog) { //Creo il token
                     const payload = {
                         username: name,
@@ -80,8 +86,6 @@ exports.login = (req, res, next) => {
             //var i  = Promise.resolve(idLog);
             //createLog({utente: name, login: orario}).then();
 
-            
-                        
         } else {
             //Messaggio errore user o password sbagliati
             res.render('login', {message: "Username o password sbagliati, riprova"});
@@ -135,16 +139,19 @@ exports.controlloDiritti = (req, res, next) => {
 
 exports.update_administrator = (req, res) => {
     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
-    db.query(`call updateAmministratore('${decoded.username}')`);
+    db.query(`call updateAmministratore('${decoded.username}')`, (err, result) => {
+        if(err) {throw err;}
+        updateLog(`${decoded.log}`, {upgrade: 'Admin'});
+        const payload = {
+            username: decoded.username,
+            diritti: 'Admin'
+        };
     
-    const payload = {
-        username: decoded.username,
-        diritti: 'Admin'
-    };
-
-    token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
-    res.cookie('token', token);
-    res.redirect("utenti/"+decoded.username);
+        token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
+        res.cookie('token', token);
+        res.redirect("utenti/"+decoded.username);
+    });
+    
 } 
 
 exports.form_presenter = (req, res) => {
@@ -167,6 +174,7 @@ exports.update_presenter = (req, res) => {
         db.query(`call selectpresenter ()`,(err,result)=>{
             if(err) { throw err;} 
             console.log(result[0]);
+            updateLog(`${decoded.log}`, {upgrade: 'Presenter'});
             var id=parseInt(result[0][0].massimo);
             id=1000+id;
             var username= result[0][0].usernamePresenter;
@@ -202,6 +210,7 @@ exports.update_speaker= (req, res) => {
     console.debug(req)
     db.query(`call updateSpeaker ('${decoded.username}', '${uni}','${dipartimento}', '${files.image[0].filename}', '${files.cv[0].filename}')`, (err, results) => {
         if(err) { throw err;} 
+        updateLog(`${decoded.log}`, {upgrade: 'Speaker'});
         
     });
     //riaggiorna il token
