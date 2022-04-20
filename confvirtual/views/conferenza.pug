@@ -55,10 +55,29 @@ block content
                                                     h5= 'Data: '+conferenza.data
                                                     h5= 'Ora inizio: '+conferenza.orai
                                                     h5= 'Ora fine: '+conferenza.oraf
+                                                script
+                                                script.
+                                                    console.log("ciao");
+                                                    const today= new Date();
+                                                    const giorno= today.toLocaleDateString();
+                                                    console.log(giorno);
+                                                    if(conferenza.data === giorno){
+                                                        const orario= today.toLocaleTimeString();//prendo l'ora attuale
+                                                        if(conferenza.orai<orario && orario<conferenza.oraf){
+                                                            segui= false;
+                                                            console.log(segui);
+                                                        }else{
+                                                            segui= true;
+                                                            console.log(segui);
+                                                        }
+                                                    }else{
+                                                        segui= true;
+                                                    }
                                                 if !segui
                                                     form(action='/'+conferenza.sessione+'/chat' method='GET')
                                                         button.btn.btn-primary(type='submit') CHAT
-                                            
+                                                else
+                                                    button.btn.btn-lg.btn-primary(type='button' disabled='') CHAT
                                                 if permessi
                                                     form(action='/presentazione/nuovaPresentazione/'+conferenza.sessione method='GET')
                                                         button.btn.btn-primary(type='submit') Aggiungi una presentazione
@@ -71,3 +90,4 @@ block content
             div.col-2
                 img.sponsor(src='/uploads/'+sponsor.logo)
                 h5= sponsor.nome
+    

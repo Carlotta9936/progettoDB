@@ -132,7 +132,6 @@ exports.programma = (req,res)=>{
                         if(result.length!=0){
                             segui=false;
                         }     
-                        console.log(segui);
                         //Renderizzo tutto
                         res.render('conferenza',{conferenze: results[0], giorni: results[2], moderatori: results[1], permessi: modifica, sponsors: results[4], numIscritti: results[3][0].numIscritti, segui: segui});
     
