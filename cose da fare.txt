@@ -8,6 +8,7 @@ IL PROGRAMMA NON DEVE CRASrsTI MA INFORMARTI  [Alsi/CArlotta] \
 Fare controlli sulle date	[Carlotta/Alsi]:
 - ordine delle presentazioni
 
+Quando si crea una conferenza l'admin deve essere iscritto in maniera automatica [Carlotta]
 Assegnare un presenter a una presentazione [Carlotta]
 Controlli sul ruolo					        [Alsi]		\
 
@@ -18,7 +19,7 @@ aggiungere si possa modificare/aggiungere successivamente risorse aggiuntive  [A
 
 Aggiustare bottoni nel profilo      [Alsi]
 
-Chat				[Carlotta] \
+Chat disattivazione in base all'orario			[Carlotta] \
 Log eventi 			[Alsi]	
 
 
