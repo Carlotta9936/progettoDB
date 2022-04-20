@@ -135,9 +135,46 @@ exports.programma = (req,res)=>{
                         if(err) throw err;           
                         if(result.length!=0){
                             segui=false;
-                        }     
+                        }    
+                        var risultati=[];
+                        var i=0;
+                        const today= new Date();
+                        const giorno= DateTime.fromJSDate(today).toLocaleString(DateTime.DATE_MED);
+                        const orario= today.toLocaleTimeString();//prendo l'ora attuale
+
+                        results[0].forEach((sessione)=>{
+                            if(sessione.data==giorno){
+                                if(sessione.orai<orario && orario<sessione.oraf){
+                                    risultati[i]=true;
+                                }
+                                else{
+                                    risultati[i]=false;
+                                }
+                            }else{
+                                risultati[i]=false;
+                            }
+                            i++;
+                        });
+                        console.log(risultati);
+                        /*console.log("ciao");
+                        const today= new Date();
+                        const giorno= today.toLocaleDateString();
+                        controlloDate(giorno,)
+                        console.log(giorno);
+                        if(conferenza.data === giorno){
+                            const orario= today.toLocaleTimeString();//prendo l'ora attuale
+                            if(conferenza.orai<orario && orario<conferenza.oraf){
+                                segui= false;
+                                console.log(segui);
+                            }else{
+                                segui= true;
+                                console.log(segui);
+                            }
+                        }else{
+                            segui= true;
+                        }*/
                         //Renderizzo tutto
-                        res.render('conferenza',{conferenze: results[0], giorni: results[2], moderatori: results[1], permessi: modifica, sponsors: results[4], numIscritti: results[3][0].numIscritti, segui: segui});
+                        res.render('conferenza',{conferenze: results[0], giorni: results[2], moderatori: results[1], permessi: modifica, sponsors: results[4], numIscritti: results[3][0].numIscritti, segui: segui, ris: risultati});
     
                     });
                    

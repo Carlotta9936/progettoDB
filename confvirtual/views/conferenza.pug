@@ -44,7 +44,7 @@ block content
                 div.accordion-collapse.collapse.show(id=index aria-labelledby='headingOne' data-bs-parent='#accordionExample')
                     .accordion-body
                         div.row
-                            each conferenza in conferenze
+                            each conferenza, i in conferenze
                                 if giorno.data==conferenza.data
                                     div.col-3
                                         .card
@@ -55,25 +55,8 @@ block content
                                                     h5= 'Data: '+conferenza.data
                                                     h5= 'Ora inizio: '+conferenza.orai
                                                     h5= 'Ora fine: '+conferenza.oraf
-                                                script
-                                                script.
-                                                    console.log("ciao");
-                                                    const today= new Date();
-                                                    const giorno= today.toLocaleDateString();
-                                                    console.log(giorno);
-                                                    if(conferenza.data === giorno){
-                                                        const orario= today.toLocaleTimeString();//prendo l'ora attuale
-                                                        if(conferenza.orai<orario && orario<conferenza.oraf){
-                                                            segui= false;
-                                                            console.log(segui);
-                                                        }else{
-                                                            segui= true;
-                                                            console.log(segui);
-                                                        }
-                                                    }else{
-                                                        segui= true;
-                                                    }
-                                                if !segui
+                                                
+                                                if !segui && ris[i]
                                                     form(action='/'+conferenza.sessione+'/chat' method='GET')
                                                         button.btn.btn-primary(type='submit') CHAT
                                                 else
@@ -81,6 +64,7 @@ block content
                                                 if permessi
                                                     form(action='/presentazione/nuovaPresentazione/'+conferenza.sessione method='GET')
                                                         button.btn.btn-primary(type='submit') Aggiungi una presentazione
+                                            
 
 
     
