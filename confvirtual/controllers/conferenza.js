@@ -122,8 +122,18 @@ exports.programma = (req,res)=>{
                         results[2][i].data = DateTime.fromJSDate(results[2][i].data).toLocaleString(DateTime.DATE_MED);
                     }
                     console.log(results[2]);
-                    //Renderizzo tutto
-                    res.render('conferenza',{conferenze: results[0], giorni: results[2], moderatori: results[1], permessi: modifica, sponsors: results[4], numIscritti: results[3][0].numIscritti, segui: segui});
+                    //controllo se l'utente è già iscritto alla conferenza
+                    db.query(`call controllaiscrizione('${decoded.username}','${req.params.anno}','${req.params.acronimo}')`,(err,result)=>{
+                        if(err) throw err;           
+                        if(result.length!=0){
+                            segui=false;
+                        }     
+                        console.log(segui);
+                        //Renderizzo tutto
+                        res.render('conferenza',{conferenze: results[0], giorni: results[2], moderatori: results[1], permessi: modifica, sponsors: results[4], numIscritti: results[3][0].numIscritti, segui: segui});
+    
+                    });
+                   
     
                 } else {
                     console.log("conferneza vuota");
@@ -240,18 +250,25 @@ exports.ricercaConferenza =(req,res)=>{
                         }
                     }
                     console.log(results[0][0]);
+                    //controllo se la conferenza è già completata
                     if(results[0][0].svolgimento=="completata"){
                         modifica = false;
                         segui=false;
-                    }                    
-                    //Pulisco le date del programma giornaliero
-                    for(var i = 0; i<results[2].length; i++){
-                        results[2][i].data = DateTime.fromJSDate(results[2][i].data).toLocaleString(DateTime.DATE_MED);
                     }
-                    console.log(results[2]);
-                    //Renderizzo tutto
-                    res.render('conferenza',{conferenze: results[0], giorni: results[2], moderatori: results[1], permessi: modifica, sponsors: results[4], numIscritti: results[3][0].numIscritti, segui: segui});
-    
+                    //controllo se l'utente è già iscritto alla conferenza
+                    db.query(`call controllaiscrizione('${decoded.username}','${req.params.anno}','${req.params.acronimo}')`,(err,result)=>{
+                        if(err) throw err;           
+                        if(result.length!=0){
+                            segui=false;
+                        }   
+                        //Pulisco le date del programma giornaliero
+                        for(var i = 0; i<results[2].length; i++){
+                            results[2][i].data = DateTime.fromJSDate(results[2][i].data).toLocaleString(DateTime.DATE_MED);
+                        }
+                        console.log(results[2]);
+                        //Renderizzo tutto
+                        res.render('conferenza',{conferenze: results[0], giorni: results[2], moderatori: results[1], permessi: modifica, sponsors: results[4], numIscritti: results[3][0].numIscritti, segui: segui});      
+                    });
                 } else {
                     console.log("conferneza vuota");
                     res.render('conferenzaVuota',{nome: req.params.acronimo, anno:req.params.anno, admin: modifica});
