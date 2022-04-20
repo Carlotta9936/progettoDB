@@ -1,9 +1,10 @@
 Cose ancora da fare:
 
-
+selezionare presentazioni preferite                          [Alsi]
 controllo se non si seleziona un autore/presenter            [Carlotta/Alsi]
 
 IL PROGRAMMA NON DEVE CRASrsTI MA INFORMARTI  [Alsi/CArlotta] \
+voti agli speaker e ai presenter [Alsi]
 
 Fare controlli sulle date	[Carlotta/Alsi]:
 - ordine delle presentazioni
@@ -18,13 +19,14 @@ aggiungere si possa modificare/aggiungere successivamente risorse aggiuntive  [A
 
 Aggiustare bottoni nel profilo      [Alsi]
 
-Chat				[Carlotta] \
+Chat disattivazione in base all'orario			[Carlotta] \
 Log eventi 			[Alsi]	
 
 
 Alert
 
 COSE FATTE:
+Quando si crea una conferenza l'admin deve essere iscritto in maniera automatica [Carlotta]V
 Creatore di presentazioni	[Carlotta] V
 crea tutorial		    	[Carlotta] V
 diventare uno speaker		[Alsi] V
