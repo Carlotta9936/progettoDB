@@ -26,6 +26,10 @@ exports.creaConferenza = (req,res,next)=>{
     if(controlloDate.controlloDate(dataInizio, dataFine)){    //Controllo sulle date
         db.query(`call insertconferenza('${acronimo}','${anno}', '${logo}', '${dataInizio}','${dataFine}','${nome}','${decoded.username}');`,(err,results)=>{
             if(err) {throw err};
+            //query per iscrivere l'admin alla conferenza creata
+            db.query(`call addadminconferenza ('${decoded.username}','${anno}','${acronimo}')`,(err,result)=>{
+                if(err) {throw err};
+            });
             //reindirizzamento a creare sessioni
             next();
         }); 
