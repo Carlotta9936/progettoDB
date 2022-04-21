@@ -20,11 +20,7 @@ Risorse aggiutive 		[Carlotta]\
 controllare che solo gli speaker di quel tutorial possano caricare risorse aggiuntive   [Alsi]
 aggiungere si possa modificare/aggiungere successivamente risorse aggiuntive  [Alsi]
 
-
-Aggiustare bottoni nel profilo      [Alsi] V
-
-
-Log eventi 			[Alsi]	
+aggiungere Log eventi 			[Alsi/Carlotta]	
 
 
 Alert
@@ -60,3 +56,4 @@ aggiungere si possa modificare/aggiungere successivamente foto e cv  [Alsi] V
 parole chiave           [Carlotta]V
 è SPARITO IL TASTO IMPOSTAZIONI DELLA conferenza V
 errore in modifica V
+Aggiustare bottoni nel profilo      [Alsi] V

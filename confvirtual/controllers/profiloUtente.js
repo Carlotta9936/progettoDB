@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const db = require('../connectionDB');
 const { DateTime } = require('luxon');
 const {updateLog} = require('../modules/connectionDBMongo');
+var path = require("path");
 
 
 var token;
@@ -144,6 +145,15 @@ exports.aggiornaPS = (req, res) => {
             if(err) {throw err;}
             res.redirect('/homepage');
         })
+    })
+    
+}
+
+exports.scaricaCurriculum = (req, res) => {
+    db.query(`call getCV('${req.params.username}')`, (err, result) => {
+        console.log(result[0][0].cv);
+        //console.log();
+        res.download(`confvirtual/public/uploads/${result[0][0].cv}`, result[0][0].cv);
     })
     
 }

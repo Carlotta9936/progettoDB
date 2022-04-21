@@ -17,6 +17,8 @@ router.post('/:username/modificaProfilo', profilo.aggiornaInfo);
 
 router.get('/:username/modificaInfoPS', profilo.getInfo);
 router.post('/:username/modificaInfoPS', upload.fields([{ name : 'image'}, {name : 'cv'}]), profilo.aggiornaPS)
+
+router.get('/:username/curriculum', profilo.scaricaCurriculum);
 /// UPGRADES ///
 
 
