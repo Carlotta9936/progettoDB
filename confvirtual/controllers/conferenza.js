@@ -108,11 +108,6 @@ exports.programma = (req,res)=>{
                     for(var i = 0; i < results[0].length; i++){
                         results[0][i].data = DateTime.fromJSDate(results[0][i].data).toLocaleString(DateTime.DATE_MED);
                     }
-                    /*console.log(results[0]);
-                    console.log(results[1]);
-                    console.log(results[2]);
-                    console.log(results[3]);
-                    console.log(results[4]);*/
 
                     //Controllo se l'utente ha il diritto di modificare
                     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
@@ -156,24 +151,8 @@ exports.programma = (req,res)=>{
                             }
                             i++;
                         });
-                        console.log(risultati);
-                        /*console.log("ciao");
-                        const today= new Date();
-                        const giorno= today.toLocaleDateString();
-                        controlloDate(giorno,)
-                        console.log(giorno);
-                        if(conferenza.data === giorno){
-                            const orario= today.toLocaleTimeString();//prendo l'ora attuale
-                            if(conferenza.orai<orario && orario<conferenza.oraf){
-                                segui= false;
-                                console.log(segui);
-                            }else{
-                                segui= true;
-                                console.log(segui);
-                            }
-                        }else{
-                            segui= true;
-                        }*/
+                        console.log(results[4]);
+                    
                         //Renderizzo tutto
                         res.render('conferenza',{conferenze: results[0], giorni: results[2], moderatori: results[1], permessi: modifica, sponsors: results[4], numIscritti: results[3][0].numIscritti, segui: segui, ris: risultati});
     
@@ -182,6 +161,7 @@ exports.programma = (req,res)=>{
     
                 } else {
                     console.log("conferneza vuota");
+                    console.log("Sono qui 1");
                     res.render('conferenzaVuota',{nome: req.params.acronimo, anno:req.params.anno, admin: true});
                 }
             })

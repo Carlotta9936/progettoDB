@@ -8,13 +8,12 @@ exports.formSponsor = (req,res)=>{
 }
 
 exports.creaSponsor = (req,res)=>{
-    const{nome}= req.body;    
-    console.log(req.files.image[0].filename);
-    console.log(req.files);
-    if(req.files.image.length !== 0){
-        var logo = req.files.image[0].filename;
-    } else {
+    const{nome}= req.body;   
+    console.log(req.files); 
+    if(req.files.length === undefined){
         var logo = "sponsorDefault.png";
+    } else {
+        var logo = req.files.image[0].filename;
     }
     //query per creare nuovi sponsor
     db.query(`call insertsponsor ('${nome}', '${logo}')`,(err,results)=>{ 
