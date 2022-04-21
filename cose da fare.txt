@@ -1,5 +1,7 @@
 Cose ancora da fare:
 
+-tabella iniziale solo conferenze attive
+
 selezionare presentazioni preferite                          [Alsi]
 controllo se non si seleziona un autore/presenter            [Carlotta/Alsi]
 
@@ -7,20 +9,22 @@ IL PROGRAMMA NON DEVE CRASrsTI MA INFORMARTI  [Alsi/CArlotta] \
 voti agli speaker e ai presenter [Alsi]
 
 Fare controlli sulle date	[Carlotta/Alsi]:
-- ordine delle presentazioni
+- ordine delle presentazioni.
 
 Assegnare un presenter a una presentazione [Carlotta]
 Controlli sul ruolo					        [Alsi]		\
+
+Togliere link a sponsor
 
 Risorse aggiutive 		[Carlotta]\
 controllare che solo gli speaker di quel tutorial possano caricare risorse aggiuntive   [Alsi]
 aggiungere si possa modificare/aggiungere successivamente risorse aggiuntive  [Alsi]
 
 
-Aggiustare bottoni nel profilo      [Alsi]
+Aggiustare bottoni nel profilo      [Alsi] V
 
 Chat disattivazione in base all'orario			[Carlotta] \
-Log eventi 			[Alsi]	
+Log eventi 			[Alsi]	\
 
 
 Alert
@@ -53,3 +57,5 @@ Associazione presentazione a speaker	    [Carlotta] V
 aggiungere foto e cv	[Alsi]V
 aggiungere si possa modificare/aggiungere successivamente foto e cv  [Alsi] V
 parole chiave           [Carlotta]V
+è SPARITO IL TASTO IMPOSTAZIONI DELLA conferenza V
+errore in modifica V

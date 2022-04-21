@@ -121,6 +121,7 @@ exports.programma = (req,res)=>{
                     for(var i = 0; i < results[1].length; i++){
                         console.log(decoded.username + "  " + results[1][i].associazione_username)
                         if(results[1][i].associazione_username === decoded.username) { 
+                            console.log("sono qui");
                             modifica = true;
                         }
                     }
@@ -137,6 +138,7 @@ exports.programma = (req,res)=>{
                             segui=false;
                         }     
                         //Renderizzo tutto
+                        console.log(modifica)
                         res.render('conferenza',{conferenze: results[0], giorni: results[2], moderatori: results[1], permessi: modifica, sponsors: results[4], numIscritti: results[3][0].numIscritti, segui: segui});
     
                     });
