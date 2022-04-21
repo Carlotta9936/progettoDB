@@ -5,11 +5,12 @@ const jwt = require('jsonwebtoken');
 const controlloDate = require('../modules/controlloDate');
 const { DateTime } = require('luxon');
 const {updateLog} = require('../modules/connectionDBMongo');
+var errore= false;
 
 exports.formConferenza = (req, res)=>{
     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
     if(decoded.diritti === "Admin"){    //Controllo ruolo dell'utente
-        res.render('newconferenza');
+        res.render('newconferenza',{error: errore, msg: "non hai l'autorizzazione per questa azione"});
     } else {
         res.send("Mi dispiace, per creare una conferenza bisogna essere un amministratore");
     }
@@ -26,7 +27,14 @@ exports.creaConferenza = (req,res,next)=>{
     }
     if(controlloDate.controlloDate(dataInizio, dataFine)){    //Controllo sulle date
         db.query(`call insertconferenza('${acronimo}','${anno}', '${logo}', '${dataInizio}','${dataFine}','${nome}','${decoded.username}');`,(err,results)=>{
+            if (err.code === 'ER_DUP_ENTRY'){   
+                console.log("we");
+                errore=true;
+                res.render('newconferenza',{error: errore, msg: "conferenza già esistente"});
+            }else{
             if(err) {throw err};
+            }
+            console.log(err);
             //query per iscrivere l'admin alla conferenza creata
             db.query(`call addadminconferenza ('${decoded.username}','${anno}','${acronimo}')`,(err,result)=>{
                 if(err) {throw err};
@@ -34,8 +42,6 @@ exports.creaConferenza = (req,res,next)=>{
             //reindirizzamento a creare sessioni
             next();
         }); 
-    } else {    //Nel caso le date messe non vadano bene allora renderizza la pagina per creare una conferenza
-        res.render('newconferenza');        //Messaggio di errore per le date
     }
 }
 
