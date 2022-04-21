@@ -4,13 +4,19 @@ block content
     div.row-2
         div.col-7
 
-            h3= 'Tutorial: '+ tutorial[0].titolo 
+            h3= 'Tutorial: '+ tutorials[0].titolo 
             h5='Speaker: '
-                each tutorials in tutorial
-                    - var url= '../utenti/'+ tutorials.speaker//ancora non c'è il link
+                each tutorial in tutorials
+                    - var url= '../utenti/'+ tutorial.speaker//ancora non c'è il link
                         a(href= url)
-                            h5= tutorials.speaker
-            h5= 'Abstract: '+tutorial[0].abstract
+                            h5= tutorial.nome+' '+ tutorial.cognome
+            h5= 'Abstract: '+tutorials[0].abstract
+            if seguito
+                form(action='/tutorial/'+ username +'/mipiace/'+ presentazione method='POST')
+                    button.btn.btn-primary(type='submit') MI PIACE
+            else 
+                button.btn.btn-lg.btn-primary(type='button' disabled='') MI PIACE
+
            
                     
 

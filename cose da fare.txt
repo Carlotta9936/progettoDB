@@ -1,6 +1,6 @@
 Cose ancora da fare:
 
-selezionare presentazioni preferite                          [Alsi]
+selezionare presentazioni preferite                          [Carlotta] V
 controllo se non si seleziona un autore/presenter            [Carlotta/Alsi]
 
 IL PROGRAMMA NON DEVE CRASrsTI MA INFORMARTI  [Alsi/CArlotta] \
