@@ -1,6 +1,7 @@
 Cose ancora da fare:
+ALSI METTI A POSTO LE CLASSIFICHE INIZIALI
 
-selezionare presentazioni preferite                          [Carlotta] \
+
 controllo se non si seleziona un autore/presenter            [Carlotta/Alsi]
 
 IL PROGRAMMA NON DEVE CRASrsTI MA INFORMARTI  [Alsi/CArlotta] \
@@ -10,26 +11,20 @@ Fare controlli sulle date	[Carlotta/Alsi]:
 - ordine delle presentazioni.
 
 Assegnare un presenter a una presentazione [Carlotta]
-Controlli sul ruolo					        [Alsi]		\
-
 
 Risorse aggiutive 		[Carlotta]\
 controllare che solo gli speaker di quel tutorial possano caricare risorse aggiuntive   [Alsi]
 aggiungere si possa modificare/aggiungere successivamente risorse aggiuntive  [Alsi]
 
-<<<<<<< HEAD
-
-
-
-Log eventi 			[Alsi]	
-=======
 aggiungere Log eventi 			[Alsi/Carlotta]	
->>>>>>> d4923a4f69abc7cd6c1dc612a18c7a5504492798
 
 
 Alert
 
 COSE FATTE:
+
+Controlli sul ruolo					        [Alsi]		V
+selezionare presentazioni preferite                          [Carlotta] V
 Togliere link a sponsor V
 Aggiustare bottoni nel profilo      [Alsi] V
 Chat disattivazione in base all'orario			[Carlotta] V

@@ -27,12 +27,13 @@ exports.creaConferenza = (req,res,next)=>{
     }
     if(controlloDate.controlloDate(dataInizio, dataFine)){    //Controllo sulle date
         db.query(`call insertconferenza('${acronimo}','${anno}', '${logo}', '${dataInizio}','${dataFine}','${nome}','${decoded.username}');`,(err,results)=>{
-            if (err.code === 'ER_DUP_ENTRY'){   
-                console.log("we");
-                errore=true;
-                res.render('newconferenza',{error: errore, msg: "conferenza già esistente"});
-            }else{
-            if(err) {throw err};
+        
+            if(err) {
+                if (err.code === 'ER_DUP_ENTRY'){   
+                    console.log("we");
+                    errore=true;
+                    res.render('newconferenza',{error: errore, msg: "conferenza già esistente"});
+                }else { throw err;}
             }
             console.log(err);
             //query per iscrivere l'admin alla conferenza creata
