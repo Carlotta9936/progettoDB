@@ -121,6 +121,7 @@ exports.programma = (req,res)=>{
                     for(var i = 0; i < results[1].length; i++){
                         console.log(decoded.username + "  " + results[1][i].associazione_username)
                         if(results[1][i].associazione_username === decoded.username) { 
+                            console.log("sono qui");
                             modifica = true;
                         }
                     }

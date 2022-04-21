@@ -6,9 +6,9 @@ block content
             h1.mt-4= conferenze[0].nome
         div.col-4.mt-4
             if permessi 
-                - var url = "/modifica" 
-                form(action="./modifica" method='GET')
-                    button.btn.btn-outline-light(type='submit') Modifica conferenza
+                - var modifica = conferenze[0].anno+"/modifica" 
+                form(action=modifica method='GET')
+                    button.btn.btn-outline-primary(type='submit') Modifica conferenza
 
     div.row.mt-5
         div.col-3
@@ -61,6 +61,7 @@ block content
                                                         button.btn.btn-primary(type='submit') CHAT
                                                 else
                                                     button.btn.btn-lg.btn-primary(type='button' disabled='') CHAT
+                                                    
                                                 if permessi
                                                     form(action='/presentazione/nuovaPresentazione/'+conferenza.sessione method='GET')
                                                         button.btn.btn-primary(type='submit') Aggiungi una presentazione

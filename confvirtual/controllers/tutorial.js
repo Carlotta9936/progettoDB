@@ -42,10 +42,8 @@ exports.specificaTutorial=(req,res)=>{
                 }
             });
         });
-        
     });
 }
-
 
 exports.mipiace=(req,res)=>{
     //query per inserire la presentazione nella lista dei preferiti

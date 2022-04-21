@@ -95,8 +95,9 @@ exports.renderizzaProfilo = (req, res) => {
 
 
 exports.modifica = (req, res) => {
+
     console.log(res.locals.informazioniPersonali.data_nascita);
-    res.locals.informazioniPersonali.data_nascita = new Date(res.locals.informazioniPersonali.data_nascita).toISOString().split("T")[0];
+    //res.locals.informazioniPersonali.data_nascita = new Date(res.locals.informazioniPersonali.data_nascita).toISOString().split("T")[0];
     console.log(res.locals.informazioniPersonali.data_nascita);
     res.render('modificaProfilo', {Dati: res.locals.informazioniPersonali});
 

@@ -6,7 +6,7 @@ block content
     if fotoProfilo
         -  var percorsoImg = '/uploads/'+fotoProfilo
         img(src= percorsoImg)
-    h2= username
+    h2= username + ' - ' + ruolo
     h3= "Informazioni personali"
     h5= nome 
     h5= cognome 
@@ -16,7 +16,7 @@ block content
     h3= "Conferenze"
     table
         tr
-            th Nome
+            th Nome 
             th Acronimo
             th Anno
             th data inizio
