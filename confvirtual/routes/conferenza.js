@@ -13,7 +13,7 @@ router.post('/nuovaConferenza2-3/:acronimo/:anno/:programma', conferenzaControll
 router.get('/nuovaConferenza3-3/:acronimo/:anno',conferenzaController.formSponsorizzazione);
 router.post('/nuovaConferenza3-3/:acronimo/:anno', conferenzaController.creaSponsorizzazione);
 router.get('/ricerca/:acronimo/:anno',conferenzaController.ricercaConferenza);
-
+router.get('/:acronimo/:anno/modifica', conferenzaController.modificaConferenza)
 
 
 

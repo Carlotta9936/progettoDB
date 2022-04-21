@@ -15,7 +15,7 @@ block content
                 form(action='/tutorial/'+ username +'/mipiace/'+ presentazione method='POST')
                     button.btn.btn-primary(type='submit') MI PIACE
             else 
-                button.btn.btn-lg.btn-primary(type='button' disabled='') MI PIACE
+                button.btn.btn-primary(type='button' disabled='') MI PIACE
             if vota
               form(action='/conferenza/nuovaConferenza3-3/'+acronimo+'/'+anno method='POST')
                 select#sponsors.form-control(type='select' placeholder='0' name='voto')
@@ -23,4 +23,4 @@ block content
                     option(
                       value= val
                     ) #{val}
-                button.btn.btn-primary(type='submit') Vota!       
+                button.btn.btn-primary(type='submit') Vota!
