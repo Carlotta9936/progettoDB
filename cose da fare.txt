@@ -1,12 +1,6 @@
 Cose ancora da fare:
 
-<<<<<<< HEAD
-selezionare presentazioni preferite                          [Carlotta] V
-=======
--tabella iniziale solo conferenze attive
-
-selezionare presentazioni preferite                          [Alsi]
->>>>>>> 38a5c1d9639b28eecb537e03a0a0985992339486
+selezionare presentazioni preferite                          [Carlotta] \
 controllo se non si seleziona un autore/presenter            [Carlotta/Alsi]
 
 IL PROGRAMMA NON DEVE CRASrsTI MA INFORMARTI  [Alsi/CArlotta] \
@@ -18,14 +12,12 @@ Fare controlli sulle date	[Carlotta/Alsi]:
 Assegnare un presenter a una presentazione [Carlotta]
 Controlli sul ruolo					        [Alsi]		\
 
-Togliere link a sponsor
 
 Risorse aggiutive 		[Carlotta]\
 controllare che solo gli speaker di quel tutorial possano caricare risorse aggiuntive   [Alsi]
 aggiungere si possa modificare/aggiungere successivamente risorse aggiuntive  [Alsi]
 
 
-Aggiustare bottoni nel profilo      [Alsi] V
 
 
 Log eventi 			[Alsi]	
@@ -34,6 +26,8 @@ Log eventi 			[Alsi]
 Alert
 
 COSE FATTE:
+Togliere link a sponsor V
+Aggiustare bottoni nel profilo      [Alsi] V
 Chat disattivazione in base all'orario			[Carlotta] V
 Quando si crea una conferenza l'admin deve essere iscritto in maniera automatica [Carlotta]V
 Creatore di presentazioni	[Carlotta] V

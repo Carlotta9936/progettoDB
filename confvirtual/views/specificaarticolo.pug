@@ -4,15 +4,18 @@ block content
     div.row-2
         div.col-7
 
-            h3= 'Articolo: '+ articolo[0].titolo 
+            h3= 'Articolo: '+ articoli[0].titolo 
 
             h5='Autori: '
-            each articoli in articolo 
-                h5= articoli.nome +' '+ articoli.cognome
-            h5='Pdf: '+articolo[0].pdf
-            h5='Pagine: '+articolo[0].n_pagine
-            - var url= '/presenter'+ articolo[0].presenter//ancora non c'è il link
+            each articolo in articoli
+                h5= articolo.nome +' '+ articolo.cognome
+            h5='Pdf: '+articoli[0].pdf
+            h5='Pagine: '+articoli[0].n_pagine
+            - var url= '/presenter'+ articoli[0].presenter//ancora non c'è il link
                 a(href= url)
-                    h5='Presenter: '+articolo[0].presenter
-
-
+                    h5='Presenter: '+articoli[0].presenter
+            if seguito
+                form(action='/articolo/'+ username +'/mipiace/'+ presentazione method='POST')
+                    button.btn.btn-primary(type='submit') MI PIACE
+            else 
+                button.btn.btn-lg.btn-primary(type='button' disabled='') MI PIACE

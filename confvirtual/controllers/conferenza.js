@@ -272,9 +272,9 @@ exports.ricercaConferenza =(req,res)=>{
             //vado a prendere le specifiche con programmi e sessioni di una conferenza
             db.query(`call datiConferenza('${req.params.anno}', '${req.params.acronimo}')`, (err, results) => {
                 if(err) {throw err;}
-                //console.log({results});
+                console.log("ciao");
                 //verifica che la conferenza abbia un programma da visualizzare
-                if (results[0].length>0){
+                if (results[0][0].length!=0){
                     results[0][0].datainizio = DateTime.fromJSDate(results[0][0].datainizio).toLocaleString(DateTime.DATE_MED);
                     results[0][0].datafine = DateTime.fromJSDate(results[0][0].datafine).toLocaleString(DateTime.DATE_MED);
                     for(var i = 0; i < results[0].length; i++){
@@ -303,7 +303,7 @@ exports.ricercaConferenza =(req,res)=>{
                     //controllo se l'utente è già iscritto alla conferenza
                     db.query(`call controllaiscrizione('${decoded.username}','${req.params.anno}','${req.params.acronimo}')`,(err,result)=>{
                         if(err) throw err;           
-                        if(result.length!=0){
+                        if(result[0].length!=0){
                             segui=false;
                         }   
                         //Pulisco le date del programma giornaliero

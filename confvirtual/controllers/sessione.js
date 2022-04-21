@@ -28,7 +28,7 @@ exports.specificaSessione=(req,res)=>{
     //query che controlla la sessione abbia già delle presentazioni
     db.query(`call visualizzapresentazione ("${req.params.id_sessione}")`, function(err,results){
         if(err) throw err;
-        if (results[0].length==0){
+        if (results[0][0].length==0){
             console.log(req.params.titolo);
             res.render('sessioneVuota',{titolo: req.params.titolo});
         }else{
@@ -39,7 +39,8 @@ exports.specificaSessione=(req,res)=>{
                 db.query(`call istutorial('${req.params.id_sessione}')`,(err,result)=>{
                     if(err) throw err;//hai detto che è da maiale, fai le view con gli id e il tipo di presentazione
                     var tipo='';
-                    if(result.length==0){
+                    console.log(result[0]);
+                    if(result[0].length==0){
                         tipo='articolo';
                     }else{
                         tipo='tutorial';
