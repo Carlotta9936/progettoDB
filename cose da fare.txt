@@ -23,13 +23,14 @@ aggiungere si possa modificare/aggiungere successivamente risorse aggiuntive  [A
 
 Aggiustare bottoni nel profilo      [Alsi] V
 
-Chat disattivazione in base all'orario			[Carlotta] \
-Log eventi 			[Alsi]	\
+
+Log eventi 			[Alsi]	
 
 
 Alert
 
 COSE FATTE:
+Chat disattivazione in base all'orario			[Carlotta] V
 Quando si crea una conferenza l'admin deve essere iscritto in maniera automatica [Carlotta]V
 Creatore di presentazioni	[Carlotta] V
 crea tutorial		    	[Carlotta] V

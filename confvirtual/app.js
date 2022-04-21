@@ -68,16 +68,32 @@ app.get('/:id_sessione/chat', (req, res) => {
     user = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
     user = user.username;
     console.log(user);
-    //query per stampare i messaggi della chat se già ce ne sono
-    db.query(`call stampamessaggi('${req.params.id_sessione}')`,(err,results)=>{
-      if(results.length==0){
-        res.render("chatvuota");
+    const today= new Date();
+    const giorno= DateTime.fromJSDate(today).toLocaleString(DateTime.DATE_MED);
+    const orario= today.toLocaleTimeString();//prendo l'ora attuale
+
+    //controllo se la sessione è attiva
+    db.query(`call verificaorariosessione ('${sessione}')`,(err,result)=>{
+      var data=DateTime.fromJSDate(result[0][0].data).toLocaleString(DateTime.DATE_MED);
+      console.log(giorno,data);
+      if(giorno==data){
+        if(orario<result[0].orai || orario>result[0].oraf){
+          res.render("chatnondisponibile");
+        }else{
+          //query per stampare i messaggi della chat se già ce ne sono
+          db.query(`call stampamessaggi('${req.params.id_sessione}')`,(err,results)=>{
+            if(results.length==0){
+              res.render("chatvuota");
+            }else{
+              console.log(results[0]);
+              res.render("chat", {messaggi: results[0]});
+            }
+          }); 
+        }
       }else{
-        console.log(results[0]);
-        res.render("chat", {messaggi: results[0]});
+        res.render("chatnondisponibile");
       }
-    }); 
-    
+    });
 });
 
 
