@@ -57,7 +57,7 @@ block content
                                                     h5= 'Ora fine: '+conferenza.oraf
                                                 
                                                 if !segui && ris[i]
-                                                    form(action='/'+conferenza.sessione+'/chat' method='GET')
+                                                    form(action='/vota'+conferenza.sessione+'/chat' method='GET')
                                                         button.btn.btn-primary(type='submit') CHAT
                                                 else
                                                     button.btn.btn-lg.btn-primary(type='button' disabled='') CHAT

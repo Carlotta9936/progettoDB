@@ -4,7 +4,7 @@ selezionare presentazioni preferite                          [Carlotta] \
 controllo se non si seleziona un autore/presenter            [Carlotta/Alsi]
 
 IL PROGRAMMA NON DEVE CRASrsTI MA INFORMARTI  [Alsi/CArlotta] \
-voti agli speaker e ai presenter [Alsi]
+voti agli speaker e ai presenter [Alsi]  ---> manca mettere l'url nel action e dovrebbe funzionare
 
 Fare controlli sulle date	[Carlotta/Alsi]:
 - ordine delle presentazioni.

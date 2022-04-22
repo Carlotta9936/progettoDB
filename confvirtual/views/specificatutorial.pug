@@ -9,7 +9,7 @@ block content
                 each tutorial in tutorials
                     - var url= '../utenti/'+ tutorial.speaker//ancora non c'è il link
                         a(href= url)
-                            h5= tutorial.nome+' '+ tutorial.cognome
+                            h5= tutorial.speaker
             h5= 'Abstract: '+tutorials[0].abstract
             if seguito
                 form(action='/tutorial/'+ username +'/mipiace/'+ presentazione method='POST')
@@ -17,7 +17,8 @@ block content
             else 
                 button.btn.btn-primary(type='button' disabled='') MI PIACE
             if vota
-              form(action='/conferenza/nuovaConferenza3-3/'+acronimo+'/'+anno method='POST')
+              - var url = presentazione+'/vota'
+              form(action=url method='POST')
                 select#sponsors.form-control(type='select' placeholder='0' name='voto')
                   each val in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                     option(
