@@ -5,6 +5,7 @@ const controlloDate = require('../modules/controlloDate');
 const { DateTime } = require('luxon');
 
 
+
 exports.formPresentazione = (req, res)=>{
     //query per visualizzare dati di una sessione
     db.query(`call specificasessione ('${req.params.sessione}')`,(err,results)=>{
@@ -153,7 +154,7 @@ exports.associaSpeaker=(req,res)=>{
 
 
 exports.formParoleChiave=(req,res)=>{
-    res.render('newParole',{articolo: req.params.id_articolo});
+    res.render('newParole',{articolo: req.params.id_articolo, error: false, msg: "",parola: "" });
 }
 
 exports.creaParoleChiave=(req,res)=>{
@@ -162,7 +163,8 @@ exports.creaParoleChiave=(req,res)=>{
     //query per inserire una parola
     db.query(`call insertparola ('${parole}','${req.params.id_articolo}')`,(err,results)=>{
         if(err){throw err;}
- 
+        res.render('newParole',{articolo: req.params.id_articolo, error: false, msg: "nuova parola creata: ", parola: parole});
+
     });
 }
 
