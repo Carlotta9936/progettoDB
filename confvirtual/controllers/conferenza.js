@@ -75,7 +75,7 @@ exports.formSessione = (req, res)=>{
             for(var i = 0; i < results[0].length; i++) {
                 results[0][i].data = DateTime.fromJSDate(results[0][i].data).toLocaleString(DateTime.DATE_MED);
             }
-            res.render('newsessione', {programmi: results[0]});
+            res.render('newsessione', {programmi: results[0], error: false, msg:""});
         }
     });
 }
@@ -86,10 +86,18 @@ exports.creaSessione = (req,res)=>{
     const {oraI, oraF, titolo, link} = req.body;
     //query per inserire una nuova sessione
     db.query(`call insertsessione ('${oraF}','${oraI}','${titolo}','${link}','${req.params.programma}');`,(err, results)=>{
-        if(err){
-            //console.log(err);
-        }
-    })
+        if(err){throw err;}
+        db.query(`call selectprogramma ('${req.params.anno}','${req.params.acronimo}');`,(err, results)=>{
+            if(err) throw err;
+            else{
+                console.log({results});
+                for(var i = 0; i < results[0].length; i++) {
+                    results[0][i].data = DateTime.fromJSDate(results[0][i].data).toLocaleString(DateTime.DATE_MED);
+                }
+            }    
+            res.render('newsessione', {programmi: results[0], error: false, msg:"sessione creata"});
+        });
+    });
 }
 
 //visualizzazione specifica di una conferenza

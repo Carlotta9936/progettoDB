@@ -9,6 +9,7 @@ voti agli speaker e ai presenter [Alsi]  ---> manca mettere l'url nel action e d
 
 Fare controlli sulle date	[Carlotta/Alsi]:
 - ordine delle presentazioni.
+- due sessioni nello stesso programma non possono essere nello stesso orario
 
 Assegnare un presenter a una presentazione [Carlotta]
 

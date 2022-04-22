@@ -1,13 +1,15 @@
 const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
 const db = require('../connectionDB');
+errore= false;
 
 exports.formSessione = (req, res)=>{
     db.query('call getProgrammaGiornaliero();', function(err,result,fields){
         if(err) throw err;
-        else 
+        else {
         //console.log(result);
-        res.render('newsessione', {programmi: result[0]});
+        res.render('newsessione', {programmi: result[0], error: false, msg:""});
+        }
     });
 }
 
