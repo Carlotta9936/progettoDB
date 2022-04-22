@@ -198,17 +198,31 @@ exports.formSponsorizzazione=(req,res)=>{
     db.query(`call nomesponsor();`,(err,results)=>{
         if(err) throw err;
         console.log({results});
-        res.render('newsponsorizzazione', {acronimo: req.params.acronimo, anno: req.params.anno, sponsor: results[0]});
+        res.render('newsponsorizzazione', {acronimo: req.params.acronimo, anno: req.params.anno,error: errore, msg: "", sponsor: results[0]});
     });
 }
 
 exports.creaSponsorizzazione=(req,res)=>{
+    errore=false;
     const { importo, sponsor} = req.body;
     //query per inserire una nuova sponsorizzazione
     db.query(`call insertsponsorizzazione ('${importo}','${req.params.anno}', '${req.params.acronimo}', '${sponsor}');`,(err,results)=>{
-        if(err) {throw err};
+        db.query(`call nomesponsor();`,(errr,results)=>{
+            if(err){
+                if (err.code === 'ER_DUP_ENTRY'){   
+                    console.log("we");
+                    errore=true;
+                    res.render('newsponsorizzazione',{acronimo: req.params.acronimo,anno: req.params.anno, error: errore, msg: "sponsor già esistente",sponsor: results[0]});
+                }else{ throw err; }
+                
+            }else{
+                res.render('newsponsorizzazione',{acronimo: req.params.acronimo,anno: req.params.anno, error: errore, msg: "nuova sponsorizzazione creata",sponsor: results[0]});
+
+            }
+        });
     });
     //query per contare gli sponsor della conferenza
+    console.log("ok ci passo");
     db.query(`call contasponsor('${req.params.anno}','${req.params.acronimo}')`,(err,results)=>{
         if(results[0][0].num_sponsorizzazioni>=5){
             //vengo mandato alla specifica della conferenza
