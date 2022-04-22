@@ -1,6 +1,7 @@
 const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
 const db = require('../connectionDB');
+var errore=true;
 
 
 exports.formAutore = (req,res)=>{
@@ -42,25 +43,36 @@ exports.assegnaAutore=(req,res)=>{
     if(listaautori!==undefined){
         if(Array.isArray(listaautori)){
             listaautori.forEach((autore) => {
-                console.log({ autore });
-                //query che crea crea nuova istanza scritto
-                db.query(`call insertscritto ('${autore}', '${req.params.id_articolo}')`,(err,results)=>{  
+                //controllo ci sia un presenter
+                if(autore>=1000){
+                    errore=false;
+                }
+            });
+            if(errore==false){
+                listaautori.forEach((autore) => {
+                    //query che crea crea nuova istanza scritto
+                    db.query(`call insertscritto ('${autore}', '${req.params.id_articolo}')`,(err,results)=>{  
+                        if(err){
+                            console.log(err);
+                        }else{
+                            console.log('ok');
+                        }
+                    });
+                });
+            }     
+            
+        }else{//caso in cui sia solo uno l'autore
+            if(listaautori>=1000){
+                db.query(`call insertscritto ('${listaautori}', '${req.params.id_articolo}')`,(err,results)=>{  
                     if(err){
                         console.log(err);
                     }else{
                         console.log('ok');
+                        
                     }
                 });
-            });
-        }else{//caso in cui sia solo uno l'autore
-            db.query(`call insertscritto ('${listaautori}', '${req.params.id_articolo}')`,(err,results)=>{  
-                if(err){
-                    console.log(err);
-                }else{
-                    console.log('ok');
-                    
-                }
-            });
+                errore=false;
+            }
         }
         //query per prendere il titolo dell'articolo
         db.query(`call titoloarticolo ('${req.params.id_articolo}')`,(err, result)=>{
@@ -72,7 +84,13 @@ exports.assegnaAutore=(req,res)=>{
                 //query per prendere autori che siano anche presenter
                 db.query(`call visualizzaautoripresenter ()`,(err,results)=>{
                     if(err) {throw err;}
-                    res.render('assegnaAutori',{titolo: result[0][0].titolo, autori: resultati[0], articolo: req.params.id_articolo, presenter: results[0], errore: false, msg: "Autori assegnati"});
+                    if(errore==false){
+                        res.render('assegnaAutori',{titolo: result[0][0].titolo, autori: resultati[0], articolo: req.params.id_articolo, presenter: results[0], errore: false, msg: "Autori assegnati"});
+                    }
+                    else{
+                        res.render('assegnaAutori',{titolo: result[0][0].titolo, autori: resultati[0], articolo: req.params.id_articolo, presenter: results[0], errore: true, msg: "Selezionare almeno un autore che sia presentatore"});
+
+                    }
                 });
             });
         });

@@ -21,7 +21,10 @@ block content
               name= 'listaautori'
               value= presenters.id_autore
           )
-    button.btn.btn-primary(type='submit') Assegna
+    if msg!="Autori assegnati"
+      button.btn.btn-primary(type='submit') Assegna
+    else
+      button.btn.btn-lg.btn-primary(type='button' disabled='') Assegna
     if errore
       .alert.alert-danger.d-flex.align-items-center(role='alert')
         svg.bi.bi-exclamation-triangle-fill.flex-shrink-0.me-2(xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='currentColor' viewBox='0 0 16 16' role='img' aria-label='Warning:')
