@@ -25,8 +25,8 @@ exports.creaSponsor = (req,res)=>{
                 res.render('newsponsor',{acronimo: req.params.acronimo,anno: req.params.anno, errore: err, msg: "sponsor già esistente"});
             }else{ throw err; }
             
-        }
-        res.render('newsponsor',{acronimo: req.params.acronimo,anno: req.params.anno, errore: err, msg: "nuovo sponsor creato"});
-        //Alert che ti dice "sponsor creato"
+        }else{
+        res.render('newsponsor',{acronimo: req.params.acronimo,anno: req.params.anno, errore: false, msg: "nuovo sponsor creato"});
+        }//Alert che ti dice "sponsor creato"
     });
 }
