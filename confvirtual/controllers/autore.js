@@ -43,7 +43,7 @@ exports.assegnaAutore=(req,res)=>{
         if(Array.isArray(listaautori)){
             listaautori.forEach((autore) => {
                 console.log({ autore });
-                //query che crea crea nuova istanza iscritto
+                //query che crea crea nuova istanza scritto
                 db.query(`call insertscritto ('${autore}', '${req.params.id_articolo}')`,(err,results)=>{  
                     if(err){
                         console.log(err);
@@ -58,12 +58,41 @@ exports.assegnaAutore=(req,res)=>{
                     console.log(err);
                 }else{
                     console.log('ok');
+                    
                 }
             });
         }
+        //query per prendere il titolo dell'articolo
+        db.query(`call titoloarticolo ('${req.params.id_articolo}')`,(err, result)=>{
+            if(err){throw err;}
+            //serie di query per prendere i dati per assegnaAutori
+            db.query(`call visualizzaautori ()`,(err,resultati)=>{
+                if(err){throw err;}
+                //console.log(req.params.id_articolo);
+                //query per prendere autori che siano anche presenter
+                db.query(`call visualizzaautoripresenter ()`,(err,results)=>{
+                    if(err) {throw err;}
+                    res.render('assegnaAutori',{titolo: result[0], autori: resultati[0], articolo: req.params.id_articolo, presenter: results[0], errore: false, msg: "Autori assegnati"});
+                });
+            });
+        });
     }else{
         console.log("ok");
-        res.render("errorautori");
+        //query per prendere il titolo dell'articolo
+        db.query(`call titoloarticolo ('${req.params.id_articolo}')`,(err, result)=>{
+            if(err){throw err;}
+            //serie di query per prendere i dati per assegnaAutori
+            db.query(`call visualizzaautori ()`,(err,resultati)=>{
+                if(err){throw err;}
+                //console.log(req.params.id_articolo);
+                //query per prendere autori che siano anche presenter
+                db.query(`call visualizzaautoripresenter ()`,(err,results)=>{
+                    if(err) {throw err;}
+                    res.render('assegnaAutori',{titolo: result[0], autori: resultati[0], articolo: req.params.id_articolo, presenter: results[0], errore: false, msg: "Seleziona degli autori"});
+
+                });
+            });
+        });
     }
 }
     

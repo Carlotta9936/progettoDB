@@ -90,7 +90,7 @@ exports.creaArticolo=(req,res)=>{
                         //query per prendere autori che siano anche presenter
                         db.query(`call visualizzaautoripresenter ()`,(err,result)=>{
                             if(err) {throw err;}
-                            res.render('assegnaAutori',{titolo: titolo, autori: results[0], articolo: req.params.id_articolo, presenter: result[0]})
+                            res.render('assegnaAutori',{titolo: titolo, autori: results[0], articolo: req.params.id_articolo, presenter: result[0], errore: false, msg: ""})
                         });
                     }
                 }
