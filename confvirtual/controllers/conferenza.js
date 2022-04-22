@@ -205,31 +205,39 @@ exports.formSponsorizzazione=(req,res)=>{
 exports.creaSponsorizzazione=(req,res)=>{
     errore=false;
     const { importo, sponsor} = req.body;
-    //query per inserire una nuova sponsorizzazione
-    db.query(`call insertsponsorizzazione ('${importo}','${req.params.anno}', '${req.params.acronimo}', '${sponsor}');`,(err,results)=>{
-        db.query(`call nomesponsor();`,(errr,results)=>{
-            if(err){
-                if (err.code === 'ER_DUP_ENTRY'){   
-                    console.log("we");
-                    errore=true;
-                    res.render('newsponsorizzazione',{acronimo: req.params.acronimo,anno: req.params.anno, error: errore, msg: "sponsor già esistente",sponsor: results[0]});
-                }else{ throw err; }
-                
-            }else{
-                res.render('newsponsorizzazione',{acronimo: req.params.acronimo,anno: req.params.anno, error: errore, msg: "nuova sponsorizzazione creata",sponsor: results[0]});
+    if(importo!=""){
+        //query per inserire una nuova sponsorizzazione
+        db.query(`call insertsponsorizzazione ('${importo}','${req.params.anno}', '${req.params.acronimo}', '${sponsor}');`,(err,results)=>{
+            db.query(`call nomesponsor();`,(errr,results)=>{
+                if(err){
+                    if (err.code === 'ER_DUP_ENTRY'){   
+                        console.log("we");
+                        errore=true;
+                        res.render('newsponsorizzazione',{acronimo: req.params.acronimo,anno: req.params.anno, error: errore, msg: "sponsor già esistente",sponsor: results[0]});
+                    }else{ throw err; }
+                    
+                }else{
+                    res.render('newsponsorizzazione',{acronimo: req.params.acronimo,anno: req.params.anno, error: errore, msg: "nuova sponsorizzazione creata",sponsor: results[0]});
 
+                }
+            });
+        });
+        //query per contare gli sponsor della conferenza
+        db.query(`call contasponsor('${req.params.anno}','${req.params.acronimo}')`,(err,results)=>{
+            if(results[0][0].num_sponsorizzazioni>=5){
+                //vengo mandato alla specifica della conferenza
+                res.redirect('/conferenza/'+req.params.acronimo+'/'+req.params.anno);
             }
         });
-    });
-    //query per contare gli sponsor della conferenza
-    console.log("ok ci passo");
-    db.query(`call contasponsor('${req.params.anno}','${req.params.acronimo}')`,(err,results)=>{
-        if(results[0][0].num_sponsorizzazioni>=5){
-            //vengo mandato alla specifica della conferenza
-            res.redirect('/conferenza/'+req.params.acronimo+'/'+req.params.anno);
-        }
-    });
-    
+    } else{
+        db.query(`call nomesponsor();`,(err,results)=>{
+            if(err){ throw err; }
+            errore=true;
+            res.render('newsponsorizzazione',{acronimo: req.params.acronimo,anno: req.params.anno, error: errore, msg: "inserire un importo valido",sponsor: results[0]});
+
+        });
+
+    }   
 }
 
 exports.segui = (req, res) => {
