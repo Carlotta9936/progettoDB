@@ -38,7 +38,7 @@ exports.creaAutore = (req,res)=>{
 
 exports.assegnaAutore=(req,res)=>{
     const {listaautori}=req.body;
-    console.log(listaautori);
+    //console.log(listaautori);
     if(listaautori!==undefined){
         if(Array.isArray(listaautori)){
             listaautori.forEach((autore) => {
@@ -72,7 +72,7 @@ exports.assegnaAutore=(req,res)=>{
                 //query per prendere autori che siano anche presenter
                 db.query(`call visualizzaautoripresenter ()`,(err,results)=>{
                     if(err) {throw err;}
-                    res.render('assegnaAutori',{titolo: result[0], autori: resultati[0], articolo: req.params.id_articolo, presenter: results[0], errore: false, msg: "Autori assegnati"});
+                    res.render('assegnaAutori',{titolo: result[0][0].titolo, autori: resultati[0], articolo: req.params.id_articolo, presenter: results[0], errore: false, msg: "Autori assegnati"});
                 });
             });
         });
@@ -88,8 +88,8 @@ exports.assegnaAutore=(req,res)=>{
                 //query per prendere autori che siano anche presenter
                 db.query(`call visualizzaautoripresenter ()`,(err,results)=>{
                     if(err) {throw err;}
-                    res.render('assegnaAutori',{titolo: result[0], autori: resultati[0], articolo: req.params.id_articolo, presenter: results[0], errore: false, msg: "Seleziona degli autori"});
-
+                    console.log('ciao'+result[0][0]);
+                    res.render('assegnaAutori',{titolo: result[0][0].titolo, autori: resultati[0], articolo: req.params.id_articolo, presenter: results[0], errore: true, msg: "Seleziona degli autori"});
                 });
             });
         });
