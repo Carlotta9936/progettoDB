@@ -1,10 +1,11 @@
 const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
 const db = require('../connectionDB');
+var err=false;
 
 
 exports.formSponsor = (req,res)=>{
-    res.render('newsponsor',{acronimo: req.params.acronimo,anno: req.params.anno});
+    res.render('newsponsor',{acronimo: req.params.acronimo,anno: req.params.anno, errore: err, msg: ""});
 }
 
 exports.creaSponsor = (req,res)=>{
@@ -17,10 +18,15 @@ exports.creaSponsor = (req,res)=>{
     }
     //query per creare nuovi sponsor
     db.query(`call insertsponsor ('${nome}', '${logo}')`,(err,results)=>{ 
-        if(err){throw err;
+        if(err){
+            if (err.code === 'ER_DUP_ENTRY'){   
+                console.log("we");
+                err=true;
+                res.render('newsponsor',{acronimo: req.params.acronimo,anno: req.params.anno, errore: err, msg: "sponsor già esistente"});
+            }else{ throw err; }
+            
         }else{
-            console.log('ok');
-            res.status(200);
-        }
+        res.render('newsponsor',{acronimo: req.params.acronimo,anno: req.params.anno, errore: false, msg: "nuovo sponsor creato"});
+        }//Alert che ti dice "sponsor creato"
     });
 }
