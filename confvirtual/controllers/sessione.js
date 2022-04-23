@@ -43,7 +43,16 @@ exports.specificaSessione=(req,res)=>{
                     var tipo='';
                     console.log(result[0]);
                     if(result[0].length==0){
-                        tipo='articolo';
+                        //controllo tipologia della presentazione
+                        db.query(`call isarticolo('${req.params.id_sessione}')`,(err,result)=>{
+                            if(err) throw err;
+                            if(result[0].length!=0){
+                                tipo='articolo';
+                            }else{
+                                res.render('sessioneVuota',{titolo: req.params.titolo});
+
+                            }
+                        });
                     }else{
                         tipo='tutorial';
                     }
