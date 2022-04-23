@@ -100,7 +100,7 @@ exports.modifica = (req, res) => {
     console.log(res.locals.informazioniPersonali.data_nascita);
     //res.locals.informazioniPersonali.data_nascita = new Date(res.locals.informazioniPersonali.data_nascita).toISOString().split("T")[0];
     console.log(res.locals.informazioniPersonali.data_nascita);
-    res.render('modificaProfilo', {Dati: res.locals.informazioniPersonali});
+    res.render('modificaProfilo', {Dati: res.locals.informazioniPersonali, msg: ""});
 
 }
 
@@ -108,8 +108,15 @@ exports.modifica = (req, res) => {
 exports.aggiornaInfo = (req, res) => {
     const { username, password, passwordConfirm, nome, cognome, luogoNascita, dataNascita } = req.body;
     db.query(`call aggiornaInfo('${username}', '${password}', '${nome}', '${cognome}', '${luogoNascita}', '${dataNascita}');`, (err, results) => {
-        if(err) {throw err;}
+        if(err){
+            if (err.code === 'ER_TRUNCATED_WRONG_VALUE'){   
+                console.log("we");
+                res.render('modificaProfilo', {Dati: "", msg: "non tutti i dati inseriti sono validi"});
+            }else{ throw err; }
+            
+        }else{
         res.redirect('/homepage');
+        }
     });
 }
 
