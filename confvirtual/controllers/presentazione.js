@@ -75,27 +75,21 @@ exports.creaArticolo=(req,res)=>{
     console.log(req.files.PDF);
     const PDF = req.files.PDF;
     db.query(`call insertarticolo ('${req.params.id_articolo}','${PDF[0].filename}','${pagine}','${titolo}')`,(err,results)=>{
-        if(err){
-            console.log(err);
-        }else{
-            //vado a controllare che gli autori dell'articolo esistano sul db, se non esistono devo crearli
-            db.query(`call visualizzaautori ()`,(err,results)=>{
-                if(err){
-                    console.log(err);
-                }else{
-                    if(results.length==0){
-                        res.render('newautore',{titolo: titolo, articolo: req.params.id_articolo})
-                    }else{
-                        //console.log(req.params.id_articolo);
-                        //query per prendere autori che siano anche presenter
-                        db.query(`call visualizzaautoripresenter ()`,(err,result)=>{
-                            if(err) {throw err;}
-                            res.render('assegnaAutori',{titolo: titolo, autori: results[0], articolo: req.params.id_articolo, presenter: result[0], errore: false, msg: ""})
-                        });
-                    }
-                }
-            });
-        }
+        if (err){throw err;}
+        //vado a controllare che gli autori dell'articolo esistano sul db, se non esistono devo crearli
+        db.query(`call visualizzaautori ()`,(err,results)=>{
+            if (err){throw err;}
+            if(results.length==0){
+                res.render('newautore',{msg: "", articolo: req.params.id_articolo})
+            }else{
+                //console.log(req.params.id_articolo);
+                //query per prendere autori che siano anche presenter
+                db.query(`call visualizzaautoripresenter ()`,(err,result)=>{
+                    if(err) {throw err;}
+                    res.render('assegnaAutori',{titolo: titolo, autori: results[0], articolo: req.params.id_articolo, presenter: result[0], errore: false, msg: ""})
+                });
+            }
+        });
     });
 }
 
