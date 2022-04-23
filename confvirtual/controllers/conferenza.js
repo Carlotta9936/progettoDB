@@ -265,15 +265,27 @@ exports.segui = (req, res) => {
 exports.modificaConferenza = (req, res) => {
     db.query(`call getAdminLiberi('${req.params.anno}', '${req.params.acronimo}')`, (err, results) => {
         console.log(results[0]);
-        res.render("modificaConferenza", {admins: results[0], anno: req.params.anno});
-    })
+        if(results[0]==0){
+            res.render("modificaConferenza", {admins: results[0], anno: req.params.anno, errore: true, msg: "Tutti gli admin sono già stati associati"});
+        }else{
+            res.render("modificaConferenza", {admins: results[0], anno: req.params.anno, errore: false, msg: ""});
+        }
+    });
 } 
 
 exports.aggiungiAdmin = (req, res) => {
     const {admin} = req.body;
     db.query(`call aggiungiAssociazioni('${admin}', '${req.params.anno}', '${req.params.acronimo}');`, (err, results) => {
         if(err) {throw err;}
-        res.status(200);
+        db.query(`call getAdminLiberi('${req.params.anno}', '${req.params.acronimo}')`, (err, results) => {
+            console.log(results[0]);
+            if(results[0]==0){
+                res.render("modificaConferenza", {admins: results[0], anno: req.params.anno, errore: true, msg: "Moderatore associato: "+admin+" ATTENZIONE gli admin sono già tutti associati"});
+    
+            }else{
+            res.render("modificaConferenza", {admins: results[0], anno: req.params.anno, errore: false, msg: "Moderatore associato"+admin});
+            }
+        });
     })
 }
 
