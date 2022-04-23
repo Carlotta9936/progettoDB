@@ -2,9 +2,7 @@ Cose ancora da fare:
 ALSI METTI A POSTO LE CLASSIFICHE INIZIALI
 
 
-controllo se non si seleziona un autore/presenter            [Carlotta/Alsi]
 
-IL PROGRAMMA NON DEVE CRASrsTI MA INFORMARTI  [Alsi/CArlotta] \
 voti agli speaker e ai presenter [Alsi]  ---> manca mettere l'url nel action e dovrebbe funzionare
 
 Fare controlli sulle date	[Carlotta/Alsi]:
@@ -23,7 +21,8 @@ aggiungere Log eventi 			[Alsi/Carlotta]
 Alert
 
 COSE FATTE:
-
+IL PROGRAMMA NON DEVE CRASrsTI MA INFORMARTI  [Alsi/CArlotta] V
+controllo se non si seleziona un autore/presenter            [Carlotta] V
 Controlli sul ruolo					        [Alsi]		V
 selezionare presentazioni preferite                          [Carlotta] V
 Togliere link a sponsor V
