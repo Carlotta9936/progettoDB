@@ -12,7 +12,7 @@ exports.formPresentazione = (req, res)=>{
         if(err) throw err;
         console.log(results[0]);
         results[0][0].data = DateTime.fromJSDate(results[0][0].data).toLocaleString(DateTime.DATE_MED);
-        res.render('newpresentazione',{sessione: results[0]});
+        res.render('newpresentazione',{sessione: results[0],errore: false, msg: ""});
     });
 }
 
@@ -32,9 +32,13 @@ exports.creaPresentazione = (req,res)=>{
                     console.log(results[0][i].oraFine);
                     if(!(controlloDate.controlloOrario(oraI, results[0][i].oraInizio) && controlloDate.controlloDate(oraF, results[0][i].oraInizio) ||
                         controlloDate.controlloOrario(results[0][i].oraFine, oraF) && controlloDate.controlloDate(results[0][i].oraFine, oraI)))
-                    {
-                        console.log("err")
-                        res.send("Errore");
+                    {//query per prendere i dati per reinderizzare quando cìè un problema
+                        db.query(`call specificasessione ('${req.params.sessione}')`,(err,results)=>{
+                            if(err) throw err;
+                            console.log(results[0]);
+                            results[0][0].data = DateTime.fromJSDate(results[0][0].data).toLocaleString(DateTime.DATE_MED);
+                            res.render('newpresentazione',{sessione: results[0], errore: true, msg: "la presentazione deve iniziare dopo l'inizio della sessione e finire prima della fine della sessione"});
+                        });
                     }
                 }
                 db.query(`call insertpresentazione('${oraI}','${oraF}','${ordine}','${req.params.sessione}');`,(err,results)=>{
@@ -53,8 +57,13 @@ exports.creaPresentazione = (req,res)=>{
                 }); 
             });
         } else {
-            console.log("Erro")
-            res.send("Errore");
+           //query per prendere i dati per reinderizzare quando cìè un problema
+           db.query(`call specificasessione ('${req.params.sessione}')`,(err,results)=>{
+            if(err) throw err;
+            console.log(results[0]);
+            results[0][0].data = DateTime.fromJSDate(results[0][0].data).toLocaleString(DateTime.DATE_MED);
+            res.render('newpresentazione',{sessione: results[0], errore: true, msg: "la presentazione deve iniziare dopo l'inizio della sessione e finire prima della fine della sessione"});
+            });
         }
     });
 }
