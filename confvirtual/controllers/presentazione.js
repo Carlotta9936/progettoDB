@@ -38,24 +38,20 @@ exports.creaPresentazione = (req,res)=>{
                     }
                 }
                 db.query(`call insertpresentazione('${oraI}','${oraF}','${ordine}','${req.params.sessione}');`,(err,results)=>{
-                    if(err){
-                        console.log(err);
-                    }else{
-                        //console.log("ok");
-                        tipo=req.body.tipo;
-                        //query per prendere l'ultima presentazione creata
-                        db.query(`call selezionapresentazione ()`,(err,results)=>{
-                            if(err){
-                                //console.log(results);
-                                console.log(err);
-                            }else{
-                                //console.log(results[0]);
-                                res.redirect(tipo+'/'+results[0][0].id);
-                            }
-                        });
-                    }
+                    if (err){throw err;}
+                    tipo=req.body.tipo;
+                    //query per prendere l'ultima presentazione creata
+                    db.query(`call selezionapresentazione ()`,(err,results)=>{
+                        if(err){
+                            //console.log(results);
+                            console.log(err);
+                        }else{
+                            //console.log(results[0]);
+                            res.redirect(tipo+'/'+results[0][0].id);
+                        }
+                    });
                 }); 
-        });
+            });
         } else {
             console.log("Erro")
             res.send("Errore");
