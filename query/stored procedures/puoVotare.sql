@@ -1,5 +1,4 @@
 DELIMITER $$
-USE `confvirtual`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `puoVotare`(presentazione int)
 BEGIN
 	SELECT associazione_username as admins
