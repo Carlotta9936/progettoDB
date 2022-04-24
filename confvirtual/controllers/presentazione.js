@@ -38,7 +38,7 @@ exports.creaPresentazione = (req,res)=>{
                             if(err) throw err;
                             console.log(results[0]);
                             results[0][0].data = DateTime.fromJSDate(results[0][0].data).toLocaleString(DateTime.DATE_MED);
-                            res.render('newpresentazione',{sessione: results[0], errore: true, msg: "la presentazione deve iniziare dopo l'inizio della sessione e finire prima della fine della sessione"});
+                            res.render('newpresentazione',{sessione: results[0], errore: true, msg: "la presentazione deve iniziare dopo l'inizio della sessione, finire prima della fine della sessione e non può coincidere con altre presentazioni della sessione"});
                         });
                     }
                 }
