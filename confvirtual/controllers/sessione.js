@@ -34,33 +34,25 @@ exports.specificaSessione=(req,res)=>{
             console.log(req.params.titolo);
             res.render('sessioneVuota',{titolo: req.params.titolo});
         }else{
-            db.query(`call articoloSessionePresentazione("${req.params.id_sessione}")`, function(err,results){
+            var tipi = [];
+            db.query(`call articoloSessionePresentazione("${req.params.id_sessione}")`,(err,results)=>{
                 if(err) throw err;
                 console.log(results[0]);
-                //controllo tipologia della presentazione
-                db.query(`call istutorial('${req.params.id_sessione}')`,(err,result)=>{
-                    if(err) throw err;
-                    var tipo='';
-                    console.log(result[0]);
-                    if(result[0].length==0){
-                        //controllo tipologia della presentazione
-                        db.query(`call isarticolo('${req.params.id_sessione}')`,(err,result)=>{
-                            if(err) throw err;
-                            if(result[0].length!=0){
-                                tipo='articolo';
-                            }else{
-                                res.render('sessioneVuota',{titolo: req.params.titolo});
-
-                            }
-                        });
-                    }else{
-                        tipo='tutorial';
-                    }
-                    console.log("siamo noi" + results[0][0]);
-                    
-                    res.render('sessione',{presentazioni: results[0], sessione: req.params.id_sessione, tipo: tipo});
-                });
-            });
+                /*
+                results[0].forEach((presentazione, i) => {
+                    console.log(presentazione.id+"ok");
+                    //controllo tipologia della presentazione
+                    db.query(`call getTipo('${presentazione.id}')`, (err, result) => {
+                        if(err) {throw err;}
+                        console.log("boh"+result[0][0].tipo)
+                        tipi[i] = result[0][0].tipo;
+                        
+                    });
+                }); */
+                console.log("ciao"+tipi);
+                //if query vuota
+                res.render('sessione',{presentazioni: results[0], sessione: req.params.id_sessione});      
+            });     
         }
     });
 }
