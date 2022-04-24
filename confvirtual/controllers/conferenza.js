@@ -177,7 +177,7 @@ exports.programma = (req,res)=>{
                 } else {
                     console.log("conferneza vuota");
                     console.log("Sono qui 1");
-                    res.render('conferenzaVuota',{nome: req.params.acronimo, anno:req.params.anno, admin: true});
+                    res.render('conferenzaVuota',{nome: req.params.acronimo, anno:req.params.anno, admin: modifica});
                 }
             })
         }
@@ -213,9 +213,12 @@ exports.formSponsorizzazione=(req,res)=>{
 exports.creaSponsorizzazione=(req,res)=>{
     errore=false;
     const { importo, sponsor} = req.body;
+    console.log("Anno", req.params.anno)
+    console.log("acronimo", req.params.acronimo)
     if(importo!=""){
         //query per inserire una nuova sponsorizzazione
         db.query(`call insertsponsorizzazione ('${importo}','${req.params.anno}', '${req.params.acronimo}', '${sponsor}');`,(err,results)=>{
+            if(err) {throw err;}
             db.query(`call nomesponsor();`,(errr,results)=>{
                 if(err){
                     if (err.code === 'ER_DUP_ENTRY'){   
@@ -232,6 +235,7 @@ exports.creaSponsorizzazione=(req,res)=>{
         });
         //query per contare gli sponsor della conferenza
         db.query(`call contasponsor('${req.params.anno}','${req.params.acronimo}')`,(err,results)=>{
+            console.log("contaSponsor");
             if(results[0][0].num_sponsorizzazioni>=5){
                 //vengo mandato alla specifica della conferenza
                 res.redirect('/conferenza/'+req.params.acronimo+'/'+req.params.anno);
