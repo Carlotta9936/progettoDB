@@ -18,8 +18,6 @@ aggiungere si possa modificare/aggiungere successivamente risorse aggiuntive  [A
 aggiungere Log eventi 			[Alsi/Carlotta]	
 
 
-Alert
-
 COSE FATTE:
 IL PROGRAMMA NON DEVE CRASrsTI MA INFORMARTI  [Alsi/CArlotta] V
 controllo se non si seleziona un autore/presenter            [Carlotta] V

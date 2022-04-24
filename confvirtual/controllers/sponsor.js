@@ -1,11 +1,11 @@
 const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
 const db = require('../connectionDB');
-var err=false;
+
 
 
 exports.formSponsor = (req,res)=>{
-    res.render('newsponsor',{acronimo: req.params.acronimo,anno: req.params.anno, errore: err, msg: ""});
+    res.render('newsponsor',{acronimo: req.params.acronimo,anno: req.params.anno, errore: false, msg: ""});
 }
 
 exports.creaSponsor = (req,res)=>{
@@ -22,7 +22,7 @@ exports.creaSponsor = (req,res)=>{
             if (err.code === 'ER_DUP_ENTRY'){   
                 console.log("we");
                 err=true;
-                res.render('newsponsor',{acronimo: req.params.acronimo,anno: req.params.anno, errore: err, msg: "sponsor già esistente"});
+                res.render('newsponsor',{acronimo: req.params.acronimo,anno: req.params.anno, errore: true, msg: "sponsor già esistente"});
             }else{ throw err; }
             
         }else{

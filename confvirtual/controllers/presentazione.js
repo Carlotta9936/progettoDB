@@ -23,7 +23,8 @@ exports.creaPresentazione = (req,res)=>{
         if(err) {throw err;}
         //result[0][0].ora_i = DateTime.fromJSDate(result[0][0].ora_i).toLocaleString(DateTime.DATE_MED);
         if(controlloDate.controlloOrario(oraI, oraF) &&     //L'orario di inizio deve essere prima dell'orario d'inizio
-            controlloDate.controlloOrario(result[0][0].ora_i, oraI) && controlloDate.controlloOrario(oraF, result[0][0].ora_f)){   //L'orario delle presentazioni non può eccedere quello della sessione
+            controlloDate.controlloOrario(result[0][0].ora_i, oraI) && controlloDate.controlloOrario(oraF, result[0][0].ora_f))
+        {   //L'orario delle presentazioni non può eccedere quello della sessione
             db.query(`call getPresentazioni('${req.params.sessione}')`, (err, results) => {
                 for(var i=0; i<results[0].length; i++){
                     console.log(oraI);
