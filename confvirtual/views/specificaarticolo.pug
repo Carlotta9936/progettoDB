@@ -14,8 +14,15 @@ block content
             - var url= '/presenter'+ articoli[0].presenter//ancora non c'è il link
                 a(href= url)
                     h5='Presenter: '+articoli[0].presenter
+            if admin 
+                if articoli[0].presenter!= null
+                    button.btn.btn.btn-primary(type='button' disabled='') ASSEGNA PRESENTER
+                else
+                    form(action='/articolo/'+ username +'/mipiace/'+ presentazione method='POST')
+                        button.btn.btn-primary(type='submit') ASSEGNA PRESENTER
             if seguito
                 form(action='/articolo/'+ username +'/mipiace/'+ presentazione method='POST')
                     button.btn.btn-primary(type='submit') MI PIACE
             else 
                 button.btn.btn-lg.btn-primary(type='button' disabled='') MI PIACE
+            

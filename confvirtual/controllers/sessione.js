@@ -38,17 +38,6 @@ exports.specificaSessione=(req,res)=>{
             db.query(`call articoloSessionePresentazione("${req.params.id_sessione}")`,(err,results)=>{
                 if(err) throw err;
                 console.log(results[0]);
-                /*
-                results[0].forEach((presentazione, i) => {
-                    console.log(presentazione.id+"ok");
-                    //controllo tipologia della presentazione
-                    db.query(`call getTipo('${presentazione.id}')`, (err, result) => {
-                        if(err) {throw err;}
-                        console.log("boh"+result[0][0].tipo)
-                        tipi[i] = result[0][0].tipo;
-                        
-                    });
-                }); */
                 console.log("ciao"+tipi);
                 //if query vuota
                 res.render('sessione',{presentazioni: results[0], sessione: req.params.id_sessione});      

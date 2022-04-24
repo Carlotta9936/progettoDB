@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 
 
 exports.specificaArticolo=(req,res)=>{
+    var permessi= false;
     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
     db.query(`call selectarticolo ('${req.params.id_articolo}') `,(err,results)=>{
         if(err){ throw err;}
@@ -32,10 +33,28 @@ exports.specificaArticolo=(req,res)=>{
                             segui= true;
                         }
                         console.log(req.params.id_articolo);
-                        res.render('specificaarticolo',{articoli: results[0], seguito: segui, presentazione: req.params.id_articolo, username: decoded.username});
+                        //query per verificare se chi visualizza è un admin associato
+                        db.query(`call getAssociati ('${anno},'${acronimo}')`,(err,result)=>{
+                            if(err){ throw err;}
+                            result[0][0].forEach((ris)=>{
+                                if(ris==decoded.username){
+                                    permessi=true;
+                                }
+                            });
+                            res.render('specificaarticolo',{articoli: results[0], seguito: segui, presentazione: req.params.id_articolo, username: decoded.username,admin: permessi });
+                        });
                     });
                 } else {
-                res.render('specificaarticolo',{articoli: results[0], seguito: segui, presentazione: req.params.id_articolo, username: decoded.username});
+                    //query per verificare se chi visualizza è un admin associato
+                    db.query(`call getAssociati ('${anno},'${acronimo}')`,(err,result)=>{
+                        if(err){ throw err;}
+                        result[0][0].forEach((ris)=>{
+                            if(ris==decoded.username){
+                                permessi=true;
+                            }
+                        });
+                        res.render('specificaarticolo',{articoli: results[0], seguito: segui, presentazione: req.params.id_articolo, username: decoded.username,admin: permessi });
+                    });          
                 }
             });
         });
