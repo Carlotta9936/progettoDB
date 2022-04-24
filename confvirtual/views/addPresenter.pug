@@ -1,0 +1,13 @@
+extends layout 
+
+block content
+    h3= "Assegna un presenter"
+    form(action='/articolo/'+ art +'/presenter' method='POST')
+        .form-group
+            label(for='presenters') Possibili Presenter:
+            select#presenters.form-control(type='select' placeholder='Select presenter' name='presenters' required='true')
+                for presente in presenters
+                    option(
+                    value= presente.presenter
+                    ) #{presente.presenter}
+        button.btn.btn-primary(type='submit') Assegna

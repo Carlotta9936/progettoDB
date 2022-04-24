@@ -5,7 +5,6 @@ block content
         div.col-7
 
             h3= 'Articolo: '+ articoli[0].titolo 
-
             h5='Autori: '
             each articolo in articoli
                 h5= articolo.nome +' '+ articolo.cognome
@@ -18,7 +17,7 @@ block content
                 if articoli[0].presenter!= null
                     button.btn.btn.btn-primary(type='button' disabled='') ASSEGNA PRESENTER
                 else
-                    form(action='/articolo/'+ username +'/mipiace/'+ presentazione method='POST')
+                    form(action='/articolo/'+presentazione+'/presenter' method='GET')
                         button.btn.btn-primary(type='submit') ASSEGNA PRESENTER
             if seguito
                 form(action='/articolo/'+ username +'/mipiace/'+ presentazione method='POST')
