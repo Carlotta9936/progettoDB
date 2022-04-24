@@ -47,7 +47,7 @@ exports.specificaTutorial=(req,res)=>{
                         res.render('specificatutorial',{tutorials: results[0], seguito: segui, presentazione: req.params.id_tutorial, vota: true, username: decoded.username});
                     });
                 } else {
-                 res.render('specificatutorial',{tutorials: results[0], seguito: segui, presentazione: req.params.id_tutorial, username: decoded.username});
+                 res.render('specificatutorial',{tutorials: results[0], seguito: segui, presentazione: req.params.id_tutorial,vota:false , username: decoded.username});
                 }
             });
         });

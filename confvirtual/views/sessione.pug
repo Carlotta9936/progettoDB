@@ -4,7 +4,7 @@ block content
     h4= "Sessione: "+ presentazioni[0].titolosessione
     h4= "Presentazioni"
     each presentazione in presentazioni
-        - var url= '/' + tipo +'/'+ presentazione.id
+        - var url= '/' + presentazione.tipo +'/'+ presentazione.id
         a(href= url)
             h5= 'Titolo Presentazione: '+ presentazione.titolo
             h5= 'Ora inizio: '+ presentazione.orai

@@ -47,6 +47,7 @@ router.post('/conferenza/:acronimo/:anno', conferenza.segui);
 
 router.get('/sessione/:id_sessione/:titolo', sessione.specificaSessione);
 
+
 //UPGRADES
 router.get('/nuovoAdmin', utenti.controlloDiritti, utenti.update_administrator);
 
