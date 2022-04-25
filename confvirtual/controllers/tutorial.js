@@ -13,7 +13,6 @@ exports.specificaTutorial=(req,res)=>{
         if(err){ throw err; }
         var voto = false;
         var segui=false;
-        console.log("Sto scemo", results[0]);
         //Controllo se sono lo speaker del articolo
         if(results[0][0].speaker === decoded.username){
             console.log(results[0].speaker);
