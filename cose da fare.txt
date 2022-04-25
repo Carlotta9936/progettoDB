@@ -9,7 +9,6 @@ Fare controlli sulle date	[Carlotta/Alsi]:
 - ordine delle presentazioni.
 - due sessioni nello stesso programma non possono essere nello stesso orario
 
-Assegnare un presenter a una presentazione [Carlotta]
 
 Risorse aggiutive 		[Carlotta]\
 controllare che solo gli speaker di quel tutorial possano caricare risorse aggiuntive   [Alsi]
@@ -19,6 +18,7 @@ aggiungere Log eventi 			[Alsi/Carlotta]
 
 
 COSE FATTE:
+Assegnare un presenter a una presentazione [Carlotta] V
 IL PROGRAMMA NON DEVE CRASrsTI MA INFORMARTI  [Alsi/CArlotta] V
 controllo se non si seleziona un autore/presenter            [Carlotta] V
 Controlli sul ruolo					        [Alsi]		V
