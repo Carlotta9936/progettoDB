@@ -26,14 +26,15 @@ exports.creaPresentazione = (req,res)=>{
             controlloDate.controlloOrario(result[0][0].ora_i, oraI) && controlloDate.controlloOrario(oraF, result[0][0].ora_f))
         {   //L'orario delle presentazioni non può eccedere quello della sessione
             db.query(`call getPresentazioni('${req.params.sessione}')`, (err, results) => {
-                for(var i=0; i<results[0].length; i++){
+                var i;
+                for(i=0; i<results[0].length; i++){
                     console.log(oraI);
                     console.log(oraF);
                     console.log(results[0][i].oraInizio);
                     console.log(results[0][i].oraFine);
                     if(!(controlloDate.controlloOrario(oraI, results[0][i].oraInizio) && controlloDate.controlloDate(oraF, results[0][i].oraInizio) ||
                         controlloDate.controlloOrario(results[0][i].oraFine, oraF) && controlloDate.controlloDate(results[0][i].oraFine, oraI)))
-                    {//query per prendere i dati per reinderizzare quando cìè un problema
+                    {//query per prendere i dati per reinderizzare quando c'è un problema
                         db.query(`call specificasessione ('${req.params.sessione}')`,(err,results)=>{
                             if(err) throw err;
                             console.log(results[0]);
@@ -42,6 +43,9 @@ exports.creaPresentazione = (req,res)=>{
                         });
                     }
                 }
+                do{
+                    console.log(" ");
+                }while(i<results[0].length);
                 db.query(`call insertpresentazione('${oraI}','${oraF}','${ordine}','${req.params.sessione}');`,(err,results)=>{
                     if (err){throw err;}
                     tipo=req.body.tipo;
