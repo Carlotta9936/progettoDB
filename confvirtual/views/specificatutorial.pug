@@ -24,3 +24,14 @@ block content
                       value= val
                     ) #{val}
                 button.btn.btn-primary(type='submit') Vota!
+            if speaker
+              -var u = presentazione +'/addRisorsaAggiuntiva'
+              h5= u
+              form(action=u method='POST' enctype='multipart/form-data')
+                .form-group
+                    label(for='cv') Carica risorsa aggiuntiva: 
+                    input(type='file' name='risAgg' accept='pdf/*')
+                .form-group
+                    label(for='descrizione') Descrizione:
+                    input.input-fiel(type='text' placeholder='Descrizione' name='descrizione')
+                button.btn.btn-primary(type='submit') Carica
