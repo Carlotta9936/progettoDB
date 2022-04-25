@@ -26,7 +26,7 @@ exports.specificaTutorial=(req,res)=>{
             })
         }
 
-        if(results[4].length!=0){
+        if(results[4].length>0){
             segui= true;
         }
         
