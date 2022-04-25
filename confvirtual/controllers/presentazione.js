@@ -78,7 +78,6 @@ exports.formArticolo=(req,res)=>{
 //creao articolo senza l'assegnazione del presenter
 exports.creaArticolo=(req,res)=>{
     const {pagine, titolo}= req.body;
-    console.log(req.files.PDF);
     const PDF = req.files.PDF;
     db.query(`call insertarticolo ('${req.params.id_articolo}','${PDF[0].filename}','${pagine}','${titolo}')`,(err,results)=>{
         if (err){throw err;}

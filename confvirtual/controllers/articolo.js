@@ -34,8 +34,9 @@ exports.specificaArticolo=(req,res)=>{
                         }
                         console.log(req.params.id_articolo);
                         //query per verificare se chi visualizza è un admin associato
-                        db.query(`call getAssociati ('${anno},'${acronimo}')`,(err,result)=>{
+                        db.query(`call getAssociati ('${anno}','${acronimo}')`,(err,result)=>{
                             if(err){ throw err;}
+                            console.log(result[0][0]);
                             result[0][0].forEach((ris)=>{
                                 if(ris==decoded.username){
                                     permessi=true;
