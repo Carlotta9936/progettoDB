@@ -82,6 +82,7 @@ app.get('/:id_sessione/chat', (req, res) => {
         }else{
           //query per stampare i messaggi della chat se già ce ne sono
           db.query(`call stampamessaggi('${req.params.id_sessione}')`,(err,results)=>{
+            if(err) {throw err;}
             if(results.length==0){
               res.render("chatvuota");
             }else{

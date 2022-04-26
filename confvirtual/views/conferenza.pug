@@ -7,7 +7,7 @@ block content
         div.col-4.mt-4
             if permessi 
                 - var modifica = conferenze[0].anno+"/modifica" 
-                form(action="./modifica" method='GET')
+                form(action=modifica method='GET')
                     button.btn.btn-outline-primary(type='submit') Modifica conferenza
 
     div.row.mt-5
@@ -60,7 +60,7 @@ block content
                                                     form(action='/'+conferenza.sessione+'/chat' method='GET')
                                                         button.btn.btn-primary(type='submit') CHAT
                                                 else
-                                                    button.btn.btn-lg.btn-primary(type='button' disabled='') CHAT
+                                                    button.btn.btn-primary(type='button' disabled='') CHAT
                                                     
                                                 if permessi
                                                     form(action='/presentazione/nuovaPresentazione/'+conferenza.sessione method='GET')

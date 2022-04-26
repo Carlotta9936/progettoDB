@@ -142,8 +142,8 @@ exports.programma = (req,res)=>{
                     console.log(results[2]);
                     //controllo se l'utente è già iscritto alla conferenza
                     db.query(`call controllaiscrizione('${decoded.username}','${req.params.anno}','${req.params.acronimo}')`,(err,result)=>{
-                        if(err) throw err;           
-                        if(result.length!=0){
+                        if(err) throw err;       
+                        if(result[0].length!=0){
                             segui=false;
                         }    
                         var risultati=[];
