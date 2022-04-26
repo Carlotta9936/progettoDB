@@ -102,7 +102,7 @@ exports.creaSessione = (req,res)=>{
 
 //visualizzazione specifica di una conferenza
 exports.programma = (req,res)=>{
-    var segui=true; //variabile per seguire conferenze
+   
     //query che verifica che la conferenza richiesta sia attiva
     db.query(`call verificaconferenza('${req.params.anno}','${req.params.acronimo}');`,(err,results)=>{
         if(err) throw err;
@@ -143,9 +143,11 @@ exports.programma = (req,res)=>{
                     console.log(results[2]);
                     //controllo se l'utente è già iscritto alla conferenza
                     db.query(`call controllaiscrizione('${decoded.username}','${req.params.anno}','${req.params.acronimo}')`,(err,result)=>{
-                        if(err) throw err;           
+                        if(err) throw err; 
+                        var segui=false; //variabile per seguire conferenze 
+                        console.log(result[0][0]);   //Aggiustare questo if per il bottone diventi disabilitato bene      
                         if(result.length!=0){
-                            segui=false;
+                            segui=true;
                         }    
                         var risultati=[];
                         var i=0;
@@ -166,7 +168,7 @@ exports.programma = (req,res)=>{
                             }
                             i++;
                         });
-                        console.log(results[4]);
+                        console.log("primo", segui);
                     
                         //Renderizzo tutto
                         res.render('conferenza',{conferenze: results[0], giorni: results[2], moderatori: results[1], permessi: modifica, sponsors: results[4], numIscritti: results[3][0].numIscritti, segui: segui, ris: risultati});
@@ -343,7 +345,7 @@ exports.ricercaConferenza =(req,res)=>{
                         for(var i = 0; i<results[2].length; i++){
                             results[2][i].data = DateTime.fromJSDate(results[2][i].data).toLocaleString(DateTime.DATE_MED);
                         }
-                        console.log(results[2]);
+                        console.log("secodno", segui);
                         //Renderizzo tutto
                         res.render('conferenza',{conferenze: results[0], giorni: results[2], moderatori: results[1], permessi: modifica, sponsors: results[4], numIscritti: results[3][0].numIscritti, segui: segui});      
                     });

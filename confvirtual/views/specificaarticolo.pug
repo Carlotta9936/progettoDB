@@ -13,6 +13,14 @@ block content
             - var url= '/presenter'+ articoli[0].presenter//ancora non c'è il link
                 a(href= url)
                     h5='Presenter: '+articoli[0].presenter
+            if vota
+              form(action='/tutorial/'+presentazione+'/vota' method='POST')
+                select#sponsors.form-control(type='select' placeholder='0' name='voto')
+                  each val in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                    option(
+                      value= val
+                    ) #{val}
+                button.btn.btn-primary(type='submit') Vota!
             if admin 
                 if articoli[0].presenter!= null
                     button.btn.btn.btn-primary(type='button' disabled='') ASSEGNA PRESENTER
