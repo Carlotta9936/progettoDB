@@ -7,17 +7,19 @@ voti agli speaker e ai presenter [Alsi]  ---> manca mettere l'url nel action e d
 
 Fare controlli sulle date	[Carlotta/Alsi]:
 - ordine delle presentazioni.
-- due sessioni nello stesso programma non possono essere nello stesso orario
+- due sessioni nello stesso programma non possono essere nello stesso orario 
+
+controllo iscrizione
 
 
-Risorse aggiutive 		[Carlotta]\
-controllare che solo gli speaker di quel tutorial possano caricare risorse aggiuntive   [Alsi]
+controllare che solo gli speaker di quel tutorial possano caricare risorse aggiuntive   [Alsi] \
 aggiungere si possa modificare/aggiungere successivamente risorse aggiuntive  [Alsi]
 
 aggiungere Log eventi 			[Alsi/Carlotta]	
 
 
 COSE FATTE:
+Risorse aggiutive 		[Alsi]V
 Assegnare un presenter a una presentazione [Carlotta] V
 IL PROGRAMMA NON DEVE CRASrsTI MA INFORMARTI  [Alsi/CArlotta] V
 controllo se non si seleziona un autore/presenter            [Carlotta] V
