@@ -269,9 +269,9 @@ exports.modificaConferenza = (req, res) => {
     db.query(`call getAdminLiberi('${req.params.anno}', '${req.params.acronimo}')`, (err, results) => {
         console.log(results[0]);
         if(results[0]==0){
-            res.render("modificaConferenza", {admins: results[0], anno: req.params.anno, errore: true, msg: "Tutti gli admin sono già stati associati"});
+            res.render("modificaConferenza", {admins: results[0],acronimo: req.params.acronimo, anno: req.params.anno, errore: true, msg: "Tutti gli admin sono già stati associati"});
         }else{
-            res.render("modificaConferenza", {admins: results[0], anno: req.params.anno, errore: false, msg: ""});
+            res.render("modificaConferenza", {admins: results[0],acronimo: req.params.acronimo, anno: req.params.anno, errore: false, msg: ""});
         }
     });
 } 
@@ -283,10 +283,10 @@ exports.aggiungiAdmin = (req, res) => {
         db.query(`call getAdminLiberi('${req.params.anno}', '${req.params.acronimo}')`, (err, results) => {
             console.log(results[0]);
             if(results[0]==0){
-                res.render("modificaConferenza", {admins: results[0], anno: req.params.anno, errore: true, msg: "Moderatore associato: "+admin+" ATTENZIONE gli admin sono già tutti associati"});
+                res.render("modificaConferenza", {admins: results[0],acronimo: req.params.acronimo, anno: req.params.anno, errore: true, msg: "Moderatore associato: "+admin+" ATTENZIONE gli admin sono già tutti associati"});
     
             }else{
-            res.render("modificaConferenza", {admins: results[0], anno: req.params.anno, errore: false, msg: "Moderatore associato"+admin});
+            res.render("modificaConferenza", {admins: results[0],acronimo: req.params.acronimo, anno: req.params.anno, errore: false, msg: "Moderatore associato"+admin});
             }
         });
     })
@@ -365,7 +365,7 @@ exports.ricercaConferenza =(req,res)=>{
                             }
                             i++;
                         });
-                        console.log("confe",results[0]);
+                        console.log("num",results[3][0]);
                     
                         //Renderizzo tutto
                         res.render('conferenza',{conferenze: results[0], giorni: results[2], moderatori: results[1], permessi: modifica, sponsors: results[4], numIscritti: results[3][0].numIscritti, segui: segui, ris: risultati});
