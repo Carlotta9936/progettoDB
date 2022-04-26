@@ -26,14 +26,15 @@ exports.creaPresentazione = (req,res)=>{
             controlloDate.controlloOrario(result[0][0].ora_i, oraI) && controlloDate.controlloOrario(oraF, result[0][0].ora_f))
         {   //L'orario delle presentazioni non può eccedere quello della sessione
             db.query(`call getPresentazioni('${req.params.sessione}')`, (err, results) => {
-                for(var i=0; i<results[0].length; i++){
+                var i;
+                for(i=0; i<results[0].length; i++){
                     console.log(oraI);
                     console.log(oraF);
                     console.log(results[0][i].oraInizio);
                     console.log(results[0][i].oraFine);
                     if(!(controlloDate.controlloOrario(oraI, results[0][i].oraInizio) && controlloDate.controlloDate(oraF, results[0][i].oraInizio) ||
                         controlloDate.controlloOrario(results[0][i].oraFine, oraF) && controlloDate.controlloDate(results[0][i].oraFine, oraI)))
-                    {//query per prendere i dati per reinderizzare quando cìè un problema
+                    {//query per prendere i dati per reinderizzare quando c'è un problema
                         db.query(`call specificasessione ('${req.params.sessione}')`,(err,results)=>{
                             if(err) throw err;
                             console.log(results[0]);
@@ -42,6 +43,9 @@ exports.creaPresentazione = (req,res)=>{
                         });
                     }
                 }
+                do{
+                    console.log(" ");
+                }while(i<results[0].length);
                 db.query(`call insertpresentazione('${oraI}','${oraF}','${ordine}','${req.params.sessione}');`,(err,results)=>{
                     if (err){throw err;}
                     tipo=req.body.tipo;
@@ -72,7 +76,7 @@ exports.creaPresentazione = (req,res)=>{
 //view per la creazione di articoli
 exports.formArticolo=(req,res)=>{
     console.log(req.params.id_articolo);
-    res.render('newarticolo',{articolo: req.params.id_articolo});
+    res.render('newarticolo',{articolo: req.params.id_articolo, msg:""});
 }
 
 //creao articolo senza l'assegnazione del presenter
@@ -80,21 +84,26 @@ exports.creaArticolo=(req,res)=>{
     const {pagine, titolo}= req.body;
     const PDF = req.files.PDF;
     db.query(`call insertarticolo ('${req.params.id_articolo}','${PDF[0].filename}','${pagine}','${titolo}')`,(err,results)=>{
-        if (err){throw err;}
-        //vado a controllare che gli autori dell'articolo esistano sul db, se non esistono devo crearli
-        db.query(`call visualizzaautori ()`,(err,results)=>{
-            if (err){throw err;}
-            if(results.length==0){
-                res.render('newautore',{msg: "", articolo: req.params.id_articolo})
-            }else{
-                //console.log(req.params.id_articolo);
-                //query per prendere autori che siano anche presenter
-                db.query(`call visualizzaautoripresenter ()`,(err,result)=>{
-                    if(err) {throw err;}
-                    res.render('assegnaAutori',{titolo: titolo, autori: results[0], articolo: req.params.id_articolo, presenter: result[0], errore: false, msg: ""})
-                });
-            }
-        });
+        if(err){
+            if (err.code === 'ER_TRUNCATED_WRONG_VALUE'){   
+                res.render('newarticolo',{articolo: req.params.id_articolo, msg:"non tutti i dati sono correttirs"});
+            }else{ throw err; }
+        }else{
+            //vado a controllare che gli autori dell'articolo esistano sul db, se non esistono devo crearli
+            db.query(`call visualizzaautori ()`,(err,results)=>{
+                if (err){throw err;}
+                if(results.length==0){
+                    res.render('newautore',{msg: "", articolo: req.params.id_articolo})
+                }else{
+                    //console.log(req.params.id_articolo);
+                    //query per prendere autori che siano anche presenter
+                    db.query(`call visualizzaautoripresenter ()`,(err,result)=>{
+                        if(err) {throw err;}
+                        res.render('assegnaAutori',{titolo: titolo, autori: results[0], articolo: req.params.id_articolo, presenter: result[0], errore: false, msg: ""})
+                    });
+                }
+            });
+        }
     });
 }
 

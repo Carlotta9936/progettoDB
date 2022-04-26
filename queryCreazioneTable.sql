@@ -66,7 +66,7 @@ CREATE TABLE `presenta`(
 );
 
 #Valutazione
-CREATE TABLE valutazione(
+CREATE TABLE 'valutazione'(
 	idValutazione INT NOT NULL AUTO_INCREMENT,
     valutazione_admin VARCHAR(30) NOT NULL,
     valutazione_presentazione INT NOT NULL,
@@ -108,29 +108,30 @@ CREATE TABLE `associazione` (
     ON UPDATE CASCADE);
 
 #Iscrizione
-CREATE TABLE iscrizione (
-	idIscrizione INT NOT NULL AUTO_INCREMENT,
-    `iscrizione_anno` YEAR(4) NULL,
-	`iscrizione_acronimo` VARCHAR(45) NULL,
-	`iscrizione_username` VARCHAR(45) NULL,
-	PRIMARY KEY (`idIscrizione`),
-	CONSTRAINT `iscrizione_anno`
-	FOREIGN KEY (`iscrizione_anno`)
-	REFERENCES `confvirtual`.`conferenza` (`anno`)
-	ON DELETE CASCADE
-	ON UPDATE CASCADE,
-	CONSTRAINT `iscrizione_acronimo`
-	FOREIGN KEY (`iscrizione_acronimo`)
-	REFERENCES `confvirtual`.`conferenza` (`acronimo`)
-	ON DELETE CASCADE
-	ON UPDATE CASCADE,
-	CONSTRAINT `iscrizione_username`
-	FOREIGN KEY (`iscrizione_username`)
-	REFERENCES `confvirtual`.`utente` (`username`)
-	ON DELETE CASCADE
-	ON UPDATE CASCADE
-);
+CREATE TABLE `confvirtual`.`iscrizione` (
+  `iscrizione_anno` YEAR NOT NULL,
+  `iscrizione_acronimo` VARCHAR(45) NOT NULL,
+  `iscrizione_username` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`iscrizione_anno`, `iscrizione_acronimo`, `iscrizione_username`),
+  INDEX `iscrizione_acronimo_idx` (`iscrizione_acronimo` ASC) VISIBLE,
+  INDEX `iscrizione_username_idx` (`iscrizione_username` ASC) VISIBLE,
+  CONSTRAINT `iscrizione_acronimo`
+    FOREIGN KEY (`iscrizione_acronimo`)
+    REFERENCES `confvirtual`.`conferenza` (`acronimo`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `iscrione_anno`
+    FOREIGN KEY (`iscrizione_anno`)
+    REFERENCES `confvirtual`.`conferenza` (`anno`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `iscrizione_username`
+    FOREIGN KEY (`iscrizione_username`)
+    REFERENCES `confvirtual`.`utente` (`username`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
 
+    
 #Preferiti
 CREATE TABLE preferiti(
 	preferiti_username VARCHAR(30) NOT NULL,

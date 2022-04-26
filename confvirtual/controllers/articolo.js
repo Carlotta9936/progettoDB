@@ -2,6 +2,8 @@ const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
 const db = require('../connectionDB');
 const jwt = require('jsonwebtoken');
+var segui=false;
+
 
 
 exports.specificaArticolo=(req,res)=>{
@@ -19,7 +21,6 @@ exports.specificaArticolo=(req,res)=>{
             //query per verificare se l'utente è iscritto alla conferenza
             db.query(`call controllaiscrizione ('${decoded.username}','${anno}','${acronimo}')`,(err,result)=>{
                 if(err){ throw err;}
-                var segui=false;
                 console.log(result);
                 if(result[0].length!=0){
                     console.log("ciao");
@@ -28,7 +29,7 @@ exports.specificaArticolo=(req,res)=>{
                         if(err){ throw err;}                        
                         console.log(segui);
 
-                        console.log(ris);
+                        //console.log(ris);
                         if(ris[0].length==0){
                             segui= true;
                         }
@@ -36,13 +37,13 @@ exports.specificaArticolo=(req,res)=>{
                         //query per verificare se chi visualizza è un admin associato
                         db.query(`call getAssociati ('${anno}','${acronimo}')`,(err,result)=>{
                             if(err){ throw err;}
-                            console.log(result[0][0]);
-                            result[0][0].forEach((ris)=>{
-                                if(ris==decoded.username){
+                            console.log(result[0]);
+                            result[0].forEach((ris)=>{
+                                if(ris.associazione_username==decoded.username){
                                     permessi=true;
                                 }
                             });
-                            res.render('specificaarticolo',{articoli: results[0], seguito: segui, presentazione: req.params.id_articolo, username: decoded.username,admin: permessi, add:false });
+                            res.render('specificaarticolo',{articoli: results[0], seguito: segui, presentazione: req.params.id_articolo, username: decoded.username,admin: permessi, add:false , msg: ""});
                         });
                     });
                 } else {
@@ -54,7 +55,7 @@ exports.specificaArticolo=(req,res)=>{
                                 permessi=true;
                             }
                         });
-                        res.render('specificaarticolo',{articoli: results[0], seguito: segui, presentazione: req.params.id_articolo, username: decoded.username,admin: permessi,add: false });
+                        res.render('specificaarticolo',{articoli: results[0], seguito: segui, presentazione: req.params.id_articolo, username: decoded.username,admin: permessi,add: false, msg:"" });
                     });          
                 }
             });
@@ -76,21 +77,35 @@ exports.formaddPresenter=(req,res)=>{
     //query per visualizzare i papabili presenter
     db.query(`call presenterArticolo ('${articolo}')`,(err,result)=>{
         if(err){ throw err;}
-        console.log(result[0])
+        console.log(result[0]);
         res.render('addPresenter',{presenters: result[0],msg:"", art: articolo});
     });
 }
 
 exports.addPresenter=(req,res)=>{
-    var user= req.body;
+    const {presenters}= req.body;
+    console.log("user"+presenters);
     var articolo=req.params.id_articolo
+    var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
+
     //query per aggiungere un presenter ad un articolo
-    db.query(`call addPresenter ('${user}','${articolo}')`,(err,result)=>{
+    db.query(`call addPresenter ('${presenters}','${articolo}')`,(err,result)=>{
         if(err){ throw err;}
         //query per prendere i dati dell'articolo
         db.query(`call selectarticolo ('${req.params.id_articolo}') `,(err,results)=>{
             if(err){ throw err;}
-            res.render('specificaarticolo',{articoli: results[0], seguito: segui, presentazione: req.params.id_articolo, username: decoded.username,admin: true, add: true });
+            //query per verificare se segui la presentazione
+            db.query(`call isPreferita ('${decoded.username}','${req.params.id_articolo}')`,(err,ris)=>{
+                if(err){ throw err;}                        
+                console.log(segui);
+
+                console.log(ris);
+                if(ris[0].length==0){
+                    segui= true;
+                }
+                console.log(req.params.id_articolo);                
+            });
+            res.render('specificaarticolo',{articoli: results[0], seguito: segui, presentazione: req.params.id_articolo, username: decoded.username,admin: true, add: true ,msg: "presenter assegnato"});
         });
     });
 }

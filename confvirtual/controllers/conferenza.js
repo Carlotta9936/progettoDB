@@ -309,7 +309,7 @@ exports.ricercaConferenza =(req,res)=>{
                 if(err) {throw err;}
                 console.log("ciao");
                 //verifica che la conferenza abbia un programma da visualizzare
-                if (results[0][0].length!=0){
+                if (results[0].length>0){
                     results[0][0].datainizio = DateTime.fromJSDate(results[0][0].datainizio).toLocaleString(DateTime.DATE_MED);
                     results[0][0].datafine = DateTime.fromJSDate(results[0][0].datafine).toLocaleString(DateTime.DATE_MED);
                     for(var i = 0; i < results[0].length; i++){
