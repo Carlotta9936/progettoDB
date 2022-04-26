@@ -131,7 +131,6 @@ exports.programma = (req,res)=>{
                     for(var i = 0; i < results[1].length; i++){
                         console.log(decoded.username + "  " + results[1][i].associazione_username)
                         if(results[1][i].associazione_username === decoded.username) { 
-                            console.log("sono qui");
                             modifica = true;
                         }
                     }
@@ -166,7 +165,7 @@ exports.programma = (req,res)=>{
                             }
                             i++;
                         });
-                        console.log(results[4]);
+                        console.log("confe",results[0]);
                     
                         //Renderizzo tutto
                         res.render('conferenza',{conferenze: results[0], giorni: results[2], moderatori: results[1], permessi: modifica, sponsors: results[4], numIscritti: results[3][0].numIscritti, segui: segui, ris: risultati});
@@ -311,6 +310,7 @@ exports.ricercaConferenza =(req,res)=>{
                     results[0][0].datainizio = DateTime.fromJSDate(results[0][0].datainizio).toLocaleString(DateTime.DATE_MED);
                     results[0][0].datafine = DateTime.fromJSDate(results[0][0].datafine).toLocaleString(DateTime.DATE_MED);
                     for(var i = 0; i < results[0].length; i++){
+                        console.log("bellla");
                         results[0][i].data = DateTime.fromJSDate(results[0][i].data).toLocaleString(DateTime.DATE_MED);
                     }
                     /*console.log(results[0]);
@@ -320,12 +320,17 @@ exports.ricercaConferenza =(req,res)=>{
                     console.log(results[4]);*/
 
                     //Controllo se l'utente ha il diritto di modificare
-                    var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);                    
+                    var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET); 
+                    var modifica = false;                   
                     for(var i = 0; i < results[1].length; i++){
                         console.log(decoded.username + "  " + results[1][i].associazione_username)
                         if(results[1][i].associazione_username === decoded.username) { 
                             modifica=true;
                         }
+                    }
+                    //Pulisco le date del programma giornaliero
+                    for(var i = 0; i<results[2].length; i++){
+                        results[2][i].data = DateTime.fromJSDate(results[2][i].data).toLocaleString(DateTime.DATE_MED);
                     }
                     console.log(results[0][0]);
                     //controllo se la conferenza è già completata
@@ -335,17 +340,36 @@ exports.ricercaConferenza =(req,res)=>{
                     }
                     //controllo se l'utente è già iscritto alla conferenza
                     db.query(`call controllaiscrizione('${decoded.username}','${req.params.anno}','${req.params.acronimo}')`,(err,result)=>{
-                        if(err) throw err;           
-                        if(result[0].length!=0){
+                        if(err) throw err;   
+                        console.log("sono qui:"+result[0]);     
+                        if(result.length!=0){
                             segui=false;
-                        }   
-                        //Pulisco le date del programma giornaliero
-                        for(var i = 0; i<results[2].length; i++){
-                            results[2][i].data = DateTime.fromJSDate(results[2][i].data).toLocaleString(DateTime.DATE_MED);
-                        }
-                        console.log(results[2]);
+                            //
+                        }  
+                        var risultati=[];
+                        var i=0;
+                        const today= new Date();
+                        const giorno= DateTime.fromJSDate(today).toLocaleString(DateTime.DATE_MED);
+                        const orario= today.toLocaleTimeString();//prendo l'ora attuale
+
+                        results[0].forEach((sessione)=>{
+                            if(sessione.data==giorno){
+                                if(sessione.orai<orario && orario<sessione.oraf){
+                                    risultati[i]=true;
+                                }
+                                else{
+                                    risultati[i]=false;
+                                }
+                            }else{
+                                risultati[i]=false;
+                            }
+                            i++;
+                        });
+                        console.log("confe",results[0]);
+                    
                         //Renderizzo tutto
-                        res.render('conferenza',{conferenze: results[0], giorni: results[2], moderatori: results[1], permessi: modifica, sponsors: results[4], numIscritti: results[3][0].numIscritti, segui: segui});      
+                        res.render('conferenza',{conferenze: results[0], giorni: results[2], moderatori: results[1], permessi: modifica, sponsors: results[4], numIscritti: results[3][0].numIscritti, segui: segui, ris: risultati});
+    
                     });
                 } else {
                     console.log("conferneza vuota");
