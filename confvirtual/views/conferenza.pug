@@ -66,8 +66,9 @@ block content
                                                     form(action='/presentazione/nuovaPresentazione/'+conferenza.sessione method='GET')
                                                         button.btn.btn-primary(type='submit') Aggiungi una presentazione
                                             
-
-
+    if permessi
+        form(action='/conferenza/nuovaConferenza2-3/'+conferenze[0].acronimo + "/" + conferenze[0].anno method='GET')
+            button.btn.btn-primary(type='submit') Crea nuova sessione
     
     h4.mt-4= "Sponsor:"
     div.row
