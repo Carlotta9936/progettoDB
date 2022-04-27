@@ -111,23 +111,34 @@ exports.creaSessione = (req,res)=>{
                 });
 
                 if(errorOra===false){
-                    //query per inserire una nuova sessione
-                    db.query(`call insertsessione ('${oraF}','${oraI}','${titolo}','${link}','${req.params.programma}');`,(err, result)=>{
-                        if(err){throw err;}
-                    });
+                    //controllo se l'ora inizio è prima della fine
+                    if(oraI<oraF){
+                        //query per inserire una nuova sessione
+                        db.query(`call insertsessione ('${oraF}','${oraI}','${titolo}','${link}','${req.params.programma}');`,(err, result)=>{
+                            if(err){throw err;}
+                        });
+                    }else{
+                        errorOra = true;
+                        mex= "l'orario di fine session non può essere prima dell'ra d'inizio";
+                    }
                 }
-
                 //Renderizzo la pagina
                 res.render('newsessione', {programmi: results[0], error: errorOra, msg: mex});
                 
                  
             }else{//Non ci sono ancora sessioni
-                 //query per inserire una nuova sessione
-                db.query(`call insertsessione ('${oraF}','${oraI}','${titolo}','${link}','${req.params.programma}');`,(err, result)=>{
-                    if(err){throw err;}
-                    console.log("terzo");
-                    res.render('newsessione', {programmi: results[0], error: false, msg:"sessione creata"});
-                }); 
+                //controllo se l'ora inizio è prima della fine
+                if(oraI<oraF){
+                    //query per inserire una nuova sessione
+                    db.query(`call insertsessione ('${oraF}','${oraI}','${titolo}','${link}','${req.params.programma}');`,(err, result)=>{
+                        if(err){throw err;}
+                        console.log("terzo");
+                        res.render('newsessione', {programmi: results[0], error: false, msg:"sessione creata"});
+                    }); 
+                }else{
+                    res.render('newsessione', {programmi: results[0], error: true, msg: "l'orario di fine session non può essere prima dell'ra d'inizio"});
+
+                }
             }
         });
     });
