@@ -47,20 +47,25 @@ exports.creaPresentazione = (req,res)=>{
                 do{
                     console.log(" ");
                 }while(i<results[0].length);
-                db.query(`call insertpresentazione('${oraI}','${oraF}','${ordine}','${req.params.sessione}');`,(err,results)=>{
-                    if (err){throw err;}
-                    tipo=req.body.tipo;
-                    //query per prendere l'ultima presentazione creata
-                    db.query(`call selezionapresentazione ()`,(err,results)=>{
-                        if(err){
-                            //console.log(results);
-                            console.log(err);
-                        }else{
-                            //console.log(results[0]);
-                            res.redirect(tipo+'/'+results[0][0].id);
-                        }
-                    });
-                }); 
+                if(oraI<oraF){
+                    db.query(`call insertpresentazione('${oraI}','${oraF}','${ordine}','${req.params.sessione}');`,(err,results)=>{
+                        if (err){throw err;}
+                        tipo=req.body.tipo;
+                        //query per prendere l'ultima presentazione creata
+                        db.query(`call selezionapresentazione ()`,(err,results)=>{
+                            if(err){
+                                //console.log(results);
+                                console.log(err);
+                            }else{
+                                //console.log(results[0]);
+                                res.redirect(tipo+'/'+results[0][0].id);
+                            }
+                        });
+                    }); 
+                }
+                else{
+                    res.render('newpresentazione',{sessione: results[0], errore: true, msg: "la presentazione non può finire prima dell'orario di inizio"}); 
+                }
             });
         } else {
            //query per prendere i dati per reinderizzare quando cìè un problema
