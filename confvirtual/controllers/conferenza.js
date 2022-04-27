@@ -19,8 +19,9 @@ exports.formConferenza = (req, res)=>{
 exports.creaConferenza = (req,res,next)=>{
     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
     const {acronimo, anno, dataInizio, dataFine, nome} = req.body;
+    console.log(req.files.length);
     //Se non carica l'immagine mette l'immagine di default
-    if(req.files.length === null){
+    if(req.files.length !== null){
         var logo = req.files.logo[0].filename;
     } else {
         var logo = "logoConferenzaDefault.png";

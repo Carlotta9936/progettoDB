@@ -2,7 +2,7 @@ Cose ancora da fare:
 
 Cambiare sign in con sign up
 
-Bug immagine profilo delle conferenze
+
 
 Fare controlli sulle date	[Carlotta/Alsi]:
 - ordine delle presentazioni. (?)
@@ -15,6 +15,7 @@ aggiungere Log eventi 			[Alsi/Carlotta]
 
 
 COSE FATTE:
+Bug immagine profilo delle conferenze [Alsi] V
 Assegnare un presenter a una presentazione [Carlotta] V
 controllare che solo gli speaker di quel tutorial possano caricare risorse aggiuntive   [Alsi] V
 voti ai presenter [Alsi] V
