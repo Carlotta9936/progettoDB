@@ -84,18 +84,48 @@ exports.formSessione = (req, res)=>{
 exports.creaSessione = (req,res)=>{
     console.log(req.body);
     const {oraI, oraF, titolo, link} = req.body;
-    //query per inserire una nuova sessione
-    db.query(`call insertsessione ('${oraF}','${oraI}','${titolo}','${link}','${req.params.programma}');`,(err, results)=>{
+    //query per controllare se ci sono sessioni negli orari inseriti
+    db.query(`call orariSessione ('${req.params.programma}')`,(err,result)=>{
         if(err){throw err;}
+        console.log("res",result[0]);
         db.query(`call selectprogramma ('${req.params.anno}','${req.params.acronimo}');`,(err, results)=>{
             if(err) throw err;
-            else{
-                console.log({results});
-                for(var i = 0; i < results[0].length; i++) {
-                    results[0][i].data = DateTime.fromJSDate(results[0][i].data).toLocaleString(DateTime.DATE_MED);
+            console.log({results});
+            for(var i = 0; i < results[0].length; i++) {
+                results[0][i].data = DateTime.fromJSDate(results[0][i].data).toLocaleString(DateTime.DATE_MED);
+            }
+            //Controllo che non sia una programma vuoto
+            if(result[0]!=0){
+                var errorOra = false;
+                var mex = "Sessione creata con successo";
+                //Controllo orario
+                result[0].forEach((orari)=>{
+                    console.log("ciao");
+                    if(!(oraF<orari.ora_i || oraI>orari.ora_f)){
+                        errorOra = true;
+                        mex = "esiste già una sessione in questo orario"
+                    }
+                });
+
+                if(errorOra===false){
+                    //query per inserire una nuova sessione
+                    db.query(`call insertsessione ('${oraF}','${oraI}','${titolo}','${link}','${req.params.programma}');`,(err, result)=>{
+                        if(err){throw err;}
+                    });
                 }
-            }    
-            res.render('newsessione', {programmi: results[0], error: false, msg:"sessione creata"});
+
+                //Renderizzo la pagina
+                res.render('newsessione', {programmi: results[0], error: errorOra, msg: mex});
+                
+                 
+            }else{//Non ci sono ancora sessioni
+                 //query per inserire una nuova sessione
+                db.query(`call insertsessione ('${oraF}','${oraI}','${titolo}','${link}','${req.params.programma}');`,(err, result)=>{
+                    if(err){throw err;}
+                    console.log("terzo");
+                    res.render('newsessione', {programmi: results[0], error: false, msg:"sessione creata"});
+                }); 
+            }
         });
     });
 }
@@ -110,36 +140,40 @@ exports.programma = (req,res)=>{
             res.render('conferenzaInesistente',{nome: req.params.acronimo, anno:req.params.anno});
         }else{
             //vado a prendere le specifiche con programmi e sessioni di una conferenza
-            db.query(`call datiConferenza('${req.params.anno}', '${req.params.acronimo}')`, (err, results) => {
+            db.query(`call specificaconferenza ('${req.params.anno}', '${req.params.acronimo}');
+                call getAssociati ('${req.params.anno}', '${req.params.acronimo}');
+                call getProgrammaGiornaliero ('${req.params.anno}', '${req.params.acronimo}');
+                call getNumeroIscritti ('${req.params.anno}', '${req.params.acronimo}');
+                call visualizzaSponsor ('${req.params.anno}', '${req.params.acronimo}');`, (err, results) => {
                 if(err) {throw err;}
                 //Log
                 var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
                 updateLog(`${decoded.log}`, {conferenzeGuardate: `${req.params.acronimo} ${req.params.anno}`})
                 
+                //Controllo se l'utente ha il diritto di modificare
+                var modifica = false;
+                console.log("Primo: ", results);
+                console.log("Secondo: ", results[2]);
+
+                for(var i = 0; i < results[2].length; i++){
+                    console.log("Qi" + decoded.username + "  " + results[2][i].associazione_username)
+                    if(results[2][i].associazione_username === decoded.username) { 
+                        modifica = true;
+                    }
+                }
+
                 //verifica che la conferenza abbia un programma da visualizzare
+                console.log(results[0]);
                 if (results[0].length>0){
                     results[0][0].datainizio = DateTime.fromJSDate(results[0][0].datainizio).toLocaleString(DateTime.DATE_MED);
                     results[0][0].datafine = DateTime.fromJSDate(results[0][0].datafine).toLocaleString(DateTime.DATE_MED);
                     for(var i = 0; i < results[0].length; i++){
                         results[0][i].data = DateTime.fromJSDate(results[0][i].data).toLocaleString(DateTime.DATE_MED);
                     }
-
-                    //Controllo se l'utente ha il diritto di modificare
-                    var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
-                    var modifica = false;
-                    console.log("Primo: ", results);
-                    console.log("Secondo: ", results[1]);
-
-                    for(var i = 0; i < results[1].length; i++){
-                        console.log(decoded.username + "  " + results[1][i].associazione_username)
-                        if(results[1][i].associazione_username === decoded.username) { 
-                            modifica = true;
-                        }
-                    }
                     
                     //Pulisco le date del programma giornaliero
-                    for(var i = 0; i<results[2].length; i++){
-                        results[2][i].data = DateTime.fromJSDate(results[2][i].data).toLocaleString(DateTime.DATE_MED);
+                    for(var i = 0; i<results[4].length; i++){
+                        results[4][i].data = DateTime.fromJSDate(results[4][i].data).toLocaleString(DateTime.DATE_MED);
                     }
                     console.log(results[2]);
                     //controllo se l'utente è già iscritto alla conferenza
@@ -170,7 +204,7 @@ exports.programma = (req,res)=>{
                         console.log("confe",results[0]);
                     
                         //Renderizzo tutto
-                        res.render('conferenza',{conferenze: results[0], giorni: results[2], moderatori: results[1], permessi: modifica, sponsors: results[4], numIscritti: results[3][0].numIscritti, segui: segui, ris: risultati});
+                        res.render('conferenza',{conferenze: results[0], giorni: results[4], moderatori: results[2], permessi: modifica, sponsors: results[8], numIscritti: results[6][0].numIscritti, segui: segui, ris: risultati});
     
                     });
                    

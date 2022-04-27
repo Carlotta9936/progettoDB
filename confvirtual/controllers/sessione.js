@@ -23,7 +23,7 @@ exports.creaSessione = (req,res)=>{
         }else{
             console.log('ok');
         }
-    })
+    });
 }
 
 exports.specificaSessione=(req,res)=>{

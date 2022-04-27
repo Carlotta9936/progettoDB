@@ -1,6 +1,11 @@
 Cose ancora da fare:
 
+momstrare da qualche parte il numero delle presentazioni in una sessione [Alsi]
 
+Alert da aggiungere:
+- conferenza, sessione, presentazione finisce prima di iniziare
+
+Tasto crea nuova sessione [Alsi]
 
 Fare controlli sulle date	[Carlotta/Alsi]:
 - ordine delle presentazioni. (?)
