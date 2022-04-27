@@ -1,6 +1,8 @@
 Cose ancora da fare:
 
 momstrare da qualche parte il numero delle presentazioni in una sessione [Alsi]
+Cambiare sign in con sign up
+
 
 Alert da aggiungere:
 - conferenza, sessione, presentazione finisce prima di iniziare
@@ -12,13 +14,14 @@ Fare controlli sulle date	[Carlotta/Alsi]:
 - due sessioni nello stesso programma non possono essere nello stesso orario [Carlotta]
 
 
-Risorse aggiutive 		[Alsi]\
-aggiungere si possa modificare/aggiungere successivamente risorse aggiuntive  [Alsi] 
+aggiungere si possa modificare successivamente risorse aggiuntive  [Alsi] 
 
 aggiungere Log eventi 			[Alsi/Carlotta]	
 
 
 COSE FATTE:
+Controlli su quando si può votare in un tutorial V
+Bug immagine profilo delle conferenze [Alsi] V
 Assegnare un presenter a una presentazione [Carlotta] V
 controllare che solo gli speaker di quel tutorial possano caricare risorse aggiuntive   [Alsi] V
 voti ai presenter [Alsi] V

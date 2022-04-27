@@ -16,7 +16,8 @@ block content
                     button.btn.btn-primary(type='submit') MI PIACE
             else 
                 button.btn.btn-primary(type='button' disabled='') MI PIACE
-            if vota
+
+            if admin && orario
               form(action='/tutorial/'+presentazione+'/vota' method='POST')
                 select#sponsors.form-control(type='select' placeholder='0' name='voto')
                   each val in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -24,6 +25,11 @@ block content
                       value= val
                     ) #{val}
                 button.btn.btn-primary(type='submit') Vota!
+            
+            h3= "Risorse aggiuntive"
+              each risorsa in risorse
+                h6= risorsa.link
+
             if speaker
               -var u = presentazione +'/addRisorsaAggiuntiva'
               form(action=u method='POST' enctype='multipart/form-data')
@@ -34,3 +40,4 @@ block content
                     label(for='descrizione') Descrizione:
                     input.input-fiel(type='text' placeholder='Descrizione' name='descrizione')
                 button.btn.btn-primary(type='submit') Carica
+            

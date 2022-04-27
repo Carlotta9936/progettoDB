@@ -4,11 +4,6 @@ const db = require('../connectionDB');
 const jwt = require('jsonwebtoken');
 const { DateTime } = require('luxon');
 
-
-var voto= true;
-
-
-
 exports.specificaArticolo=(req,res)=>{
     var segui=false;
     var permessiAdmin= false;
@@ -50,9 +45,9 @@ exports.specificaArticolo=(req,res)=>{
                         const today= new Date();
                         const giorno= DateTime.fromJSDate(today).toLocaleString(DateTime.DATE_MED);
                         const orario= today.toLocaleTimeString();//prendo l'ora attuale
-                        console.log(results[10][0].data);
-                        console.log(giorno);
-                        results[10][0].data==giorno
+                        //console.log(results[10][0].data);
+                        //console.log(giorno);
+                        //results[10][0].data==giorno
                         if(results[10][0].data==giorno){
                             if(results[10][0].ora_f<orario){
                                 permessiOrario = true;
