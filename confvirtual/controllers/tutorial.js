@@ -2,6 +2,8 @@ const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
 const db = require('../connectionDB');
 const jwt = require('jsonwebtoken');
+const { DateTime } = require('luxon');
+
 
 
 exports.specificaTutorial=(req,res)=>{
@@ -10,29 +12,50 @@ exports.specificaTutorial=(req,res)=>{
     db.query(`call selecttutorial ('${req.params.id_tutorial}'); 
                 call puoVotare ('${req.params.id_tutorial}');
                 call isPreferita ('${decoded.username}','${req.params.id_tutorial}'); 
-                call getRisorseAggiuntive ('${req.params.id_tutorial}');`,(err,results)=>{
+                call getRisorseAggiuntive ('${req.params.id_tutorial}');
+                call finepresentazione ('${req.params.id_tutorial}')`,(err,results)=>{
         if(err){ throw err; }
-        console.log(results[6]);
-        var voto = false;
+        console.log(results[8]);
+        var permessiAdmin = false;
         var segui=false;
+        var permessiOrario = false;
         //Controllo se sono lo speaker del articolo
         if(results[0][0].speaker === decoded.username){
             console.log(results[0].speaker);
             res.render('specificatutorial',{tutorials: results[0], seguito: segui, presentazione: req.params.id_tutorial, risorse: results[6], vota: false, speaker: true, username: decoded.username});
-        } else {    //Controllo se è un associato e che debba ancora votare
-            results[2].forEach(associato => {
-                if(associato.admins === decoded.username){
-                    voto = true;
-                    //console.log(associato.admins, " - ", decoded.username)
-                }
-            })
+        } 
+
+        const today= new Date();
+        const giorno= DateTime.fromJSDate(today).toLocaleString(DateTime.DATE_MED);
+        const orario= today.toLocaleTimeString();//prendo l'ora attuale
+        
+        if(results[8][0].data==giorno){
+            if(results[8][0].ora_f<orario){
+                permessiOrario = true;
+            }
+            else{
+                permessiOrario = false;
+            }
+        }else if(results[8][0].data<giorno){
+            permessiOrario = false;
+        }else{
+            permessiOrario = true;
         }
 
+        //Controllo se è un associato e che debba ancora votare
+        results[2].forEach(associato => {
+            if(associato.admins === decoded.username){
+                permessiAdmin = true;
+                //console.log(associato.admins, " - ", decoded.username)
+            }
+        })
+        
+        console.log(permessiOrario, "-", permessiAdmin)
         if(results[4].length>0){
             segui= true;
         }
         
-        res.render('specificatutorial', {tutorials: results[0], seguito: segui, presentazione: req.params.id_tutorial, vota: voto, speaker: false, username: decoded.username});
+        res.render('specificatutorial', {tutorials: results[0], seguito: segui, presentazione: req.params.id_tutorial, risorse: results[6], admin: permessiAdmin, orario: permessiOrario, speaker: false, username: decoded.username});
     });
 }
 
