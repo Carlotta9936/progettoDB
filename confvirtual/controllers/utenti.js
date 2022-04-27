@@ -53,14 +53,13 @@ exports.login = (req, res, next) => {
     const { name, password } = req.body;
     var ruolo;
     db.query(`call autenticazione('${name}', '${password}'); call controlloRuoli('${name}')`, (err, results) => {
-        console.log(name);
-        console.log(password);
-        if(err) {console.log(err); }       
+        if(err) {console.log(err); }  
+        console.log("sus",results)     
         if(results[0].length>0){    //user e password combaciano
             if(results[1].length === 0) {
                 ruolo = "Utente";
             } else {
-                ruolo = results[1][0].ruolo
+                ruolo = results[2][0].ruolo
             }
 
             //Creo il log

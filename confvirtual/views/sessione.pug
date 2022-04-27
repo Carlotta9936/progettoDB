@@ -3,9 +3,22 @@ extends layout
 block content
     h4= "Sessione: "+ presentazioni[0].titolosessione
     h4= "Presentazioni"
-    each presentazione in presentazioni
-        - var url= '/' + presentazione.tipo +'/'+ presentazione.id
-        a(href= url)
-            h5= 'Titolo Presentazione: '+ presentazione.titolo
-            h5= 'Ora inizio: '+ presentazione.orai
-            h5= 'Ora fine: '+ presentazione.oraf
+    table.table.mt-4
+        thead
+            tr
+                th(scope='col') Titolo presentazione
+                th(scope='col') Ora inizio
+                th(scope='col') Ora fine
+                th(scope='col') Tipo
+                th(scope='col') Link
+        tbody
+            each presentazione in presentazioni
+                tr
+                    - var url= '/' + presentazione.tipo +'/'+ presentazione.id
+                    td= presentazione.titolo
+                    td= presentazione.orai
+                    td= presentazione.oraf
+                    td= presentazione.tipo
+                    td
+                        a(href= url)
+                            img(src="/img/linkIcon.png")  

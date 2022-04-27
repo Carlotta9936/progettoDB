@@ -37,8 +37,7 @@ exports.specificaSessione=(req,res)=>{
             var tipi = [];
             db.query(`call articoloSessionePresentazione("${req.params.id_sessione}")`,(err,results)=>{
                 if(err) throw err;
-                console.log(results[0]);
-                console.log("ciao"+tipi);
+
                 //if query vuota
                 res.render('sessione',{presentazioni: results[0], sessione: req.params.id_sessione});      
             });     

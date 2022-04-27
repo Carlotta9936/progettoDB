@@ -127,7 +127,9 @@ exports.programma = (req,res)=>{
                     //Controllo se l'utente ha il diritto di modificare
                     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
                     var modifica = false;
-                    
+                    console.log("Primo: ", results);
+                    console.log("Secondo: ", results[1]);
+
                     for(var i = 0; i < results[1].length; i++){
                         console.log(decoded.username + "  " + results[1][i].associazione_username)
                         if(results[1][i].associazione_username === decoded.username) { 
