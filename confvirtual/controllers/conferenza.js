@@ -44,6 +44,8 @@ exports.creaConferenza = (req,res,next)=>{
             //reindirizzamento a creare sessioni
             next();
         }); 
+    }else{
+        res.render('newconferenza',{error: true, msg: "ricontrolla le date"});
     }
 }
 

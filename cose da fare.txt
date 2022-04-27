@@ -11,7 +11,6 @@ Tasto crea nuova sessione [Alsi]
 
 Fare controlli sulle date	[Carlotta/Alsi]:
 - ordine delle presentazioni. (?)
-- due sessioni nello stesso programma non possono essere nello stesso orario [Carlotta]
 
 
 aggiungere si possa modificare successivamente risorse aggiuntive  [Alsi] 
@@ -20,6 +19,7 @@ aggiungere Log eventi 			[Alsi/Carlotta]
 
 
 COSE FATTE:
+- due sessioni nello stesso programma non possono essere nello stesso orario [Carlotta] V
 Controlli su quando si può votare in un tutorial V
 Bug immagine profilo delle conferenze [Alsi] V
 Assegnare un presenter a una presentazione [Carlotta] V
