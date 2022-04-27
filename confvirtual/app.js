@@ -11,6 +11,8 @@ const URI = process.env.URI;
 const mongo = new MongoClient(URI);
 const { DateTime } = require('luxon');
 var app = express();
+var cookie = require("cookie");
+const {updateLog} = require('./modules/connectionDBMongo');
 
 const server = require('http').createServer(app);
 const io = socketio(server);
@@ -65,9 +67,9 @@ app.get('/:id_sessione/chat', (req, res) => {
   //res.sendFile(__dirname + '/index.html');
     sessione=req.params.id_sessione;
     console.log(sessione);
-    user = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
-    user = user.username;
-    console.log(user);
+    //user = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
+    //user = user.username;
+   // console.log(user.username);
     const today= new Date();
     const giorno= DateTime.fromJSDate(today).toLocaleString(DateTime.DATE_MED);
     const orario= today.toLocaleTimeString();//prendo l'ora attuale
@@ -83,10 +85,11 @@ app.get('/:id_sessione/chat', (req, res) => {
           //query per stampare i messaggi della chat se già ce ne sono
           db.query(`call stampamessaggi('${req.params.id_sessione}')`,(err,results)=>{
             if(err) {throw err;}
-            if(results.length==0){
+            if(results[0].length==0){
+              console.log("ciao");
               res.render("chatvuota");
             }else{
-              console.log(results[0]);
+              //console.log(results[0]);
               res.render("chat", {messaggi: results[0]});
             }
           }); 
@@ -100,9 +103,13 @@ app.get('/:id_sessione/chat', (req, res) => {
 
 io.on('connection', (socket) => {
   socket.on('chat message', (msg) => {
+    var cookief = socket.handshake.headers.cookie; 
+    var cookies = cookie.parse(cookief); 
+    console.log(cookies);
+    user = jwt.verify(cookies.token, process.env.ACCESS_TOKEN_SECRET);
+    console.log("scrive: ", user)
     time= new Date();
     time=time.toLocaleTimeString();
-    io.emit('chat message', user + ": "+msg+ "["+time+"]");
     //query per prendere la data della sessione
     db.query(`call sessionedata ('${sessione}')`,(err,result)=>{
       if(err){
@@ -110,12 +117,19 @@ io.on('connection', (socket) => {
       }else{
         let data= new Date(result[0][0].data).toISOString().replace('T', ' ').replace('Z', '')
         console.log(data);
+        console.log(user.username);
+
         //query che registra il messaggio sul db
-        db.query(`call insertmessaggio ('${time}', '${sessione}','${user}', '${msg}','${data}')`,(err,results)=>{  
+        db.query(`call insertmessaggio ('${time}', '${sessione}','${user.username}', '${msg}','${data}')`,(err,results)=>{  
           if(err){ console.log(err); }
+          io.emit('chat message', user.username + ": "+msg+ "["+time+"]");
+          updateLog(`${user.log}`, {messaggioInviato: `${msg} - in - ${sessione}`})
+
+
         });
       }
     });
+    
   });
 });
 
