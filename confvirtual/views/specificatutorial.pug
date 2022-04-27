@@ -24,6 +24,11 @@ block content
                       value= val
                     ) #{val}
                 button.btn.btn-primary(type='submit') Vota!
+            
+            h3= "Risorse aggiuntive"
+              each risorsa in risorse
+                h6= risorsa.link
+
             if speaker
               -var u = presentazione +'/addRisorsaAggiuntiva'
               form(action=u method='POST' enctype='multipart/form-data')
@@ -34,3 +39,4 @@ block content
                     label(for='descrizione') Descrizione:
                     input.input-fiel(type='text' placeholder='Descrizione' name='descrizione')
                 button.btn.btn-primary(type='submit') Carica
+            

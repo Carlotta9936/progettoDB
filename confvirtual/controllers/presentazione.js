@@ -26,6 +26,7 @@ exports.creaPresentazione = (req,res)=>{
             controlloDate.controlloOrario(result[0][0].ora_i, oraI) && controlloDate.controlloOrario(oraF, result[0][0].ora_f))
         {   //L'orario delle presentazioni non può eccedere quello della sessione
             db.query(`call getPresentazioni('${req.params.sessione}')`, (err, results) => {
+                if(err) { throw err; }
                 var i;
                 for(i=0; i<results[0].length; i++){
                     console.log(oraI);

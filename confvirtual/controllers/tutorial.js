@@ -9,14 +9,16 @@ exports.specificaTutorial=(req,res)=>{
     //query per selezionare il tutorial creato
     db.query(`call selecttutorial ('${req.params.id_tutorial}'); 
                 call puoVotare ('${req.params.id_tutorial}');
-                call isPreferita ('${decoded.username}','${req.params.id_tutorial}'); `,(err,results)=>{
+                call isPreferita ('${decoded.username}','${req.params.id_tutorial}'); 
+                call getRisorseAggiuntive ('${req.params.id_tutorial}');`,(err,results)=>{
         if(err){ throw err; }
+        console.log(results[6]);
         var voto = false;
         var segui=false;
         //Controllo se sono lo speaker del articolo
         if(results[0][0].speaker === decoded.username){
             console.log(results[0].speaker);
-            res.render('specificatutorial',{tutorials: results[0], seguito: segui, presentazione: req.params.id_tutorial, vota: false, speaker: true, username: decoded.username});
+            res.render('specificatutorial',{tutorials: results[0], seguito: segui, presentazione: req.params.id_tutorial, risorse: results[6], vota: false, speaker: true, username: decoded.username});
         } else {    //Controllo se è un associato e che debba ancora votare
             results[2].forEach(associato => {
                 if(associato.admins === decoded.username){
