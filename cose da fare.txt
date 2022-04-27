@@ -1,22 +1,22 @@
 Cose ancora da fare:
 
 
-voti ai presenter [Alsi]
 
 Fare controlli sulle date	[Carlotta/Alsi]:
-- ordine delle presentazioni.
-- due sessioni nello stesso programma non possono essere nello stesso orario
+- ordine delle presentazioni. (?)
+- due sessioni nello stesso programma non possono essere nello stesso orario [Carlotta]
 
-Assegnare un presenter a una presentazione [Carlotta]
 
 Risorse aggiutive 		[Alsi]\
-controllare che solo gli speaker di quel tutorial possano caricare risorse aggiuntive   [Alsi] V
 aggiungere si possa modificare/aggiungere successivamente risorse aggiuntive  [Alsi] 
 
 aggiungere Log eventi 			[Alsi/Carlotta]	
 
 
 COSE FATTE:
+Assegnare un presenter a una presentazione [Carlotta] V
+controllare che solo gli speaker di quel tutorial possano caricare risorse aggiuntive   [Alsi] V
+voti ai presenter [Alsi] V
 IL PROGRAMMA NON DEVE CRASrsTI MA INFORMARTI  [Alsi/CArlotta] V
 controllo se non si seleziona un autore/presenter            [Carlotta] V
 Controlli sul ruolo					        [Alsi]		V

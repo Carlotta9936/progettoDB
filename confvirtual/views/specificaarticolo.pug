@@ -20,23 +20,28 @@ block content
             - var url= '/presenter'+ articoli[0].presenter//ancora non c'è il link
                 a(href= url)
                     h5='Presenter: '+articoli[0].presenter
-            if vota
-              form(action='/tutorial/'+presentazione+'/vota' method='POST')
+            if admin && orario && add
+                form(action='/articolo/'+presentazione+'/vota' method='POST')
+                    select#sponsors.form-control(type='select' placeholder='0' name='voto')
+                        each val in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                            option(
+                            value= val
+                            ) #{val}
+                    button.btn.btn-primary(type='submit') Vota!
+            else if !add
                 select#sponsors.form-control(type='select' placeholder='0' name='voto')
-                  each val in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-                    option(
-                      value= val
-                    ) #{val}
-                button.btn.btn-primary(type='submit') Vota!
-            if admin 
-                if articoli[0].presenter!= null
-                    button.btn.btn.btn-primary(type='button' disabled='') ASSEGNA PRESENTER
-                else
-                    form(action='/articolo/'+presentazione+'/presenter' method='GET')
-                        button.btn.btn-primary(type='submit') ASSEGNA PRESENTER
+                button.btn.btn-primary(type='submit'  disabled='') Vota!
+
+            if articoli[0].presenter!= null
+                button.btn.btn.btn-primary(type='button' disabled='') ASSEGNA PRESENTER
+            else    
+                form(action='/articolo/'+presentazione+'/presenter' method='GET')
+                    button.btn.btn-primary(type='submit') ASSEGNA PRESENTER
             if seguito
                 form(action='/articolo/'+ username +'/mipiace/'+ presentazione method='POST')
                     button.btn.btn-primary(type='submit') MI PIACE
             else 
-                button.btn.btn-lg.btn-primary(type='button' disabled='') MI PIACE
+                button.btn.btn-primary(type='button' disabled='') MI PIACE
+                
+            
             
