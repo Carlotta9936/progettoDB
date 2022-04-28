@@ -21,7 +21,6 @@ exports.creaConferenza = (req,res,next)=>{
     const {acronimo, anno, dataInizio, dataFine, nome} = req.body;
     const PDF = req.files.risAgg;
 
-    console.log(req.files.length);
     //Se non carica l'immagine mette l'immagine di default
     try{
         var logo = req.files.logo[0].filename;
@@ -33,13 +32,11 @@ exports.creaConferenza = (req,res,next)=>{
         db.query(`call insertconferenza('${acronimo}','${anno}', '${logo}', '${dataInizio}','${dataFine}','${nome}','${decoded.username}');`,(err,results)=>{
         
             if(err) {
-                if (err.code === 'ER_DUP_ENTRY'){   
-                    console.log("we");
+                if (err.code === 'ER_DUP_ENTRY'){ 
                     errore=true;
                     res.render('newconferenza',{error: errore, msg: "conferenza già esistente"});
                 }else { throw err;}
             }
-            console.log(err);
             //query per iscrivere l'admin alla conferenza creata
             db.query(`call addadminconferenza ('${decoded.username}','${anno}','${acronimo}')`,(err,result)=>{
                 if(err) {throw err};
@@ -61,7 +58,6 @@ exports.creaProgramma= (req,res)=>{
     for(let i=0;i<differentDays;i++){
 
         let data= new Date(firstDate.getTime()+((1000 * 3600 * 24)*i)).toISOString().slice(0,19).replace('T', ' ');
-        console.log(data);
         //query per inserire un nuovo programma giornaliero
         db.query(`call insertprogramma('${req.body.acronimo}','${req.body.anno}', '${data}');`,(err, results)=>{  
             if(err) {throw err}
@@ -77,7 +73,6 @@ exports.formSessione = (req, res)=>{
     db.query(`call selectprogramma ('${req.params.anno}','${req.params.acronimo}');`,(err, results)=>{
         if(err) throw err;
         else{
-            console.log({results});
             for(var i = 0; i < results[0].length; i++) {
                 results[0][i].data = DateTime.fromJSDate(results[0][i].data).toLocaleString(DateTime.DATE_MED);
             }
@@ -88,15 +83,12 @@ exports.formSessione = (req, res)=>{
 
 //creo le sessioni
 exports.creaSessione = (req,res)=>{
-    console.log(req.body);
     const {oraI, oraF, titolo, link} = req.body;
     //query per controllare se ci sono sessioni negli orari inseriti
     db.query(`call orariSessione ('${req.params.programma}')`,(err,result)=>{
         if(err){throw err;}
-        console.log("res",result[0]);
         db.query(`call selectprogramma ('${req.params.anno}','${req.params.acronimo}');`,(err, results)=>{
             if(err) throw err;
-            console.log({results});
             for(var i = 0; i < results[0].length; i++) {
                 results[0][i].data = DateTime.fromJSDate(results[0][i].data).toLocaleString(DateTime.DATE_MED);
             }
@@ -106,7 +98,6 @@ exports.creaSessione = (req,res)=>{
                 var mex = "Sessione creata con successo";
                 //Controllo orario
                 result[0].forEach((orari)=>{
-                    console.log("ciao");
                     if(!(oraF<orari.ora_i || oraI>orari.ora_f)){
                         errorOra = true;
                         mex = "esiste già una sessione in questo orario"
@@ -135,7 +126,6 @@ exports.creaSessione = (req,res)=>{
                     //query per inserire una nuova sessione
                     db.query(`call insertsessione ('${oraF}','${oraI}','${titolo}','${link}','${req.params.programma}');`,(err, result)=>{
                         if(err){throw err;}
-                        console.log("terzo");
                         res.render('newsessione', {programmi: results[0], error: false, msg:"sessione creata"});
                     }); 
                 }else{
@@ -169,18 +159,14 @@ exports.programma = (req,res)=>{
                 
                 //Controllo se l'utente ha il diritto di modificare
                 var modifica = false;
-                console.log("Primo: ", results);
-                console.log("Secondo: ", results[2]);
 
                 for(var i = 0; i < results[2].length; i++){
-                    console.log("Qi" + decoded.username + "  " + results[2][i].associazione_username)
                     if(results[2][i].associazione_username === decoded.username) { 
                         modifica = true;
                     }
                 }
 
                 //verifica che la conferenza abbia un programma da visualizzare
-                console.log(results[0]);
                 if (results[0].length>0){
                     results[0][0].datainizio = DateTime.fromJSDate(results[0][0].datainizio).toLocaleString(DateTime.DATE_MED);
                     results[0][0].datafine = DateTime.fromJSDate(results[0][0].datafine).toLocaleString(DateTime.DATE_MED);
@@ -192,7 +178,6 @@ exports.programma = (req,res)=>{
                     for(var i = 0; i<results[4].length; i++){
                         results[4][i].data = DateTime.fromJSDate(results[4][i].data).toLocaleString(DateTime.DATE_MED);
                     }
-                    console.log(results[2]);
                     //controllo se l'utente è già iscritto alla conferenza
                     db.query(`call controllaiscrizione('${decoded.username}','${req.params.anno}','${req.params.acronimo}')`,(err,result)=>{
                         if(err) throw err;       
@@ -218,7 +203,6 @@ exports.programma = (req,res)=>{
                             }
                             i++;
                         });
-                        console.log("confe",results[0]);
                     
                         //Renderizzo tutto
                         res.render('conferenza',{conferenze: results[0], giorni: results[4], moderatori: results[2], permessi: modifica, sponsors: results[8], numIscritti: results[6][0].numIscritti, segui: segui, ris: risultati});
@@ -227,8 +211,6 @@ exports.programma = (req,res)=>{
                    
     
                 } else {
-                    console.log("conferneza vuota");
-                    console.log("Sono qui 1");
                     res.render('conferenzaVuota',{nome: req.params.acronimo, anno:req.params.anno, admin: modifica});
                 }
             })
@@ -239,11 +221,9 @@ exports.programma = (req,res)=>{
 //visualizzazione conferenze disponibili
 exports.disponibile=(req,res)=>{
     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
-    console.log(decoded.diritti);
     var aggiungiConferenza = decoded.diritti === "Admin"? true : false;
     db.query(`call conferenzedisponibili ();`,(err,results)=>{
         if(err) throw err;
-        console.log(results[0]);
         for(var i = 0; i < results[0].length; i++){
             results[0][i].datainizio = DateTime.fromJSDate(results[0][i].datainizio).toLocaleString(DateTime.DATE_MED);
             results[0][i].datafine = DateTime.fromJSDate(results[0][i].datafine).toLocaleString(DateTime.DATE_MED);
@@ -257,7 +237,6 @@ exports.formSponsorizzazione=(req,res)=>{
     //query per visulizzare tutti gli sponsor
     db.query(`call nomesponsor();`,(err,results)=>{
         if(err) throw err;
-        console.log({results});
         db.query(`call contasponsor('${req.params.anno}','${req.params.acronimo}')`,(err,result)=>{
             if(err) throw err;
             console.log("contaSponsor"+result[0]);
@@ -274,8 +253,6 @@ exports.formSponsorizzazione=(req,res)=>{
 exports.creaSponsorizzazione=(req,res)=>{
     errore=false;
     const { importo, sponsor} = req.body;
-    console.log("Anno", req.params.anno)
-    console.log("acronimo", req.params.acronimo)
     if(importo!=""){
         //query per inserire una nuova sponsorizzazione
         db.query(`call insertsponsorizzazione ('${importo}','${req.params.anno}', '${req.params.acronimo}', '${sponsor}');`,(err,results)=>{
@@ -283,7 +260,6 @@ exports.creaSponsorizzazione=(req,res)=>{
             db.query(`call nomesponsor();`,(errr,results)=>{
                 if(err){
                     if (err.code === 'ER_DUP_ENTRY'){   
-                        console.log("we");
                         errore=true;
                         res.render('newsponsorizzazione',{acronimo: req.params.acronimo,anno: req.params.anno, error: errore, msg: "sponsor già esistente",sponsor: results[0], num: "1"});//l'1 serve per evitare che dia errore
                     }else{ throw err; }
@@ -297,7 +273,6 @@ exports.creaSponsorizzazione=(req,res)=>{
         //query per contare gli sponsor della conferenza
         db.query(`call contasponsor('${req.params.anno}','${req.params.acronimo}')`,(err,results)=>{
             if(err) {throw err;}
-            console.log("contaSponsor");
             if(results[0][0].num_sponsorizzazioni>=5){
                 //vengo mandato alla specifica della conferenza
                 res.redirect('/conferenza/'+req.params.acronimo+'/'+req.params.anno);
@@ -322,7 +297,7 @@ exports.segui = (req, res) => {
             //Log
             //updateLog(`${decoded.log}`, {conferenzeGuardate: `${req.params.acronimo} ${req.params.anno}`})
             updateLog(`${decoded.log}`, {conferenzeSeguite: `${req.params.acronimo} ${req.params.anno}`})
-            console.log("Si cazzo");
+            
             res.redirect("/conferenza/"+req.params.acronimo+"/"+req.params.anno);
         }
     });
@@ -330,7 +305,6 @@ exports.segui = (req, res) => {
 
 exports.modificaConferenza = (req, res) => {
     db.query(`call getAdminLiberi('${req.params.anno}', '${req.params.acronimo}')`, (err, results) => {
-        console.log(results[0]);
         if(results[0]==0){
             res.render("modificaConferenza", {admins: results[0],acronimo: req.params.acronimo, anno: req.params.anno, errore: true, msg: "Tutti gli admin sono già stati associati"});
         }else{
@@ -344,7 +318,6 @@ exports.aggiungiAdmin = (req, res) => {
     db.query(`call aggiungiAssociazioni('${admin}', '${req.params.anno}', '${req.params.acronimo}');`, (err, results) => {
         if(err) {throw err;}
         db.query(`call getAdminLiberi('${req.params.anno}', '${req.params.acronimo}')`, (err, results) => {
-            console.log(results[0]);
             if(results[0]==0){
                 res.render("modificaConferenza", {admins: results[0],acronimo: req.params.acronimo, anno: req.params.anno, errore: true, msg: "Moderatore associato: "+admin+" ATTENZIONE gli admin sono già tutti associati"});
     
@@ -367,26 +340,18 @@ exports.ricercaConferenza =(req,res)=>{
             //vado a prendere le specifiche con programmi e sessioni di una conferenza
             db.query(`call datiConferenza('${req.params.anno}', '${req.params.acronimo}')`, (err, results) => {
                 if(err) {throw err;}
-                console.log("ciao");
                 //verifica che la conferenza abbia un programma da visualizzare
                 if (results[0].length>0){
                     results[0][0].datainizio = DateTime.fromJSDate(results[0][0].datainizio).toLocaleString(DateTime.DATE_MED);
                     results[0][0].datafine = DateTime.fromJSDate(results[0][0].datafine).toLocaleString(DateTime.DATE_MED);
                     for(var i = 0; i < results[0].length; i++){
-                        console.log("bellla");
                         results[0][i].data = DateTime.fromJSDate(results[0][i].data).toLocaleString(DateTime.DATE_MED);
                     }
-                    /*console.log(results[0]);
-                    console.log(results[1]);
-                    console.log(results[2]);
-                    console.log(results[3]);
-                    console.log(results[4]);*/
 
                     //Controllo se l'utente ha il diritto di modificare
                     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET); 
                     var modifica = false;                   
                     for(var i = 0; i < results[1].length; i++){
-                        console.log(decoded.username + "  " + results[1][i].associazione_username)
                         if(results[1][i].associazione_username === decoded.username) { 
                             modifica=true;
                         }
@@ -395,7 +360,6 @@ exports.ricercaConferenza =(req,res)=>{
                     for(var i = 0; i<results[2].length; i++){
                         results[2][i].data = DateTime.fromJSDate(results[2][i].data).toLocaleString(DateTime.DATE_MED);
                     }
-                    console.log(results[0][0]);
                     //controllo se la conferenza è già completata
                     if(results[0][0].svolgimento=="completata"){
                         modifica = false;
@@ -403,11 +367,9 @@ exports.ricercaConferenza =(req,res)=>{
                     }
                     //controllo se l'utente è già iscritto alla conferenza
                     db.query(`call controllaiscrizione('${decoded.username}','${req.params.anno}','${req.params.acronimo}')`,(err,result)=>{
-                        if(err) throw err;   
-                        console.log("sono qui:"+result[0]);     
+                        if(err) throw err;      
                         if(result.length!=0){
                             segui=false;
-                            //
                         }  
                         var risultati=[];
                         var i=0;
@@ -428,14 +390,12 @@ exports.ricercaConferenza =(req,res)=>{
                             }
                             i++;
                         });
-                        console.log("num",results[3][0]);
                     
                         //Renderizzo tutto
                         res.render('conferenza',{conferenze: results[0], giorni: results[2], moderatori: results[1], permessi: modifica, sponsors: results[4], numIscritti: results[3][0].numIscritti, segui: segui, ris: risultati});
     
                     });
                 } else {
-                    console.log("conferneza vuota");
                     res.render('conferenzaVuota',{nome: req.params.acronimo, anno:req.params.anno, admin: modifica});
                 }
             })
