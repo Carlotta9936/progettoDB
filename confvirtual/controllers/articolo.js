@@ -41,21 +41,23 @@ exports.specificaArticolo=(req,res)=>{
                         console.log("Presenter", presenter)
 
                         //se la presentazione è finita 
-                        console.log(results[10]);
+                        console.log(results[10][0].data);
+                        const giornoPulito = DateTime.fromJSDate(results[10][0].data).toLocaleString(DateTime.DATE_MED);
                         const today= new Date();
                         const giorno= DateTime.fromJSDate(today).toLocaleString(DateTime.DATE_MED);
                         const orario= today.toLocaleTimeString();//prendo l'ora attuale
-                        //console.log(results[10][0].data);
-                        //console.log(giorno);
-                        //results[10][0].data==giorno
-                        if(results[10][0].data==giorno){
-                            if(results[10][0].ora_f<orario){
+                        console.log(giornoPulito);
+                        console.log(giorno);
+                        console.log(orario);
+                        console.log(results[10][0].data==giorno);
+                        if(giornoPulito==giorno){
+                            if(results[10][0].oraf<orario){
                                 permessiOrario = true;
                             }
                             else{
                                 permessiOrario = false;
                             }
-                        }else if(results[10][0].data<giorno){
+                        }else if(results[10][0].oraf<giorno){
                             permessiOrario = false;
                         }else{
                             permessiOrario = true;

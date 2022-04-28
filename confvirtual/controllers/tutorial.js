@@ -24,19 +24,21 @@ exports.specificaTutorial=(req,res)=>{
             console.log(results[0].speaker);
             res.render('specificatutorial',{tutorials: results[0], seguito: segui, presentazione: req.params.id_tutorial, risorse: results[6], vota: false, speaker: true, username: decoded.username});
         } 
-
+        const giornoPulito = DateTime.fromJSDate(results[8][0].data).toLocaleString(DateTime.DATE_MED);
         const today= new Date();
         const giorno= DateTime.fromJSDate(today).toLocaleString(DateTime.DATE_MED);
         const orario= today.toLocaleTimeString();//prendo l'ora attuale
-        
-        if(results[8][0].data==giorno){
-            if(results[8][0].ora_f<orario){
+        console.log(results[8]);
+        console.log(giornoPulito, giorno, giornoPulito==giorno);
+        console.log(results[8][0].oraf, orario, results[8][0].oraf<orario)
+        if(giornoPulito==giorno){
+            if(results[8][0].oraf<orario){
                 permessiOrario = true;
             }
             else{
                 permessiOrario = false;
             }
-        }else if(results[8][0].data<giorno){
+        }else if(giornoPulito<giorno){
             permessiOrario = false;
         }else{
             permessiOrario = true;
@@ -72,7 +74,7 @@ exports.vota = (req, res) => {
     const {voto} = req.body;
     db.query(`call vota('${decoded.username}', '${req.params.id_tutorial}', '${voto}');`, (err, result) => {
         if(err) {throw err;}
-        res.redirect('tutorial/' + req.params.id_tutorial);
+        res.redirect('/tutorial/' + req.params.id_tutorial);
     })
 }
 

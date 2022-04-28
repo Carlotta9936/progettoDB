@@ -20,7 +20,7 @@ sponsor minimo 1                [Carlotta] V
 problemi nel redirect dopo il voto          V
 problemi nel redirect risorsa aggiuntiva    V
 Problema quando coincidono le date in presentazione
-Bug voti articolo
+Bug voti articolo   V
 Spariscono gli sponsor
 
 
