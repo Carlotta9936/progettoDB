@@ -19,13 +19,16 @@ exports.formConferenza = (req, res)=>{
 exports.creaConferenza = (req,res,next)=>{
     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
     const {acronimo, anno, dataInizio, dataFine, nome} = req.body;
+    const PDF = req.files.risAgg;
+
     console.log(req.files.length);
     //Se non carica l'immagine mette l'immagine di default
-    if(req.files.length !== null){
+    try{
         var logo = req.files.logo[0].filename;
-    } else {
+    } catch (e) {
         var logo = "logoConferenzaDefault.png";
     }
+    
     if(controlloDate.controlloDate(dataInizio, dataFine)){    //Controllo sulle date
         db.query(`call insertconferenza('${acronimo}','${anno}', '${logo}', '${dataInizio}','${dataFine}','${nome}','${decoded.username}');`,(err,results)=>{
         
@@ -293,6 +296,7 @@ exports.creaSponsorizzazione=(req,res)=>{
         });
         //query per contare gli sponsor della conferenza
         db.query(`call contasponsor('${req.params.anno}','${req.params.acronimo}')`,(err,results)=>{
+            if(err) {throw err;}
             console.log("contaSponsor");
             if(results[0][0].num_sponsorizzazioni>=5){
                 //vengo mandato alla specifica della conferenza

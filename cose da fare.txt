@@ -14,8 +14,8 @@ aggiungere Log eventi 			[Alsi/Carlotta]
 
 Lista bug
 Da subito errore quando apro sponsor    [Carlotta] V
-Sponsor non prende la foto
-Non va immagine default
+Sponsor non prende la foto          [Alsi] V
+Non va immagine default         [Alsi] V
 sponsor minimo 1                [Carlotta] V
 problemi nel redirect dopo il voto
 problemi nel redirect risorsa aggiuntiva

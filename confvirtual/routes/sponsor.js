@@ -6,7 +6,7 @@ const {upload} = require("../modules/multer")
 const sponsorController = require ('../controllers/sponsor');
 
 //form per la creazione di un nuovo sponsor
-router.get('/nuovoSponsor/:anno/:acronimo', sponsorController.formSponsor);
-router.post('/nuovoSponsor/:anno/:acronimo',  upload.fields([{ name : 'image'}]), sponsorController.creaSponsor);
+router.get('/nuovoSponsor/:acronimo/:anno', sponsorController.formSponsor);
+router.post('/nuovoSponsor/:acronimo/:anno',  upload.fields([{ name : 'image'}]), sponsorController.creaSponsor);
 
 module.exports = router;
