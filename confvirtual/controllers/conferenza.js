@@ -255,7 +255,16 @@ exports.formSponsorizzazione=(req,res)=>{
     db.query(`call nomesponsor();`,(err,results)=>{
         if(err) throw err;
         console.log({results});
-        res.render('newsponsorizzazione', {acronimo: req.params.acronimo, anno: req.params.anno,error: false, msg: "", sponsor: results[0]});
+        db.query(`call contasponsor('${req.params.anno}','${req.params.acronimo}')`,(err,result)=>{
+            if(err) throw err;
+            console.log("contaSponsor"+result[0]);
+            if(result[0]!=0){
+                res.render('newsponsorizzazione', {acronimo: req.params.acronimo, anno: req.params.anno,error: false, msg: "", sponsor: results[0], num: result[0][0].num_sponsorizzazioni});
+            }
+            else{
+                res.render('newsponsorizzazione', {acronimo: req.params.acronimo, anno: req.params.anno,error: false, msg: "", sponsor: results[0], num: ""});
+            }
+        });
     });
 }
 
@@ -273,11 +282,11 @@ exports.creaSponsorizzazione=(req,res)=>{
                     if (err.code === 'ER_DUP_ENTRY'){   
                         console.log("we");
                         errore=true;
-                        res.render('newsponsorizzazione',{acronimo: req.params.acronimo,anno: req.params.anno, error: errore, msg: "sponsor già esistente",sponsor: results[0]});
+                        res.render('newsponsorizzazione',{acronimo: req.params.acronimo,anno: req.params.anno, error: errore, msg: "sponsor già esistente",sponsor: results[0], num: "1"});//l'1 serve per evitare che dia errore
                     }else{ throw err; }
                     
                 }else{
-                    res.render('newsponsorizzazione',{acronimo: req.params.acronimo,anno: req.params.anno, error: errore, msg: "nuova sponsorizzazione creata",sponsor: results[0]});
+                    res.render('newsponsorizzazione',{acronimo: req.params.acronimo,anno: req.params.anno, error: errore, msg: "nuova sponsorizzazione creata",sponsor: results[0], num:"1"});//l'1 serve per evitare che dia errore
 
                 }
             });
@@ -294,7 +303,7 @@ exports.creaSponsorizzazione=(req,res)=>{
         db.query(`call nomesponsor();`,(err,results)=>{
             if(err){ throw err; }
             errore=true;
-            res.render('newsponsorizzazione',{acronimo: req.params.acronimo,anno: req.params.anno, error: errore, msg: "inserire un importo valido",sponsor: results[0]});
+            res.render('newsponsorizzazione',{acronimo: req.params.acronimo,anno: req.params.anno, error: errore, msg: "inserire un importo valido",sponsor: results[0], num: ""});
 
         });
 
