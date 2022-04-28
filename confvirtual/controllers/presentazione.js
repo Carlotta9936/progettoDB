@@ -31,17 +31,24 @@ exports.creaPresentazione = (req,res)=>{
                     for(var i=0; i<results[0].length; i++){
                         if(!((oraI< results[0][i].oraInizio) && (oraF< results[0][i].oraInizio) ||
                             (results[0][i].oraFine< oraF) && (results[0][i].oraFine< oraI))){
-
+                            console.log("Ciao");
                             mex="la presentazione deve iniziare dopo l'inizio della sessione, finire prima della fine della sessione e non può coincidere con altre presentazioni della sessione";
                             error=true;
+                            db.query(`call specificasessione ('${req.params.sessione}')`,(err,results)=>{
+                                if(err) throw err;
+                                console.log(results[0]);
+                                results[0][0].data = DateTime.fromJSDate(results[0][0].data).toLocaleString(DateTime.DATE_MED);
+                                res.render('newpresentazione',{sessione: results[0], errore: error, msg: mex});
+                            });
                         }
                     }
                     if(mex==""){
                         db.query(`call insertpresentazione('${oraI}','${oraF}','${ordine}','${req.params.sessione}');`,(err,result)=>{
+                            console.log("Err");
                             if(err){
                                 mex="mancano dei dati";
                                 error=true;
-                                console.log(mex,error);
+                                console.log("secodno", mex,error);
                                 db.query(`call specificasessione ('${req.params.sessione}')`,(err,results)=>{
                                     if(err) throw err;
                                     console.log(results[0]);
@@ -160,7 +167,7 @@ exports.associaSpeaker=(req,res)=>{
                 //query per prendere i dati della conferenza
                 db.query(`call presentazioneInConferenza ('${req.params.id_tutorial}')`,(err,result)=>{  
                     if(err){throw err};
-                    res.redirect("/conferenza/"+ris[0][0].acronimo+"/"+ris[0][0].anno);
+                    res.redirect("/conferenza/"+result[0][0].acronimo+"/"+result[0][0].anno);
 
                 });
             });
