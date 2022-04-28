@@ -21,7 +21,7 @@ router.get('/', index.informazioni);
 
 //LOGIN
 router.get('/login', (req, res) => {
-  res.render('login')
+  res.render('login',{message:""})
 })
 
 router.post('/login', utenti.login, utenti.profile);
@@ -29,7 +29,7 @@ router.post('/login', utenti.login, utenti.profile);
 
 //SIGN IN
 router.get('/signUp', (req, res) =>{            
-  res.render('signUp')
+  res.render('signUp',{message:""});
 })
 
 router.post('/signUp', utenti.signUp, utenti.profile);          //Registra un nuovo utente
