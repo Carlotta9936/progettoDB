@@ -28,11 +28,11 @@ router.post('/login', utenti.login, utenti.profile);
 
 
 //SIGN IN
-router.get('/signin', (req, res) =>{            
-  res.render('signin')
+router.get('/signUp', (req, res) =>{            
+  res.render('signUp')
 })
 
-router.post('/signin', utenti.signin, utenti.profile);          //Registra un nuovo utente
+router.post('/signUp', utenti.signUp, utenti.profile);          //Registra un nuovo utente
 
 //HOMEPAGE
 router.get('/homepage', homepage.preferiti, homepage.classificaPresentazioni, homepage.classificaEventiHype, homepage.classificaPresentatori, homepage.renderizzaHomepage);

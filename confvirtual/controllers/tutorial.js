@@ -15,7 +15,7 @@ exports.specificaTutorial=(req,res)=>{
                 call getRisorseAggiuntive ('${req.params.id_tutorial}');
                 call finepresentazione ('${req.params.id_tutorial}')`,(err,results)=>{
         if(err){ throw err; }
-        console.log(results[8]);
+        console.log(results[6]);
         var permessiAdmin = false;
         var segui=false;
         var permessiOrario = false;
@@ -86,5 +86,20 @@ exports.risorsaAggiuntiva = (req, res) => {
         console.log("Aggiunta");
         res.redirect(`../../tutorial/${tutorial}`);
 
+    })
+}
+
+exports.modificaRisorsaAggiuntiva = (req, res) => {
+    console.log("WE", req.modificaRisorsa);
+    res.render('modificaRisorsaAggiuntiva', {msg:""});
+}
+
+exports.uploadRisorsaAggiuntiva = (req, res) => {
+    const id = req.params.idRisorsa;
+    const {descrizione} = req.body;
+    const risorsa = req.files.risAgg;
+    db.query(`call uploadRisorsaAggiuntiva('${id}', '${risorsa[0].filename}','${descrizione}')`, (err, results) => {
+        if(err) {throw err;}
+        res.render('modificaRisorsaAggiuntiva', {msg: "Risorsa aggiuntiva aggiornata corretamente"})
     })
 }
