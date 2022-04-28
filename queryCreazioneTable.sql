@@ -31,6 +31,7 @@ CREATE TABLE `presenter` (
   `dipartimento` VARCHAR(45) NOT NULL,
   `cv` VARCHAR(45) NULL,
   `foto` VARCHAR(45) NULL,
+  `id_presenter` INT NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`usernamePresenter`),
   CONSTRAINT `usernamePresenter`
     FOREIGN KEY (`usernamePresenter`)
