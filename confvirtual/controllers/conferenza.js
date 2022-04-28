@@ -255,7 +255,7 @@ exports.formSponsorizzazione=(req,res)=>{
     db.query(`call nomesponsor();`,(err,results)=>{
         if(err) throw err;
         console.log({results});
-        res.render('newsponsorizzazione', {acronimo: req.params.acronimo, anno: req.params.anno,error: errore, msg: "", sponsor: results[0]});
+        res.render('newsponsorizzazione', {acronimo: req.params.acronimo, anno: req.params.anno,error: false, msg: "", sponsor: results[0]});
     });
 }
 
