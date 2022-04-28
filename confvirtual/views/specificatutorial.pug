@@ -34,8 +34,9 @@ block content
                   div.col-5
                     h6= risorsa.descrizione
                   div.col-2 
-                    form(action='modificaRisorsa/'+risorsa.id_risorsa method='GET')
-                      button.btn.btn-outline-primary(type='submit' ) Modifica
+                    if speaker
+                      form(action=presentazione+'/modificaRisorsa/'+risorsa.id_risorsa method='GET')
+                        button.btn.btn-outline-primary(type='submit' ) Modifica
 
             if speaker
               h3= "Aggiungi risorsa aggiuntiva"
