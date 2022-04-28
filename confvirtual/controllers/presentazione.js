@@ -144,20 +144,23 @@ exports.associaSpeaker=(req,res)=>{
         if(Array.isArray(listaspeaker)){
             listaspeaker.forEach((speaker)=>{
                 db.query(`call insertpresenta ('${speaker}', '${req.params.id_tutorial}')`,(err,results)=>{  
-                    if(err){
-                        console.log(err);
-                    }else{
-                        res.redirect('/conferenza');
-                    }
+                    if(err){throw err};
                 });
+            });
+            //query per prendere i dati della conferenza
+            db.query(`call presentazioneInConferenza ('${req.params.id_tutorial}')`,(err,ris)=>{  
+                if(err){throw err};
+                res.redirect("/conferenza/"+ris[0][0].acronimo+"/"+ris[0][0].anno);
             });
         }else{//caso in cui sia solo uno speaker
             db.query(`call insertpresenta ('${listaspeaker}', '${req.params.id_tutorial}')`,(err,results)=>{  
-                if(err){
-                    console.log(err);
-                }else{
-                    res.redirect('/conferenza');
-                }
+                if(err){throw err};
+                //query per prendere i dati della conferenza
+                db.query(`call presentazioneInConferenza ('${req.params.id_tutorial}')`,(err,result)=>{  
+                    if(err){throw err};
+                    res.redirect("/conferenza/"+ris[0][0].acronimo+"/"+ris[0][0].anno);
+
+                });
             });
         }
     }else{

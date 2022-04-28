@@ -1,5 +1,5 @@
 DELIMITER $$
-CREATE PROCEDURE `verificaconferenza`(in anno year(4),in acronimo varchar(10))
+CREATE PROCEDURE `verificaconferenza`(in anno int,in acronimo varchar(10))
 BEGIN
 	select *
     from conferenza
