@@ -13,10 +13,10 @@ Fare controlli sulle date	[Carlotta/Alsi]:
 aggiungere Log eventi 			[Alsi/Carlotta]
 
 Lista bug
-Da subito errore quando apro sponsor    [Carlotta]
+Da subito errore quando apro sponsor    [Carlotta] V
 Sponsor non prende la foto
 Non va immagine default
-sponsor minimo 1                [Carlotta]
+sponsor minimo 1                [Carlotta] V
 problemi nel redirect dopo il voto
 problemi nel redirect risorsa aggiuntiva
 Problema quando coincidono le date in presentazione
