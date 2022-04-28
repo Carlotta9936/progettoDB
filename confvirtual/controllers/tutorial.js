@@ -91,7 +91,7 @@ exports.risorsaAggiuntiva = (req, res) => {
 
 exports.modificaRisorsaAggiuntiva = (req, res) => {
     console.log("WE", req.modificaRisorsa);
-    res.render('modificaRisorsaAggiuntiva', {msg:""});
+    res.render('modificaRisorsaAggiuntiva', {msg:"", idTutorial: req.params.id_tutorial });
 }
 
 exports.uploadRisorsaAggiuntiva = (req, res) => {
@@ -100,6 +100,7 @@ exports.uploadRisorsaAggiuntiva = (req, res) => {
     const risorsa = req.files.risAgg;
     db.query(`call uploadRisorsaAggiuntiva('${id}', '${risorsa[0].filename}','${descrizione}')`, (err, results) => {
         if(err) {throw err;}
-        res.render('modificaRisorsaAggiuntiva', {msg: "Risorsa aggiuntiva aggiornata corretamente"})
+        console.log(req.params.id_tutorial);
+        res.render('modificaRisorsaAggiuntiva', {msg: "Risorsa aggiuntiva aggiornata corretamente", idTutorial: req.params.id_tutorial })
     })
 }
