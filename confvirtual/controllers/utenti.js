@@ -8,15 +8,15 @@ var {createLog, updateLog} = require('../modules/connectionDBMongo');
 var token;
 
 //Registra un nuovo utente
-exports.signin = (req, res, next) => {
+exports.signUp = (req, res, next) => {
     const { username, password, passwordConfirm, nome, cognome, luogoNascita, dataNascita } = req.body;
 
     db.query(`call trovaUtente("${username}");`, async (err, results) => {
         if(err) {console.log(err)};
         if(results[0].length > 0){     //Controllo dell'username non sia già usato
-            res.render('signin', {  message: "That user is already use" })
+            res.render('signUp', {  message: "That user is already use" })
         } else if(password !== passwordConfirm){    //Controllo che le password coincidano
-            res.render('signin', { message: "Password do not match" })
+            res.render('signUp', { message: "Password do not match" })
         }
         
         //let hashedPassword = await bcrypt.hash(password, 8);

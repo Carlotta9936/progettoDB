@@ -3,6 +3,7 @@ Cose ancora da fare:
 momstrare da qualche parte il numero delle presentazioni in una sessione [Alsi]
 Cambiare sign in con sign up
 
+ce sta un bug nel vota e nel mi piace dei tutorial
 
 
 

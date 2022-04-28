@@ -28,9 +28,17 @@ block content
             
             h3= "Risorse aggiuntive"
               each risorsa in risorse
-                h6= risorsa.link
+                div.row
+                  div.col-5
+                    h6= risorsa.link
+                  div.col-5
+                    h6= risorsa.descrizione
+                  div.col-2 
+                    form(action='modificaRisorsa/'+risorsa.id_risorsa method='GET')
+                      button.btn.btn-outline-primary(type='submit' ) Modifica
 
             if speaker
+              h3= "Aggiungi risorsa aggiuntiva"
               -var u = presentazione +'/addRisorsaAggiuntiva'
               form(action=u method='POST' enctype='multipart/form-data')
                 .form-group

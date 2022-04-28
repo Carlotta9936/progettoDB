@@ -4,6 +4,7 @@ head
   link(
     href='/stylesheets/style.css', 
     rel='stylesheet')
+  link(rel="shortcut icon" href="#")
 body
   nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
     .container-fluid
@@ -13,10 +14,9 @@ body
       button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation')
         span.navbar-toggler-icon
       #navbarNav.collapse.navbar-collapse
-        <form action="/ricerca" method="GET" class="d-flex ricerca">
-          <input class="form-control me-2" placeholder="Search" aria-label="Search" id="s">
-          <button class="btn btn-outline-success" type="submit" >Search</button>
-        </form>
+        form.d-flex.ricerca(action='/ricerca' method='GET')
+          input#s.form-control.me-2(placeholder='Search' aria-label='Search')
+          button.btn.btn-outline-success(type='submit') Search
         ul.navbar-nav.justify-content-end
           li.nav-item
             a.nav-link(href='/conferenza') Conferenze attive
