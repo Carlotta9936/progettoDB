@@ -18,62 +18,64 @@ exports.formPresentazione = (req, res)=>{
 
 
 exports.creaPresentazione = (req,res)=>{
+    var mex="";
+    var error=false;
     let {oraI, oraF, ordine, tipo} = req.body;
     db.query(`call getSessione('${req.params.sessione}')`, (err, result) => {
         if(err) {throw err;}
-        //result[0][0].ora_i = DateTime.fromJSDate(result[0][0].ora_i).toLocaleString(DateTime.DATE_MED);
-        if(controlloDate.controlloOrario(oraI, oraF) &&     //L'orario di inizio deve essere prima dell'orario d'inizio
-            controlloDate.controlloOrario(result[0][0].ora_i, oraI) && controlloDate.controlloOrario(oraF, result[0][0].ora_f))
-        {   //L'orario delle presentazioni non può eccedere quello della sessione
-            db.query(`call getPresentazioni('${req.params.sessione}')`, (err, results) => {
-                if(err) { throw err; }
-                var i;
-                for(i=0; i<results[0].length; i++){
-                    console.log(oraI);
-                    console.log(oraF);
-                    console.log(results[0][i].oraInizio);
-                    console.log(results[0][i].oraFine);
-                    if(!(controlloDate.controlloOrario(oraI, results[0][i].oraInizio) && controlloDate.controlloDate(oraF, results[0][i].oraInizio) ||
-                        controlloDate.controlloOrario(results[0][i].oraFine, oraF) && controlloDate.controlloDate(results[0][i].oraFine, oraI)))
-                    {//query per prendere i dati per reinderizzare quando c'è un problema
-                        db.query(`call specificasessione ('${req.params.sessione}')`,(err,results)=>{
-                            if(err) throw err;
-                            console.log(results[0]);
-                            results[0][0].data = DateTime.fromJSDate(results[0][0].data).toLocaleString(DateTime.DATE_MED);
-                            res.render('newpresentazione',{sessione: results[0], errore: true, msg: "la presentazione deve iniziare dopo l'inizio della sessione, finire prima della fine della sessione e non può coincidere con altre presentazioni della sessione"});
-                        });
+        if(oraI< oraF){ //L'orario di inizio deve essere prima dell'orario d'inizio
+            if((result[0][0].ora_i< oraI) && (oraF< result[0][0].ora_f)){
+                //L'orario delle presentazioni non può eccedere quello della sessione
+                db.query(`call getPresentazioni('${req.params.sessione}')`, (err, results) => {
+                    if(err) { throw err; }
+                    for(var i=0; i<results[0].length; i++){
+                        if(!((oraI< results[0][i].oraInizio) && (oraF< results[0][i].oraInizio) ||
+                            (results[0][i].oraFine< oraF) && (results[0][i].oraFine< oraI))){
+
+                            mex="la presentazione deve iniziare dopo l'inizio della sessione, finire prima della fine della sessione e non può coincidere con altre presentazioni della sessione";
+                            error=true;
+                        }
                     }
-                }
-                do{
-                    console.log(" ");
-                }while(i<results[0].length);
-                if(oraI<oraF){
-                    db.query(`call insertpresentazione('${oraI}','${oraF}','${ordine}','${req.params.sessione}');`,(err,results)=>{
-                        if (err){throw err;}
-                        tipo=req.body.tipo;
-                        //query per prendere l'ultima presentazione creata
-                        db.query(`call selezionapresentazione ()`,(err,results)=>{
+                    if(mex==""){
+                        db.query(`call insertpresentazione('${oraI}','${oraF}','${ordine}','${req.params.sessione}');`,(err,result)=>{
                             if(err){
-                                //console.log(results);
-                                console.log(err);
+                                mex="mancano dei dati";
+                                error=true;
+                                console.log(mex,error);
+                                db.query(`call specificasessione ('${req.params.sessione}')`,(err,results)=>{
+                                    if(err) throw err;
+                                    console.log(results[0]);
+                                    results[0][0].data = DateTime.fromJSDate(results[0][0].data).toLocaleString(DateTime.DATE_MED);
+                                    res.render('newpresentazione',{sessione: results[0], errore: error, msg: mex});
+                                });
                             }else{
-                                //console.log(results[0]);
-                                res.redirect(tipo+'/'+results[0][0].id);
+                                tipo=req.body.tipo;
+                                //query per prendere l'ultima presentazione creata
+                                db.query(`call selezionapresentazione ()`,(err,results)=>{
+                                    if (err){throw err;}
+                                    //console.log(results[0]);
+                                    res.redirect(tipo+'/'+results[0][0].id);
+                                });
                             }
-                        });
-                    }); 
-                }
-                else{
-                    res.render('newpresentazione',{sessione: results[0], errore: true, msg: "la presentazione non può finire prima dell'orario di inizio"}); 
-                }
-            });
+                        }); 
+                    }
+                });
+            }else{
+                mex="sono già presenti presentazioni in questo orario";
+                error=true; 
+            }
         } else {
-           //query per prendere i dati per reinderizzare quando cìè un problema
-           db.query(`call specificasessione ('${req.params.sessione}')`,(err,results)=>{
-            if(err) throw err;
-            console.log(results[0]);
-            results[0][0].data = DateTime.fromJSDate(results[0][0].data).toLocaleString(DateTime.DATE_MED);
-            res.render('newpresentazione',{sessione: results[0], errore: true, msg: "la presentazione deve iniziare dopo l'inizio della sessione e finire prima della fine della sessione"});
+            mex="la presentazione deve iniziare dopo l'inizio della sessione e finire prima della fine della sessione";
+            error=true;
+        }
+        console.log(mex,error);
+        if(error==true){
+            //query per prendere i dati per reinderizzare quando cìè un problema
+            db.query(`call specificasessione ('${req.params.sessione}')`,(err,results)=>{
+                if(err) throw err;
+                console.log(results[0]);
+                results[0][0].data = DateTime.fromJSDate(results[0][0].data).toLocaleString(DateTime.DATE_MED);
+                res.render('newpresentazione',{sessione: results[0], errore: error, msg: mex});
             });
         }
     });
