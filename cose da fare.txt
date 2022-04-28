@@ -17,9 +17,9 @@ Da subito errore quando apro sponsor    [Carlotta] V
 Sponsor non prende la foto          [Alsi] V
 Non va immagine default         [Alsi] V
 sponsor minimo 1                [Carlotta] V
-problemi nel redirect dopo il voto
-problemi nel redirect risorsa aggiuntiva
-Problema quando coincidono le date in presentazione
+problemi nel redirect dopo il voto [Alsi] V
+problemi nel redirect risorsa aggiuntiva [Alsi] V
+Problema quando coincidono le date in presentazione [Carlotta] V
 Bug voti articolo
 Spariscono gli sponsor
 
