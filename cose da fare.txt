@@ -3,7 +3,7 @@ Cose ancora da fare:
 momstrare da qualche parte il numero delle presentazioni in una sessione [Alsi]
 Cambiare sign in con sign up
 
-ce sta un bug nel vota e nel mi piace dei tutorial
+ce sta un bug nel vota e nel mi piace dei tutorial  V
 
 
 
@@ -17,8 +17,8 @@ Da subito errore quando apro sponsor    [Carlotta] V
 Sponsor non prende la foto          [Alsi] V
 Non va immagine default         [Alsi] V
 sponsor minimo 1                [Carlotta] V
-problemi nel redirect dopo il voto
-problemi nel redirect risorsa aggiuntiva
+problemi nel redirect dopo il voto          V
+problemi nel redirect risorsa aggiuntiva    V
 Problema quando coincidono le date in presentazione
 Bug voti articolo
 Spariscono gli sponsor
