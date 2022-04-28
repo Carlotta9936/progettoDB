@@ -1,5 +1,5 @@
 DELIMITER $$
-CREATE PROCEDURE `prsenterArticolo` (id int)
+CREATE PROCEDURE `presenterArticolo` (id int)
 BEGIN
 	select presenter.usernamePresenter as presenter
     from scritto, presenter

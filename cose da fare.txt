@@ -10,13 +10,23 @@ ce sta un bug nel vota e nel mi piace dei tutorial
 Fare controlli sulle date	[Carlotta/Alsi]:
 - ordine delle presentazioni. (?)
 
+aggiungere Log eventi 			[Alsi/Carlotta]
 
-aggiungere si possa modificare successivamente risorse aggiuntive  [Alsi] 
-
-aggiungere Log eventi 			[Alsi/Carlotta]	
+Lista bug
+Da subito errore quando apro sponsor    [Carlotta]
+Sponsor non prende la foto
+Non va immagine default
+sponsor minimo 1                [Carlotta]
+problemi nel redirect dopo il voto
+problemi nel redirect risorsa aggiuntiva
+Problema quando coincidono le date in presentazione
+Bug voti articolo
+Spariscono gli sponsor
 
 
 COSE FATTE:
+
+aggiungere si possa modificare successivamente risorse aggiuntive  [Alsi] V
 Tasto crea nuova sessione [Alsi] V
 - conferenza, sessione, presentazione finisce prima di iniziare [Carlotta] V
 - due sessioni nello stesso programma non possono essere nello stesso orario [Carlotta] V
