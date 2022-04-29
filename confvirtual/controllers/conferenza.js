@@ -254,10 +254,9 @@ exports.creaSponsorizzazione=(req,res)=>{
     errore=false;
     const { importo, sponsor} = req.body;
     if(importo!=""){
-        //query per inserire una nuova sponsorizzazione
-        db.query(`call insertsponsorizzazione ('${importo}','${req.params.anno}', '${req.params.acronimo}', '${sponsor}');`,(err,results)=>{
-            if(err) {throw err;}
-            db.query(`call nomesponsor();`,(errr,results)=>{
+        db.query(`call nomesponsor();`,(errr,results)=>{
+            //query per inserire una nuova sponsorizzazione
+            db.query(`call insertsponsorizzazione ('${importo}','${req.params.anno}', '${req.params.acronimo}', '${sponsor}');`,(err,result)=>{
                 if(err){
                     if (err.code === 'ER_DUP_ENTRY'){   
                         errore=true;
