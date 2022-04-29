@@ -61,9 +61,10 @@ router.get('/profilo', (req, res) => {
   var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET)
   res.redirect(`/utenti/${decoded.username}`);
 }
-
-
-
 )
 
+
+router.get('/files/:idFile', (req, res) => {
+  res.render('showPDF', {file: req.params.idFile});
+})
 module.exports = router;

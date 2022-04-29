@@ -1,5 +1,5 @@
 DELIMITER $$
 CREATE PROCEDURE `visualizzaautori`()
 BEGIN
-	select * from autore where id_autore<1000;
+	select * from autore where presenter=0;
 END$$

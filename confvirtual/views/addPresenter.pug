@@ -8,6 +8,6 @@ block content
             select#presenters.form-control(type='select' placeholder='Select presenter' name='presenters' required='true')
                 for presente in presenters
                     option(
-                    value= presente.presenter
-                    ) #{presente.presenter}
+                    value= presente.usernamePresenter
+                    ) #{presente.usernamePresenter}
         button.btn.btn-primary(type='submit') Assegna

@@ -22,6 +22,10 @@ exports.informazioniPersonali = (req, res, next) => {
     })
 }
 
+exports.informazioniPersonali2 = (req, res, next) => {
+    db.query(``)
+}
+
 exports.caricaFile = (req, res, next) => {
     db.query(`call getFilePersonali('${req.params.username}')`, (err, results) => {
         if(err) {throw err; }
@@ -62,6 +66,7 @@ exports.renderizzaProfilo = (req, res) => {
     updateLog(`${decoded.log}`, {profiliGuardati: `${res.locals.informazioniPersonali.username}`});
     var mod, agg1, agg2 = false;
     var foto = null;
+    var curriculum = null;
     console.log(res.locals);
 
     if(res.locals.informazioniPersonali.username===decoded.username){
@@ -75,16 +80,20 @@ exports.renderizzaProfilo = (req, res) => {
         }
     }
 
+    console.log(decoded.diritti==="Presenter" || decoded.diritti==="Speaker");
+
     if(res.locals.file != undefined){
         foto = res.locals.file.image;
+        curriculum = res.locals.file.cv;
     }
 
     res.render('profile', {
         modifica: mod,
         aggiorna1: agg1,
-        aggirona2: agg2,
+        aggiorna2: agg2,
         username: res.locals.informazioniPersonali.username, 
         fotoProfilo: foto,
+        cv: curriculum,
         nome: res.locals.informazioniPersonali.nome, 
         cognome: res.locals.informazioniPersonali.cognome,
         luogoNascita: res.locals.informazioniPersonali.luogo_nascita,

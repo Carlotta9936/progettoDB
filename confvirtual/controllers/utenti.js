@@ -167,28 +167,33 @@ exports.update_presenter = (req, res) => {
     var decoded = jwt.verify(req.cookies.token, process.env.ACCESS_TOKEN_SECRET);
     const {uni, dipartimento} = req.body;
     var files = req.files;
-
-    //const {name, img} = req.files.image;
-    db.query(`call updatePresenter ('${decoded.username}', '${uni}','${dipartimento}', '${files.image[0].filename}', '${files.cv[0].filename}')`, (err, results) => {
+    //query che prende i dati utente del presenter
+    db.query(`call selectutente ('${decoded.username}')`,(err,results)=>{
         if(err) { throw err;} 
+        console.log(results[0]);
+        var nome=results[0][0].nome;
+        var cognome=results[0][0].cognome;
+        //query va inserire il presenter tra gli autori
+        db.query(`call autorepresenter('${nome}','${cognome}')`,(err,results)=>{
+            if(err) { throw err;} 
+            console.log(results[0][0].id_autore)
+            //const {name, img} = req.files.image;
+            db.query(`call updatePresenter ('${decoded.username}', '${uni}','${dipartimento}', '${files.image[0].filename}', '${files.cv[0].filename}', '${results[0][0].id_autore}')`, (err, results) => {
+                if(err) { throw err;} 
+
+        /*ALERT*/
+
+
         //query che prende id del nuovo presenter
-        db.query(`call selectpresenter ()`,(err,result)=>{
+        /*db.query(`call selectpresenter ()`,(err,result)=>{
             if(err) { throw err;} 
             console.log(result[0]);
             updateLog(`${decoded.log}`, {upgrade: 'Presenter'});
             var id=parseInt(result[0][0].massimo);
             id=1000+id;
-            var username= result[0][0].usernamePresenter;
+            var username= result[0][0].usernamePresenter;*/
 
-            //query che prende i dati utente del presenter
-            db.query(`call selectutente ('${username}')`,(err,results)=>{
-                if(err) { throw err;} 
-                console.log(results[0]);
-                var nome=results[0][0].nome;
-                var cognome=results[0][0].cognome;
-                //query va inserire il presenter tra gli autori
-                db.query(`call autorepresenter('${id}', '${nome}','${cognome}')`,(err,results)=>{
-                    if(err) { throw err;} 
+            
                     //riaggiorna il token
                     const payload = {
                         username: decoded.username,
@@ -200,7 +205,7 @@ exports.update_presenter = (req, res) => {
                     res.redirect('/profilo');
                 });
             });
-        });
+        //});
     });
 }
 

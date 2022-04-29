@@ -235,7 +235,7 @@ exports.disponibile=(req,res)=>{
 //visualizzazioni per inserire un nuova sponsorizazione ad una conferenza
 exports.formSponsorizzazione=(req,res)=>{
     //query per visulizzare tutti gli sponsor
-    db.query(`call nomesponsor();`,(err,results)=>{
+    db.query(`call nomesponsor('${req.params.acronimo}', '${req.params.anno}');`,(err,results)=>{
         if(err) throw err;
         db.query(`call contasponsor('${req.params.anno}','${req.params.acronimo}')`,(err,result)=>{
             if(err) throw err;
@@ -254,14 +254,15 @@ exports.creaSponsorizzazione=(req,res)=>{
     errore=false;
     const { importo, sponsor} = req.body;
     if(importo!=""){
-        db.query(`call nomesponsor();`,(errr,results)=>{
-            //query per inserire una nuova sponsorizzazione
-            db.query(`call insertsponsorizzazione ('${importo}','${req.params.anno}', '${req.params.acronimo}', '${sponsor}');`,(err,result)=>{
-                if(err){
-                    if (err.code === 'ER_DUP_ENTRY'){   
+        //query per inserire una nuova sponsorizzazione
+        db.query(`call insertsponsorizzazione ('${importo}','${req.params.anno}', '${req.params.acronimo}', '${sponsor}');`,(err,results)=>{
+            if(err) {throw err;}
+            db.query(`call nomesponsor('${req.params.acronimo}', '${req.params.anno}');`,(errr,results)=>{
+                if(errr){
+                    if (errr.code === 'ER_DUP_ENTRY'){   
                         errore=true;
                         res.render('newsponsorizzazione',{acronimo: req.params.acronimo,anno: req.params.anno, error: errore, msg: "sponsor già esistente",sponsor: results[0], num: "1"});//l'1 serve per evitare che dia errore
-                    }else{ throw err; }
+                    }else{ throw errr; }
                     
                 }else{
                     res.render('newsponsorizzazione',{acronimo: req.params.acronimo,anno: req.params.anno, error: errore, msg: "nuova sponsorizzazione creata",sponsor: results[0], num:"1"});//l'1 serve per evitare che dia errore

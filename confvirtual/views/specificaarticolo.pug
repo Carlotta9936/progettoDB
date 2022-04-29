@@ -15,7 +15,9 @@ block content
             h5='Autori: '
             each articolo in articoli
                 h5= articolo.nome +' '+ articolo.cognome
-            h5='Pdf: '+articoli[0].pdf
+            h5='Pdf: '  
+                a(href="/files/"+articoli[0].pdf  target='_blank')
+                    h5= articoli[0].pdf
             h5='Pagine: '+articoli[0].n_pagine
             - var url= '/utenti/'+ articoli[0].presenter
                 a(href= url)

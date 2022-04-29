@@ -12,7 +12,18 @@ Fare controlli sulle date	[Carlotta/Alsi]:
 
 aggiungere Log eventi 			[Alsi/Carlotta]
 
-Lista bug
+Lista bug   14.30
+- logout
+- sponsorizzazione (conferenza) togliere gli soponsor già assegnati 14:41
+- tutorial vedo tutti i presenter dovrei vedere solo quelli assegnati
+- crasha se in articolo non metti tutti i dati
+- togliere bottone conferenza quando crei un nuovo autore
+- controlli se in speaker/presenter non metti tutti i dati
+Spariscono gli sponsor
+
+
+COSE FATTE:
+
 Da subito errore quando apro sponsor    [Carlotta] V
 Sponsor non prende la foto          [Alsi] V
 Non va immagine default         [Alsi] V
@@ -21,11 +32,6 @@ problemi nel redirect dopo il voto [Alsi] V
 problemi nel redirect risorsa aggiuntiva [Alsi] V
 Problema quando coincidono le date in presentazione [Carlotta] V
 Bug voti articolo [Alsi]V
-Spariscono gli sponsor
-
-
-COSE FATTE:
-
 aggiungere si possa modificare successivamente risorse aggiuntive  [Alsi] V
 Tasto crea nuova sessione [Alsi] V
 - conferenza, sessione, presentazione finisce prima di iniziare [Carlotta] V
