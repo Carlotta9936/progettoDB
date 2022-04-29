@@ -167,7 +167,7 @@ exports.associaSpeaker=(req,res)=>{
                 //query per prendere i dati della conferenza
                 db.query(`call presentazioneInConferenza ('${req.params.id_tutorial}')`,(err,result)=>{  
                     if(err){throw err};
-                    res.redirect("/conferenza/"+ris[0][0].acronimo+"/"+ris[0][0].anno);
+                    res.redirect("/conferenza/"+result[0][0].acronimo+"/"+result[0][0].anno);
 
                 });
             });

@@ -10,20 +10,20 @@ var token;
 //Registra un nuovo utente
 exports.signUp = (req, res, next) => {
     const { username, password, passwordConfirm, nome, cognome, luogoNascita, dataNascita } = req.body;
-
     db.query(`call trovaUtente("${username}");`, async (err, results) => {
-        if(err) {console.log(err)};
+        if(err){throw err;}          
         if(results[0].length > 0){     //Controllo dell'username non sia già usato
-            res.render('signUp', {  message: "That user is already use" })
-        } else if(password !== passwordConfirm){    //Controllo che le password coincidano
-            res.render('signUp', { message: "Password do not match" })
+            res.render('signUp', {  message: "Username già in uso" })
+        }else if(password !== passwordConfirm){    //Controllo che le password coincidano
+            mex="Passowrd non combacia";
+            res.render('signUp', { message: "Passowrd non combacia" })
         }
         
         //let hashedPassword = await bcrypt.hash(password, 8);
         //console.log(hashedPassword);
         db.query(`call inserisciNuovoUtente('${username}', '${password}', '${nome}', '${cognome}', '${luogoNascita}', '${dataNascita}'); `, (err, results) => {
             if(err) { 
-                console.log(err);
+                res.render('signUp', { message: "Controlla di inserire tutti i dati richiesti" })
             }
             else {
                 const orario = Date.now();
@@ -53,7 +53,9 @@ exports.login = (req, res, next) => {
     const { name, password } = req.body;
     var ruolo;
     db.query(`call autenticazione('${name}', '${password}'); call controlloRuoli('${name}')`, (err, results) => {
-        if(err) {console.log(err); }  
+        if(err){
+            res.render('login',{message:"ci dispiace, qualcosa è andato storto, riprova"});
+        } 
         console.log("sus",results)     
         if(results[0].length>0){    //user e password combaciano
             if(results[2].length === 0) {
