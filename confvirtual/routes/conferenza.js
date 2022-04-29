@@ -14,6 +14,8 @@ router.get('/nuovaConferenza3-3/:acronimo/:anno',conferenzaController.formSponso
 router.post('/nuovaConferenza3-3/:acronimo/:anno', conferenzaController.creaSponsorizzazione);
 router.get('/ricerca/:acronimo/:anno',conferenzaController.ricercaConferenza);
 router.get('/:acronimo/:anno/modifica', conferenzaController.modificaConferenza)
+router.get('/live', conferenzaController.live)
+
 
 
 

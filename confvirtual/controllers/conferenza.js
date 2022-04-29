@@ -402,3 +402,7 @@ exports.ricercaConferenza =(req,res)=>{
         }
     });
 }
+
+exports.live = (req, res) => {
+    res.render('paginaLive');
+}
