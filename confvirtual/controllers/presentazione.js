@@ -188,7 +188,7 @@ exports.creaParoleChiave=(req,res)=>{
     parole=parole.toLowerCase();
     //query per inserire una parola
     db.query(`call insertparola ('${parole}','${req.params.id_articolo}')`,(err,results)=>{
-        if(err){throw err;}
+        if(err){throw err;} //se è troppo lunga alert non si blocca
         res.render('newParole',{articolo: req.params.id_articolo, error: false, msg: "nuova parola creata: ", parola: parole});
 
     });

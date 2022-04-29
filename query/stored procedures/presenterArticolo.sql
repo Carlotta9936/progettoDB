@@ -1,7 +1,8 @@
 DELIMITER $$
-CREATE PROCEDURE `presenterArticolo` (id int)
+CREATE PROCEDURE `presenterArticolo`(id int)
 BEGIN
-	select presenter.usernamePresenter as presenter
-    from scritto, presenter
-    where scritto.autore=(presenter.id_presenter+1000) and scritto.articolo=id;
+	SELECT usernamePresenter
+	FROM presenter, scritto
+	WHERE autore = id_presenter and articolo=id;
+    
 END$$
