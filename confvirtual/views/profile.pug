@@ -8,6 +8,11 @@ block content
         -  var percorsoImg = '/uploads/'+fotoProfilo
         img(src= percorsoImg)
     h2= username
+    if aggiorna2
+        form(action='/files/'+cv)
+            button.btn.btn-outline-primary(type='submit') Guarda curriculum
+
+
     h3= "Informazioni personali"
     h5= nome 
     h5= cognome 

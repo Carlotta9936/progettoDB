@@ -30,7 +30,8 @@ block content
               each risorsa in risorse
                 div.row
                   div.col-5
-                    h6= risorsa.link
+                    a(href="/files/"+risorsa.link  target='_blank')
+                      h6= risorsa.link
                   div.col-5
                     h6= risorsa.descrizione
                   div.col-2 
