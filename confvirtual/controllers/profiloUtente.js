@@ -66,6 +66,7 @@ exports.renderizzaProfilo = (req, res) => {
     updateLog(`${decoded.log}`, {profiliGuardati: `${res.locals.informazioniPersonali.username}`});
     var mod, agg1, agg2 = false;
     var foto = null;
+    var curriculum = null;
     console.log(res.locals);
 
     if(res.locals.informazioniPersonali.username===decoded.username){
