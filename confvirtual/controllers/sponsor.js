@@ -15,18 +15,22 @@ exports.creaSponsor = (req,res)=>{
         var logo = req.files.image[0].filename;
     } catch (e) {
         var logo = "sponsorDefault.png";
+    }if(nome!=""){
+        //query per creare nuovi sponsor
+        db.query(`call insertsponsor ('${nome}', '${logo}')`,(err,results)=>{ 
+            if(err){
+                if (err.code === 'ER_DUP_ENTRY'){   
+                    console.log("we");
+                    err=true;
+                    res.render('newsponsor',{acronimo: req.params.acronimo,anno: req.params.anno, errore: true, msg: "sponsor già esistente"});
+                }else{ throw err; }
+                
+            }else{
+            res.render('newsponsor',{acronimo: req.params.acronimo,anno: req.params.anno, errore: false, msg: "nuovo sponsor creato"});
+            }//Alert che ti dice "sponsor creato"
+        });
+    }else{
+        res.render('newsponsor',{acronimo: req.params.acronimo,anno: req.params.anno, errore: true, msg: "mancano dei dati"});
+
     }
-    //query per creare nuovi sponsor
-    db.query(`call insertsponsor ('${nome}', '${logo}')`,(err,results)=>{ 
-        if(err){
-            if (err.code === 'ER_DUP_ENTRY'){   
-                console.log("we");
-                err=true;
-                res.render('newsponsor',{acronimo: req.params.acronimo,anno: req.params.anno, errore: true, msg: "sponsor già esistente"});
-            }else{ throw err; }
-            
-        }else{
-        res.render('newsponsor',{acronimo: req.params.acronimo,anno: req.params.anno, errore: false, msg: "nuovo sponsor creato"});
-        }//Alert che ti dice "sponsor creato"
-    });
 }
