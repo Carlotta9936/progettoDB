@@ -19,10 +19,11 @@ exports.specificaTutorial=(req,res)=>{
         var permessiAdmin = false;
         var segui=false;
         var permessiOrario = false;
+        var speaker=false;
         //Controllo se sono lo speaker del articolo
         if(results[0][0].speaker === decoded.username){
             console.log(results[0].speaker);
-            res.render('specificatutorial',{tutorials: results[0], seguito: segui, presentazione: req.params.id_tutorial, risorse: results[6], vota: false, speaker: true, username: decoded.username});
+            speaker=true;
         } 
         const giornoPulito = DateTime.fromJSDate(results[8][0].data).toLocaleString(DateTime.DATE_MED);
         const today= new Date();
@@ -53,11 +54,12 @@ exports.specificaTutorial=(req,res)=>{
         })
         
         console.log(permessiOrario, "-", permessiAdmin)
-        if(results[4].length>0){
+        console.log(results[4], results[4].length===0)
+        if(results[4].length===0){
             segui= true;
         }
         
-        res.render('specificatutorial', {tutorials: results[0], seguito: segui, presentazione: req.params.id_tutorial, risorse: results[6], admin: permessiAdmin, orario: permessiOrario, speaker: false, username: decoded.username});
+        res.render('specificatutorial', {tutorials: results[0], seguito: segui, presentazione: req.params.id_tutorial, risorse: results[6], admin: permessiAdmin, orario: permessiOrario, speaker: speaker, username: decoded.username});
     });
 }
 

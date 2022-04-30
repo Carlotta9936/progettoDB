@@ -28,11 +28,12 @@ exports.specificaArticolo=(req,res)=>{
                         //Autori
                         console.log("0", results[0]);
                         //Mi piace
-                        if(results[2].length!=0 && result[4]==0){   //Se sono iscritto alla conferenza e non ho messo già mi piace
+                        console.log(results[2], results[2].length!=0)
+                        console.log(results[4]);
+                        if(results[2].length!=0 && results[4].length === 0){   //Se sono iscritto alla conferenza e non ho messo già mi piace
                             segui = true;
                         }
                         
-
                         //C'è già un presenter
                         console.log(results[0][0]);
                         if(results[0][0].presenter != null){
@@ -71,7 +72,7 @@ exports.specificaArticolo=(req,res)=>{
                         }
                         );
                         
-                        console.log(permessiAdmin, permessiOrario, presenter);
+                        console.log(segui);
                         
                         res.render('specificaarticolo',{articoli: results[0], seguito: segui, presentazione: req.params.id_articolo, username: decoded.username, admin: permessiAdmin, orario: permessiOrario, add: presenter, msg:""});
                     });
