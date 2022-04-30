@@ -8,7 +8,7 @@ block content
             if permessi 
                 - var modifica = conferenze[0].anno+"/modifica" 
                 form(action=modifica method='GET')
-                    button.btn.btn-outline-primary(type='submit') Modifica conferenza
+                    button.btn.btn-outline-primary(type='submit') ADD ADMIN
 
     div.row.mt-5
         div.col-3
@@ -63,7 +63,7 @@ block content
                                                         button.btn.btn-primary(type='submit') Conferenza
                                                 else
                                                     button.btn.btn-primary(type='button' disabled='') CHAT
-                                                    button.btn.btn-primary(type='button' disabled='') Conferenza
+                                                    button.btn.btn-primary(type='button' disabled='') LIVE
 
                                                     
                                                 if permessi && agg[i]

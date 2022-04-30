@@ -216,6 +216,8 @@ exports.programma = (req,res)=>{
                             
 
                         });
+                        console.log(results[8])
+
                         //Renderizzo tutto
                         res.render('conferenza',{conferenze: results[0], giorni: results[4], moderatori: results[2], permessi: modifica, sponsors: results[8], numIscritti: results[6][0].numIscritti, segui: segui, ris: risultati, agg: aggiungi});
     
