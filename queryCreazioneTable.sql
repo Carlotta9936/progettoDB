@@ -31,7 +31,7 @@ CREATE TABLE `presenter` (
   `dipartimento` VARCHAR(45) NOT NULL,
   `cv` VARCHAR(45) NULL,
   `foto` VARCHAR(45) NULL,
-  `id_presenter` INT NOT NULL AUTO_INCREMENT,
+  `id_presenter` INT NOT NULL,
   PRIMARY KEY (`usernamePresenter`),
   CONSTRAINT `usernamePresenter`
     FOREIGN KEY (`usernamePresenter`)
@@ -280,6 +280,7 @@ CREATE TABLE `articolo` (
   `id_autore` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(45) NOT NULL,
   `cognome` VARCHAR(45) NOT NULL,
+  id_presenter TINYINT NULL DEFAULT 0,
   PRIMARY KEY (`id_autore`));
 
 #Scritto
