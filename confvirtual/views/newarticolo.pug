@@ -12,12 +12,12 @@ block content
     form(action='/presentazione/articolo/'+ articolo method='POST' enctype='multipart/form-data')
         .form-group
             label(for='titolo') titolo:
-            input#titolo.form-control(type='text' name='titolo')
+            input#titolo.form-control(type='text' name='titolo' required)
         .form-group
             label(for='pagine') numero pagine:
-            input#pagine.form-control(type='num' name='pagine')
+            input#pagine.form-control(type='num' name='pagine' required)
         .form-group
             label(for='PDF') pdf:
-            input#PDF.form-control(type='file' name='PDF')
+            input#PDF.form-control(type='file' name='PDF' required)
         
         button.btn.btn-primary(type='submit') Crea

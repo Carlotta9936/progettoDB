@@ -23,7 +23,7 @@ block content
         form(action='/conferenza/nuovaConferenza3-3/'+acronimo+'/'+anno method='POST')
           .form-group
             label(for='importo') Importo
-            input#importo.form-control(type='num' name='importo')
+            input#importo.form-control(type='num' name='importo' min= '0' required)
           .form-group
             label(for='sponsor') Sponsor:
             select#sponsors.form-control(type='select' placeholder='Select sponsor' name='sponsor' required='true')

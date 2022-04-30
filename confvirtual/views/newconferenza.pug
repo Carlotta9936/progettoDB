@@ -13,7 +13,7 @@ block content
         form(action='/conferenza/nuovaConferenza1-3' method='POST' enctype='multipart/form-data')
           .form-group
             label(for='acronimo') Acronimo:
-            input#acronimo.form-control(type='text' name='acronimo')
+            input#acronimo.form-control(type='text' name='acronimo' maxlength=10)
           .form-group
             label(for='anno') Anno:
             input#anno.form-control(type='text' name='anno')

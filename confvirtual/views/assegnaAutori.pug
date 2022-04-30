@@ -1,8 +1,8 @@
 extends layout 
 
 block content
-  h1= "Assegnazione degli autori all' articolo "+ titolo
-  // your content here...
+  h1= "Assegnazione degli autori all'articolo "+ titolo
+  h3= "Assegna autori già presenti nel nostro sito"
   form(action='/autore/assegnaAutore/'+ articolo method='POST')
     .form-group
       label(for='autore') Selezionare gli autori dell'articolo:
@@ -13,36 +13,55 @@ block content
               name= 'listaautori'
               value= autore.id_autore
           )
-      label(for='autore') Selezionare gli autori/presenter dell'articolo:
-        for presenters in presenter
-          label= presenters.nome
-          input(
-              type= 'checkbox'
-              name= 'listaautori'
-              value= presenters.id_autore
-          )
-    if msg!="Autori assegnati"
+    if !giafatto
       button.btn.btn-primary(type='submit') Assegna
     else
-      button.btn.btn-lg.btn-primary(type='button' disabled='') Assegna
-    if errore
-      .alert.alert-danger.d-flex.align-items-center(role='alert')
-        svg.bi.bi-exclamation-triangle-fill.flex-shrink-0.me-2(xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='currentColor' viewBox='0 0 16 16' role='img' aria-label='Warning:')
-          path(d='M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z')
+      button.btn.btn-primary(type='button' disabled='') Assegna
+
+  form(action='/autore/nuovoAutore/'+ articolo method='GET')
+    if !giafatto
+      button.btn.btn-primary(type='submit') Nuovo autore
+    else
+      button.btn.btn-primary(type='button' disabled='') Nuovo autore
+  
+  h3= "Assegna autori che sono anche presenter"
+  h6= "è obbligatorio assegnare anche un presenter"
+  form(action='/autore/assegnaAutorePresenter/'+ articolo method='POST')
+    .form-group
+      label(for='autore') Selezionare gli autori/presenter dell'articolo:
+          for presenters in presenter
+            label= presenters.nome
+            input(
+                type= 'checkbox'
+                name= 'listaautori'
+                value= presenters.id_autore
+            )
+    if !giafatto
+      button.btn.btn-primary(type='submit') Assegna
+    else
+      button.btn.btn-primary(type='button' disabled='') Assegna
+
+
+
+
+
+
+
+  if errore
+    .alert.alert-danger.d-flex.align-items-center(role='alert')
+      svg.bi.bi-exclamation-triangle-fill.flex-shrink-0.me-2(xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='currentColor' viewBox='0 0 16 16' role='img' aria-label='Warning:')
+        path(d='M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z')
+      div
+        | Errore: #{msg}
+  else if msg!=""
+    .alert.alert-success.d-flex.align-items-center(role='alert')
+      svg(xmlns='http://www.w3.org/2000/svg' style='display: none;')
+        symbol#check-circle-fill(fill='currentColor' viewBox='0 0 16 16')
+          path(d='M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z')
         div
-          | Errore: #{msg}
-    else if msg!=""
-      .alert.alert-success.d-flex.align-items-center(role='alert')
-       svg(xmlns='http://www.w3.org/2000/svg' style='display: none;')
-          symbol#check-circle-fill(fill='currentColor' viewBox='0 0 16 16')
-            path(d='M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z')
-          div
-            | #{msg}
-  h3= 'se non trovi gli autori che desideri clicca su questo bottone:'
-  if msg!="Autori assegnati"
-    form(action='/autore/nuovoAutore/'+ articolo method='GET')
-        button.btn.btn-primary(type='submit') Nuovo autore
+          | #{msg}
+  if giafatto
+    form(action='/presentazione/chiavi/'+articolo method='GET')
+        button.btn.btn-primary(type='submit') Parole chiavi
   else
-    button.btn.btn-lg.btn-primary(type='button' disabled='') Nuovo autore
-  form(action='/presentazione/chiavi/'+articolo method='GET')
-      button.btn.btn-primary(type='submit') Parole chiavi
+      button.btn.btn-primary(type='button' disabled ="") Parole chiavi

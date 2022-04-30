@@ -66,9 +66,11 @@ block content
                                                     button.btn.btn-primary(type='button' disabled='') Conferenza
 
                                                     
-                                                if permessi
+                                                if permessi && agg[i]
                                                     form(action='/presentazione/nuovaPresentazione/'+conferenza.sessione method='GET')
                                                         button.btn.btn-primary(type='submit') Aggiungi una presentazione
+                                                else 
+                                                    button.btn.btn-primary(type='button' disabled='') Aggiungi una presentazione
                                             
     if permessi
         form(action='/conferenza/nuovaConferenza2-3/'+conferenze[0].acronimo + "/" + conferenze[0].anno method='GET')

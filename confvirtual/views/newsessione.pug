@@ -28,16 +28,16 @@ block content
               form(action='/conferenza/nuovaConferenza2-3/'+ sessione.acronimo+'/'+sessione.anno+'/'+sessione.id_programma method='POST')
                 .form-group
                   label(for='oraI') Ora inizio
-                  input#oraI.form-control(type='time' name='oraI')
+                  input#oraI.form-control(type='time' name='oraI' required)
                 .form-group
                   label(for='oraF') Ora fine
-                  input#oraF.form-control(type='time' name='oraF')
+                  input#oraF.form-control(type='time' name='oraF' required)
                 .form-group
                   label(for='titolo') Titolo
-                  input#titolo.form-control(type='text' name='titolo')
+                  input#titolo.form-control(type='text' name='titolo' required)
                 .form-group
                   label(for='link') Link
-                  input#link.form-control(type='text' name='link')
+                  input#link.form-control(type='text' name='link' required)
                 button.btn.btn-primary(type='submit') Crea
 
     form(action='/conferenza/nuovaConferenza3-3/'+ programmi[0].acronimo +'/'+programmi[0].anno method='GET')

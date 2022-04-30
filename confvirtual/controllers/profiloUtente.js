@@ -131,7 +131,7 @@ exports.aggiornaInfo = (req, res) => {
 
 exports.getInfo = (req, res, next) => {
     db.query(`call getInfoPS('${req.params.username}')`, (err, result) => {
-        console.log(result[0][0]);
+        //console.log(result[0][0]);
         res.locals.foto=  result[0][0];
         res.render('modificaInfoPS', {Dati: result[0][0]});
     })

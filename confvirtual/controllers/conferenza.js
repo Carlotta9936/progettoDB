@@ -184,7 +184,8 @@ exports.programma = (req,res)=>{
                         if(result[0].length!=0){
                             segui=false;
                         }    
-                        var risultati=[];
+                        var risultati=[]; //controlli per la chat
+                        var aggiungi=[]; //controlli per aggiungere sessioni
                         var i=0;
                         const today= new Date();
                         const giorno= DateTime.fromJSDate(today).toLocaleString(DateTime.DATE_MED);
@@ -192,6 +193,11 @@ exports.programma = (req,res)=>{
 
                         results[0].forEach((sessione)=>{
                             if(sessione.data==giorno){
+                                if(orario<sessione.oraf){
+                                    aggiungi[i]=true;
+                                }else{
+                                    aggiungi[i]=false;
+                                }
                                 if(sessione.orai<orario && orario<sessione.oraf){
                                     risultati[i]=true;
                                 }
@@ -200,12 +206,18 @@ exports.programma = (req,res)=>{
                                 }
                             }else{
                                 risultati[i]=false;
+                                if(sessione.data<giorno){
+                                    aggiungi[i]=true;
+                                }else{
+                                    aggiungi[i]=false;
+                                }
                             }
                             i++;
+                            
+
                         });
-                    
                         //Renderizzo tutto
-                        res.render('conferenza',{conferenze: results[0], giorni: results[4], moderatori: results[2], permessi: modifica, sponsors: results[8], numIscritti: results[6][0].numIscritti, segui: segui, ris: risultati});
+                        res.render('conferenza',{conferenze: results[0], giorni: results[4], moderatori: results[2], permessi: modifica, sponsors: results[8], numIscritti: results[6][0].numIscritti, segui: segui, ris: risultati, agg: aggiungi});
     
                     });
                    
@@ -392,7 +404,7 @@ exports.ricercaConferenza =(req,res)=>{
                         });
                     
                         //Renderizzo tutto
-                        res.render('conferenza',{conferenze: results[0], giorni: results[2], moderatori: results[1], permessi: modifica, sponsors: results[4], numIscritti: results[3][0].numIscritti, segui: segui, ris: risultati});
+                        res.render('conferenza',{conferenze: results[0], giorni: results[2], moderatori: results[1], permessi: modifica, sponsors: results[4], numIscritti: results[3][0].numIscritti, segui: segui, ris: risultati, agg: aggiungi});
     
                     });
                 } else {

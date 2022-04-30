@@ -34,7 +34,7 @@ exports.specificaArticolo=(req,res)=>{
                         
 
                         //C'è già un presenter
-                        console.log(results[0][0].presenter);
+                        console.log(results[0][0]);
                         if(results[0][0].presenter != null){
                             presenter = true;
                         }
