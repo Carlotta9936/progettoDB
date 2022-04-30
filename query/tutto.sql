@@ -440,8 +440,9 @@ END$$
 DELIMITER $$
 CREATE PROCEDURE classificaPresentazioni ()
 BEGIN
-	select acronimo, anno, nome, count(*) as conta
+	select acronimo, anno, titolo, count(*) as conta, tipo
 	from presentazioneinconferenza inner join preferiti on (presentazioneinconferenza.idPresentazione = preferiti.preferiti_presentazione)
+		inner join articolietutorial on (presentazioneinconferenza.idPresentazione = articolietutorial.id)
 	group by acronimo, anno
 	order by conta
 	DESC
@@ -647,6 +648,13 @@ BEGIN
     where id_sessione = id;
 END$$
 
+DELIMITER $$
+CREATE PROCEDURE `getTitoloArticolo` (id int)
+BEGIN
+	select *
+    from articolo
+    where id_articolo = id;
+END$$
 
 DELIMITER $$
 CREATE PROCEDURE `informazioniIniziali`()
@@ -1125,9 +1133,14 @@ END$$
 
 
 DELIMITER $$
-CREATE PROCEDURE `visualizzaautori`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `visualizzaautori`(idArticolo int)
 BEGIN
-	select * from autore where presenter=0;
+	select * 
+    from autore 
+    where presenter=0 and id_autore not in (
+								select autore 
+								from scritto
+								where articolo = idArticolo);
 END$$
 
 
@@ -1263,3 +1276,10 @@ CREATE VIEW `ruoli` AS
     (select valutazione.valutazione as voto, articolo.usernamePresenter as votato
     from valutazione, articolo
     where valutazione.valutazione_presentazione = articolo.id_articolo);
+    
+    CREATE VIEW `articoliEtutorial` AS
+	(select id_articolo as id, titolo, "Articolo" as tipo
+    from articolo)
+    union
+    (select id_tutorial as id, titolo, "Tutorial" as tipo
+    from tutorial);

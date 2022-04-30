@@ -101,23 +101,13 @@ exports.creaArticolo=(req,res)=>{
     db.query(`call insertarticolo ('${req.params.id_articolo}','${PDF[0].filename}','${pagine}','${titolo}')`,(err,results)=>{
         if(err){
             if (err.code === 'ER_TRUNCATED_WRONG_VALUE'){   
-                res.render('newarticolo',{articolo: req.params.id_articolo, msg:"non tutti i dati sono correttirs"});
+                res.render('newarticolo',{articolo: req.params.id_articolo, msg:"non tutti i dati sono corretti"});
             }else{ throw err; }
         }else{
+
+            res.redirect(req.params.id_articolo+'/assegnaAutori');
             //vado a controllare che gli autori dell'articolo esistano sul db, se non esistono devo crearli
-            db.query(`call visualizzaautori ()`,(err,results)=>{
-                if (err){throw err;}
-                if(results.length==0){
-                    res.render('newautore',{msg: "", articolo: req.params.id_articolo})
-                }else{
-                    //console.log(req.params.id_articolo);
-                    //query per prendere autori che siano anche presenter
-                    db.query(`call visualizzaautoripresenter ()`,(err,result)=>{
-                        if(err) {throw err;}
-                        res.render('assegnaAutori',{titolo: titolo, autori: results[0], articolo: req.params.id_articolo, presenter: result[0], errore: false, msg: "", giafatto: false})
-                    });
-                }
-            });
+            
         }
     });
 }
@@ -192,4 +182,25 @@ exports.creaParoleChiave=(req,res)=>{
         res.render('newParole',{articolo: req.params.id_articolo, error: false, msg: "nuova parola creata: ", parola: parole});
 
     });
+}
+
+exports.assegnaAutori = (req, res) => {
+    db.query(`call getTitoloArticolo('${req.params.id_articolo}');`, (err, ris) => {
+        if(err) {throw err;}
+        console.log(ris);
+        db.query(`call visualizzaautori ('${req.params.id_articolo}')`,(err,results)=>{
+            if (err){throw err;}
+            if(results.length==0){
+                res.render('newautore',{msg: "", articolo: req.params.id_articolo})
+            }else{
+                //console.log(req.params.id_articolo);
+                //query per prendere autori che siano anche presenter
+                db.query(`call visualizzaautoripresenter ()`,(err,result)=>{
+                    if(err) {throw err;}
+                    res.render('assegnaAutori',{titolo: ris[0][0].titolo, autori: results[0], articolo: req.params.id_articolo, presenter: result[0], errore: false, msg: "", giafatto: false})
+                });
+            }
+        });
+    })
+        
 }

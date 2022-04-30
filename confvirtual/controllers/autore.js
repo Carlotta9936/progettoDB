@@ -49,7 +49,7 @@ exports.assegnaAutore=(req,res)=>{
     db.query(`call titoloarticolo ('${req.params.id_articolo}')`,(err, result)=>{
         if(err){throw err;}
         //serie di query per prendere i dati per assegnaAutori
-        db.query(`call visualizzaautori ()`,(err,resultati)=>{
+        db.query(`call visualizzaautori ('${req.params.id_articolo}')`,(err,resultati)=>{
             if(err){throw err;}
             //console.log(req.params.id_articolo);
             //query per prendere autori che siano anche presenter
@@ -90,7 +90,7 @@ exports.assegnaAutorePresenter=(req,res)=>{
     db.query(`call titoloarticolo ('${req.params.id_articolo}')`,(err, result)=>{
         if(err){throw err;}
         //serie di query per prendere i dati per assegnaAutori
-        db.query(`call visualizzaautori ()`,(err,resultati)=>{
+        db.query(`call visualizzaautori ('${req.params.id_articolo}')`,(err,resultati)=>{
             if(err){throw err;}
             //console.log(req.params.id_articolo);
             //query per prendere autori che siano anche presenter

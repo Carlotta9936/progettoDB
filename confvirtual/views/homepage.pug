@@ -41,15 +41,17 @@ block content
             table
                 thead 
                     tr
-                    th Nome
+                    th Titolo
                     th Num. like
+                    th Tipo
                     th Anno
                     th Acronimo
                 tbody
                     each presentazione in presentazioni 
                         tr
-                        td= presentazione.nome
+                        td= presentazione.titolo
                         td= presentazione.conta
+                        td= presentazione.tipo
                         td= presentazione.anno
                         td= presentazione.acronimo
 
