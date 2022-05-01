@@ -33,19 +33,13 @@ block content
             label= presenters.nome
             input(
                 type= 'checkbox'
-                name= 'listaautori'
+                name= 'listaautoriPresenter'
                 value= presenters.id_autore
             )
     if !giafatto
       button.btn.btn-primary(type='submit') Assegna
     else
       button.btn.btn-primary(type='button' disabled='') Assegna
-
-
-
-
-
-
 
   if errore
     .alert.alert-danger.d-flex.align-items-center(role='alert')

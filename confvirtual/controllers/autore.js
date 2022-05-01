@@ -69,17 +69,20 @@ exports.assegnaAutore=(req,res)=>{
 }
 
 exports.assegnaAutorePresenter=(req,res)=>{
-    const {listaautori}=req.body;
+    const {listaautoriPresenter}=req.body;
     //const idArticolo = req.params;
-    console.log(listaautori);
-
-    if(listaautori.length === 1){
-        db.query(`call insertscritto ('${listaautori}', '${req.params.id_articolo}')`,(err,result)=>{
-            if(err) { errore=true; }
+    console.log(listaautoriPresenter);
+    if(listaautoriPresenter === undefined){
+        errore = true;
+    }else if(listaautoriPresenter.length === 1){
+        db.query(`call insertscritto ('${listaautoriPresenter}', '${req.params.id_articolo}')`,(err,result)=>{
+            if(err) { 
+                console.log(err);
+                errore=true; }
             console.log("OK");
         });
     } else {
-        listaautori.forEach(autore => {
+        listaautoriPresenter.forEach(autore => {
             db.query(`call insertscritto ('${autore}', '${req.params.id_articolo}')`,(err,result)=>{
                 if(err) { errore=true; }
                 console.log("OK");
