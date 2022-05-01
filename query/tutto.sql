@@ -326,8 +326,8 @@ CREATE TABLE `scritto` (
     ON UPDATE CASCADE);
     
    #Messaggio
-    CREATE TABLE `confvirtual`.`messaggio` (
-  `id_messaggio` INT NOT NULL,
+    CREATE TABLE `messaggio` (
+  `id_messaggio` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(30) NOT NULL,
   `sessione` INT NOT NULL,
   `data` DATE NOT NULL,
